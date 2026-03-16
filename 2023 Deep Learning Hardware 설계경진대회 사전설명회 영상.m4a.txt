@@ -1,0 +1,172 @@
+Comprehensive Summary of Key Topics, Insights, and Conclusions
+
+1. Key Topics
+
+Introduction to the AIS Deep Learning Hardware Competition
+
+Overview of the competition structure and objectives
+
+Challenges and importance of efficient deep learning on edge devices
+
+Competition details and evaluation criteria
+
+Prizes and awards for the competition
+
+2. Insights and Takeaways
+
+The competition aims to familiarize students with the fundamental steps of designing an AI accelerator for deep learning models on FPGA boards.
+
+The competition is application-based (object detection), system-based (providing pre-trained models and reference code), and tutorial-based (with video lectures and exercises).
+
+The key evaluation criteria are accuracy (measured by mean average precision), inference speed (frames per second), and on-chip power efficiency.
+
+The competition is open to bachelor's students from 7 selected universities in Korea, with teams of 1-2 members.
+
+Tutorials cover topics like data preparation, network architecture, quantization, hardware design components, and FPGA-PC integration.
+
+3. Conclusions and Decisions
+
+The AIS Deep Learning Hardware Competition provides a valuable opportunity for students to gain practical experience in designing efficient deep learning hardware.
+
+The competition's focus on edge device constraints and optimization challenges is well-aligned with the growing importance of on-device AI processing.
+
+The organizers have made efforts to ensure a fair and engaging competition, including limiting team sizes and providing comprehensive tutorials and resources.
+
+Participants are encouraged to leverage their existing knowledge in relevant courses (e.g., SoC design, computer architecture) to complement the competition's tutorials.
+
+The prizes and awards serve as motivating factors for the students to put in their best efforts and learn throughout the competition.
+
+00:04:40,500 
+Thank you.
+
+00:04:54,150 
+Good afternoon, everyone. Can you hear me?
+
+00:05:05,150 
+Yes. Okay, thank you. So today I'm going to introduce about their, you know, deep learning hardware competitions. And this is the second year of this competition, so I hope that all of you win. No. Attend this competition nicely. So this is a roadmap for today's announcement. First of all, I'd like to introduce about the AIS. And the second, I mean, we will spend some time reviewing frequently. answering questions. So here is the organizing community members. So we have a me here. I'm Xuan-Chun Nguyen from Son National University. And we have our three TAs. And to start. And during the competition, if you have any difficulties or you know technical and their you know administrative questions, then please send to us and we will try our best to All you know. answer all the questions to you. And we also have great advisors, like Professor Lee Hong Choe, Professor Lee Tae Ho, Professor Lee Yuen Sok, Son Woo Kyung, Lee Jung Won, Kim Nam Choo, Lee Jae Han. from SNU.
+
+00:06:50,210 
+here. So here is the copyright issue. So. As you know that AI and deep learning are everywhere nowadays. So artificial. Or AI and deep learning applications are used in your know, or you know, in our daily lives, into being like her face recognition, autonomous driving, something like that. Optical recognitions or camera sensors. Yep. or you know, the image enhancement or you know voice speaker. I mean, I have a speaker. So there are three pillars of deep learning including the hardware, data, and algorithm. For hardware, it requires a computing system behind any deep learning algorithms. And to train a model, we need a huge amount of data. And then we need an algorithm to explore the data, extract the features, and then do some stuff like classification, object detection, or other you know applications.
+
+00:08:07,990 
+So AI is quickly coming to the X device. There are three reasons. First, is the privacy. So we like to make the personal information more secure. So we can protect our personal information by executing a certain model with our own data. Like a smartphone. or our own device. And then we consider about the latency issue. So we avoid massive data transferring between X device and cloud. So it costs a lot of money and time to transfer data from the cloud service to the X device. So if we can execute a model on X device, we can save a lot of money. And lastly, it's about the cost. So design becomes cheaper and more power efficient when executing on the edge.
+
+00:09:06,850 
+and as you can see in their figure here, the number of you know enterprise data from X is increased a lot from 10% in 2018 to 70% in 2025. and you can see a huge amount of X devices exist in 2021, like 15 billion mobile phones or 1. 4 billion cars or other like security cameras and robots. So the problem of X-Divide is they are totally different from the cloud AI processor. So starting with Cloud AI Isolator. It has a huge amount of memory for activation, like a REM. and it has a huge amount of storage, like you can store large models. With the tera or beta you know bytes, and they're shifting from the you know cloud AI to the mobile AI here. You can see the A huge, you know.
+
+00:10:21,670 
+A lot of memory is going to be you know decreased and for X, the varieties only have a very tiny storage and their memory. So we have to design the oscillator and then we have to optimize the algorithms and then do a lot of optimization to, you know. To execute a model on that device. So recently the demand for efficient deep learning become you know, increasing become important. So many researchers are focusing on, you know, training on a huge model. Well, you know. By using a lot of computation and obviously it you know emits a lot of carbons and it will require a huge amount of data. As you can see. and also there are many engineers that are here.
+
+00:11:30,000 
+but in terms of egg device, we only have a very limited computation budget and it's going to be very efficient and you know, cost effective because it emits less carbon. and it's a very lightweight. and we need to design like a tiny emerald, tiny yarn. and then yeah, we can just use very few amount of data. So actually, there are only a few engineers working on this over here. So about AIX or this competition, this is an annual education-oriented competition about deep learning hardware design. So we initiated last year with about 370 participants from more than 30 universities in Korea. And what we know— what we would like to focus in this competition— is get a letter student get familiar with the fundamental steps to design an AI accelerator for deep learning model on FPGA board.
+
+00:12:43,469 
+And maybe where you don't work hard and you're lucky and then you can get rewards as well. So we define this competition in three perspectives. It's an application-based, system-based, and tutorial-based competition. So in this competition, you are going to desire— know, an Infern engine. on the FPGA board. So given an image on the right hand side here. Airbnb. with a lot of products. and we even execute the model the deep learning model on the air PCA, and then we returned the output that can you know nicely detect all the objects. locations. and the class of the object. on the image like so in the figure. So if you attend their software project related to uh you know product retail product classification and of the details, then you may a well-known uh you know you you may know about this uh uh you know obligation very well.
+
+00:13:59,760 
+So for the application base, we are We're targeting a very interesting topic, which is object detection. So we first, you know, prepared a huge amount of datasets. By collecting about one thousand uh 100k Image. of the various items. and we did the labeling for the data and that. After that we train in a deep learning mode. for the object detection based on the time used a little before and then given an RGB image. the color image. then the model can detect the object and looks like her. So Joule law is one of the most popular algorithms. And this is what it's like for the pre-trained model for this competition. So you have to handle, you know. many convolution layers with the different filter size like a 3x3 or 1x1.
+
+00:15:06,620 
+and you need to do like your max pooling and do concatenation to you know to do. To execute the model. So. It's a about the system-based competition. We will provide to you the pre-trained model. and the test data yeah you know yeah about your products, the image of products. and to support us to you know to to for the you know designing the information we provide some reference code so it has the reference code for quantization written in the uh c and c plus and we even support both window version and you know max or unix version And we have a hospital that can work with the APCA. We even provide the reference code for that part as well.
+
+00:16:11,840 
+And then, for the hardware part, we may give you some, you know, the components written in Redlock HDL and then you can base on that component to design our own model. The FPGA board is going to be next year's A7. APJ board given by Xilin. And we will provide the board during the competition as well. So, given the test data retrain model you have to design there in front of the engine. For the other part, we provide frameworks to use so that you can integrate your own engine in the system. And then the inference results are going to be given to the PC and then displayed. Also, all you know, verify by comparing with the reference score results. Okay, so for the tutorials, uh, actually, this tutorial was you know developed in the four weights tutorial with the two lecture weights.
+
+00:17:28,540 
+But in this year, we will provide you the YouTube link so that you can access all materials. Yeah, and then you can you know, uh, then you can do the tutorial, follow the tutorials, and just make sure I do some exercise. Uh, there are some first of all, there is some introduction, and we will describe the core structure. And then later, we will show you how we can prepare the data. And there we work with reference software. And understand the network architecture. And understand how to evaluate. Uh, you know. The performance or accuracy of the model, and then we have a lecture about quantization, and then prepare the test vector for hardware design. And from the week four to week seven, you will learn about them. Like a competing unit.
+
+00:18:30,930 
+The buffer, the memory. And the birds interconnect. And then how you can integrate and verify the certain layers and PCA, PCA communication also. Oh. You know, study in in these tutorials, although we provide some tutorials. These are, you know, we are not aimed aiming to replace all the costs at school. So students are highly recommended to take relevant courses like, uh, SOC design, computer architecture, or you know, digital system design and experiment. Yeah. So we even just give some very brief, you know. theoretical discussions and give some guidelines to use the code more conveniently. So we may not touch very deep in the theory on these tutorials. So you may refer to the class you took at school for you know further information. So this is a brief you know description for tutorial.
+
+00:19:52,950 
+So we uh you know for a tutorial at first you may learn well how to work with models, some pre-trained models. You understand, you learn what is the conclusion and what is you know like activation of all the stuff related to deep learning models. And you will work with that image. and then you know, uh, make the accuracy, I mean, calculate accuracy of this model and work with the pre-trained model to generate the to convert from 32-bit floating-point numbers to 8-bit integer numbers. And we call it a quantized model. And given an image and quantized model, there are some tutorials how to make lycra. uh, you know, the hardware for that model so you can learn about the isolator like it might make you neat the buffer. and their, you know, the DMA.
+
+00:20:58,260 
+direct memory access to read the content in the memory. and then you learn how to design those. a controller to to load the data or to execute a computing unit for a network. And lastly, we learned about how we can combine those things together and how to do like a PC and FPGA board communications. So you will learn about how to commit, you know. to work with the whole school and their the, you know, the processor embedded processor on FPGA. to you know to work with like memory and then working UART and the firmware code as well in the last tutorial. so all the information are given in the with the youtube link so You can follow the instructions and then uh you know do some exercise and then if you have any questions and you can standards and, you know, the other website Yeah.
+
+00:22:09,440 
+So this is a sketcher. So, uh, the registration periods from the last week until, you know, January 6th, Friday. And today we have a Zoom announcement, and we are going to upload this recorded video on YouTube and send the link to you guys. And we even have a first orientation on Monday, January 9th. And that's 5pm. So we also use Zoom because many students come from the different schools, so we cannot set up an offline meeting. This is the period for the competition. It starts from Monday, January 9th, until the 19th. Of me and there is a probably almost a four and a half months so I hope that you can enjoy there, you know, competitions. and there you have to submit the presentation and code, and then we will provide the template.
+
+00:23:26,240 
+For you know, like a presentation, so it can give some guideline to you. How you can make your presentation well-organized. Yeah. For this competition. And we have a progress tracking during the competition, and we highlight. You know, we want to get to the update status during like we call it, 'beta revelation not exactly revelation, this is a performance check. Checking. And then. It's in February 24th, then you you give Earth to you know some your existing status, like what kind of coding, how you study the materials, and what did you. What do you finish by that time? And finally, we even have a Yeah. like a ceremony and then they're uh awards you know. That's it. You know, they end by the May 26th.
+
+00:24:46,870 
+Okay so about the registration different from the previous competition uh this competition only target for the seven universities. and they're only bachelor's students. can attend this competition and the team can have one or two members. So last year we have two to five members and there was uh you know some a kind of unfair case when Some teams only have two members and other teams have like four or five members, so the gap becomes huge. When we enter the like second half of the competition. So the team has more members, have a high you know, have a larger advantage because they have more manpower to do or multiple tasks, including like FPC verification or coding or something like this. So uh, yeah, it's uh, it has a pretty large difference.
+
+00:25:59,650 
+Between the you know, to teams if they have different numbers of members. So we want to avoid that case. So we just limit like a team only we have two to three members this year and we even checked conditioned by the The end of competition, so you should be the bachelor student. Until the first semester. The spring semester in 2023. and we limit you know the publicans. So for those who already got the prize last year, then going to be excluded from this competition. They cannot participate in these competitions if they already got the prize last year. And then you can. you know, wrap the film and then do the registrations. based on the template. All right, so to evaluate the the design we focus on The three criteria.
+
+00:27:11,860 
+The first is the accuracy. so given the test set of image we like to check how you can convert from the floating point models. To the um, you know, 8-bit integer model. So, 8-bit, we will explain why we need the 8-bit integer model because it's kind of power efficient and then you can utilize more computing units. On the IPCA board. And we will explain it, you know, during the tutorials. Um, however, when uh, for the pre-trained models, uh, all the parameters, uh, you know, in the 32-bit floating-point format. So it's not. Directly mapped to the computing unit on APCA. That's why we need some intermediate step to convert from the 32-bit floating-point model to the 8-bit integer model. So we would like to check how much accuracy is going to be dropped.
+
+00:28:24,940 
+During the monetizations. Obviously, you know, the the more accurate models. Uh, here is better. so here this is the way we measure the accuracy so we will you use some metric like mean average precision is based on the How much overlap? between their detected results and the label data. So assume that you have a single object, it's going to be labeled with some bounding box, and you have a uh another body involved. Now, the bounding box did you know get taken by this algorithm during the quantizations? We want to check how much overlap, and then we can check here whether it's kind of like excellent or good overlapping between the detected results and the label data. So we will calculate the mean average precision at the you know integer 8 bits quantization.
+
+00:29:37,890 
+For the accuracy metric. And actually, the code for evolution is going to be given, so you don't have to develop that code, but you can focus on the quantization algorithms. For hardware design, first you need to show us the inference speed. So we will measure how many frames, how many inference. So a CNN-accelerated IP is going to be processed in a second. So, like in here, we measure the the you know the execution time for a single inference, take like a 23. 3 or 24 milliseconds, and then we can convert it into like her. about 40 or 44 frames per second, and we're gonna use that number to evaluate our design. So maybe each layer may consume a different number of times. And the last metric is to measure the on-chip power of the design.
+
+00:30:56,770 
+So when you complete the design and you know implement it on a PGA, you can get a different number of logic, LUT, memory, number of PSP, and I/O. And we will use the power quantity power here so we can't, you know, the efficiency of the design. So giving. Your invasions three in this you know metric to measure the performance of So desire to. Okay. So. This is, you know, the prize for this competition. We will have a price up to third price. And the first prize is going to be a notebook. So each member. Our team, we didn't get a notebook if we got the first prize. And the second prize is the Galaxy Tab. And you're similar to you know, a bull. X member will get one Galaxy Tab.
+
+00:32:10,260 
+And the third prize is going to be a Galaxy Virtue. So we have one team, one team, and two teams. So one team for first prize, one team for the second prize, and two teams for you know, third prize. In addition, after the beta, you know, the progress tracking period. We will provide additional Starbucks coffee coupons for the team who performed very well during the meeting. And we hope that this kind of thing can motivate you guys to study in this competition. All right, so that's the end of the competition introductions and their. The next part is about the FAQ. And teacher Chang Chi-Woon will explain. To you, to, you know, to common questions you get during the registration or during the competition. So. Yeah. Teacher Chung-Hee will say the material. Thank you. You FAQ I'll share the screen.
+
+00:33:54,730 
+Can you see it well? Q. What is the most important question about participation? There were a lot. So that part was once again. I'm going to move on. Can college students participate? 혹은 뭐 휴학생인 경우 졸업 예정인데 그 졸업 날짜를 미루고 기다리고 있는 경우 여러가지 케이스가 There are a lot of questions about this last year, we jungkook So any university can participate. I did it without any qualifications, but this year, Um. The next generation of semiconductor innovation and shared university. There are seven universities. Haedang! Only students with a degree were allowed to enter.
+
+00:34:43,010 
+It is limited to students who are currently in college. You need to be certified by the first semester of next year. The reason is Oh. If you win a prize, you get a prize money or a prize money. The subject is in each school. So, you need to confirm your status at school to get the scholarship. I can do the award. Next year, based on the first semester, Have. 대학의 학부 재학생임을 아마 그 재학증명서를 통해서 확인을 하게 될 거예요. This part is without error. Let's start. The other one is 여러가지 케이스 휴학생 I'm going to graduate. Ta-ta. Ta-ta. Chameo ga 불가능합니다 올해는요 그렇게 자격이 제한이 되어 있어요 Next, how to apply for each team is You can use the link in the description to fill out the form.
+
+00:35:48,010 
+Whether it's a team of two or a team of three, you can write it down individually and write down the name of the same team. And you can also write down your personal mobile phone number. Even if you try to contact them like an emergency contact, sometimes they don't reach you. So, if possible, so that they can get in touch with you. When you receive a Starbucks coupon after the mid-evaluation, to deliver the message correctly, then you have to write down the phone number and write down the Google form individually. It's not like writing down the name of the team member as the representative of one team. You can write it down individually. For those of you who read the bulletin board, check the poster, and know about it, sometimes I check the notice, but I don't do that.
+
+00:36:36,050 
+I listen to what people say next to me. Or maybe next week, each school's poster. It's going to be attached. I know it's already been sent. 종이로 되어 있는 포스터가 각 학교의 중요한 It will be attached to the point, but if you participate only by looking at it, you will receive a notice. There's a tendency to not check regularly until it's over. So I don't know when something will be uploaded and what will happen. There was a case where I kept sending mails. uh polaris . . . . . . . There is a common homepage. If you go there, there is a bulletin board. Here we are AIX. All the promotions and schedules related to this competition. I think you can check that part often because it goes up continuously.
+
+00:37:30,650 
+Tutorials Or, It's been postponed. All these things are going up there. It's going to go up, so it's going to be public in the first place. 확인해 주셔야 됩니다. Next, there are many cases where you ask about the server to run the project. If you have to use a server instead of a PC, you can use the server at school. I wonder if they provide it. But in the competition, we don't provide servers to the students. And it's not a competition with a specific scale. In the case of last year, it was all over the country, so a lot of people came. Because we don't know how much money will come in. In Korea, they don't provide servers. Once the recruitment is completed, the overall scale is confirmed, and we can provide the server to those who have some difficulty.
+
+00:38:34,490 
+If you need to make a decision, then again. After the meeting, uh, I'm going to let you know. That's how we're going to do it. In principle, you should know that the server does not provide. FPGA board will be provided to all teams. The time is not decided yet. Please, try to report it as soon as possible so that you can start practicing quickly. I will deliver it to you. The way to deliver this is to come to Seoul National University and visit. Yes, it could be. If you feel comfortable with that, you can visit Seoul National University. Right. It's either going to be sent to the school's office or to the team's house. If you live in the countryside, it would be easier to do that.
+
+00:39:27,590 
+In that case, we will send you a postcard. I'll send it to you by mail. Please confirm that you received it. After using it throughout the entire period, The first state is the same, no breakage, no damage. You can send it back to the school. You can refund it within the set period. In the case of last year, just one case. There was a loss with the same level of models. You can buy it again. There was a team that returned it to me. 그렇게 진행이 될 거예요. Next, when can I get the data or tutorial on the specific design model below? 것처럼 online The first lecture of the first orientation It's going to be on Zoom. It's going to be live at that time. You can get a lot of questions and answers.
+
+00:40:23,460 
+The next seven lectures are recorded. will be distributed through YouTube link at the right time. This link is it's a link that's only available to participants. So it's not like you can share it with everyone around you. The team members who participate will the lecture that was recorded at a comfortable time at any time will be distributed so that students can review and learn. Dame. There are some things that need to be pre-learned in the field of learning. Basically, if you understand the AI network, it will be the fastest. However, since many good courses are open through tutorials or the Internet, I have a lot of time, so I study the front part. 따라오실 수 있고요. It would be much easier if it was in languages like C or Python. And then this competition. The core is hardware design, so hardware design is It would be better if you have experience, but if you are learning through the department, you will be able to approach it much more comfortably. It's going to be a little bit difficult if you're a team of two people who don't even know the hardware description language at first. So on the software side, uh, uh, uh, uh, uh, uh.
+
+00:42:00,640 
+I'm going to design a heart. If you want to try this, I think you'll be able to try it while studying. The problem of using a board is another problem. FPGA board. The code that I created. Thank you. Download the board and run it. If there is a problem, can we solve it? We will give you a simple guideline on how to create an IP. How do you run it? There are simple guidelines for verification and simulation. This is completely. During the semester, I don't teach you like a class. You can refer to this part. There is no basic knowledge about artificial intelligence networks, so is it difficult to participate? There were a lot of reviews saying that they learned a lot through this competition. It's a little different from the lectures at school. Through practice, the artificial intelligence network. If you have the heart to study, I think it will be a very good experience. Even if you don't get an award, you'll be able to study a lot while you're at it. Uh, I told you that the competition is focused on hardware, so about the network in front. You don't have to invest too much time. Understand the defined network and focus on how to accelerate the true-on-engine part in the hardware.
+
+00:43:44,110 
+You have to understand and start. Don't make it too broad. Let's study together in front of you and find out what you're going to design in the back.
+
+00:44:00,220 
+You have to reduce the scope like this. People keep asking me how good I am at coding, but it's hard for me to answer that personally. If you try it, there may be people who say, 'I really don't know.' If you follow it, you can understand it by reading it like this. Your experience and depending on their learning ability. I think it would be good to leave it here for a try. It's the same. One important thing is: If you've never made a code for a hardware language, you can start with various tools. It automatically implements the design at the top level with hardware. Like this. There's a tool. Using those things, you can make a decent hardware. There are cases where the code comes out like this.
+
+00:44:55,510 
+Some of you may know this. But this is internally. It's okay to use it internally. You can't use this code for the results. Finally, when I check, I look at it and judge. It's not a hand-made code, it's a machine-made translation. This is the code that came out of the simulation. I don't think so. I don't think it's going to work. I don't think it's going to work. I don't think so. Next, today's online pre-examination. In the case of orientation, there were a lot of questions like, 'Is there a break even if you don't attend Zoom?' There hasn't been such a question this year. There will be no disadvantage. But I can't ask questions in real time. There's a difference. You can understand it, and after the registration is finished, one person can't do it because of the schedule.
+
+00:45:56,290 
+Or I have to do a little more, so I can't do this. It's hard. I want someone else to come in. If there is a change in the team composition, like this, it doesn't work in principle, but we're a little bit. You can proceed in a flexible manner. Thank you. If you give us an email or a question on the board, if it's not too late, together. Let's do it together. I will try my best to help you with that. It's hard to form a team, but is it possible to support it alone? I think I can do it all by myself. There are people who say that. In principle, one team is— I won't participate. There's a problem where you have to send one board per team. Hongda SEO I got a board. It's a little unfair to practice like this. Try to make a team based on two or three people. I won't participate alone. Yes, this is the size of the questions that come out in common. If you keep posting questions through the bulletin board, quickly check them and I'll give you an answer. Thank you.
+
+00:47:15,420 
+Professor Trong, you can wrap up now. Thank you. Thank you. Thank you, teacher. So, if you have any questions, you can ask directly now or you can upload the questions on the website and then we will a big light asap. Do you have any questions now?
+
+00:47:51,110 
+Thank you. Thank you.
+
+00:48:16,720 
+Yes, it's okay to uh just to keep the question in Korean. Yeah, we have a Tieris and teachers in the you know or Koreans so they will reply you. So don't worry.
+
+00:48:51,840 
+Professor Strong, may I ask one thing to students? Yeah. If there are any students who can turn on the microphone, please answer. Can you tell us where you can check if you can use the microphone? Hey. You this Zoom explanation. Where did you hear it from? Yes, I'm wondering if a lot of people didn't come in because they didn't check the notice. Oh. I think some of you will be done with today's test. Oh. I think there are people who couldn't come because of the exam. group. I also Now, I have to go to the exam. I don't know. But first of all, the announcement is that Polaris I came back after seeing the post there. Yes, I understand. Jungwon, can you turn on the microphone? Thank you. How about you, Jeongwon? Can't you turn on the mic? Hmm. Did you come in after reading the notice on the bulletin board? Okay, got it.
+
+00:50:40,550 
+All right, so that's the end of the online announcement. So, if you have any questions, please upload on the website and then we will answer all the questions ASAP. And thank you.
+
+00:51:04,530 
+Yes, thank you.
+
+00:51:10,980 
+If you don't have any questions, you can leave. Thank you.

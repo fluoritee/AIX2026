@@ -1,0 +1,190 @@
+00:00:17
+
+So can you gameplay? Thank you.
+
+
+00:00:28
+
+So. I'm going to talk about this in the pictures, and I'm going to talk about it. So we'll take a look at the reference altar. This is the outline. First I'm going to preview the contents of the application. What's up? I'm sending you on top of the North Shore. Reference altar. For how to compile code and how to do it. You've got to understand the cost structure. So in the previous In order to search the viewer, note that this is outside the console, given the image of the product I use here, but take a look at the image here. Too. I put the proportions on the box. There. Let's have a look at this. And I already mentioned about the top structure and the tutorials responding to the top structure.
+
+
+00:01:03
+
+So we have a tutorial for once. The first tutorial, one, two, three, recover content. Here so given the patch and for tutorial from 4 to 7, we are going to design a component. Obviously. And also mention about what you can read at ASL in the post. And I'll see you. Thank you so much. And then you can generate the firmware code. Thank you. So that we can do the communications between the VC and their exit. Wait. So that's not what I'm getting to. Just got done. It's cool. Thank you. Which consists of a full database. One is the tachymes of the glass and rupture. And the second thing is a free trade model. So we provide work configuration. And some finally here we provide the reference code for evaluation and application. So actually, software code is based on the code. Therefore, we're going to be compact.
+
+
+00:01:58
+
+For attaching an image, note that the video of the code and there you see that there are 15 images in the three categories. So you can see some all close to color. So you classify the image. Those activities go quite far. And then we should change the language so that they can catch our same issue. So that means also it's a practical issue. Function. And the 4-H image we also provide is not useful, so it has to be defined. You can see that there are several lines representing four label objects. So, for each object, you can define by class and the object position. So, in here, it's like an object of 15 years. It belongs to class of 8. and also it provides One, two, hold the front of the phone right here. It defines the unbottom of the object. So. So you can find by the return. Thank you. Sorry. And the object class is defined in the findings as well. Thank you. So, h w both names here so there are 60 the only time that this is happening. Right, so follow by them. Next is the pre-trained model. So we provide a
+
+
+00:03:09
+
+I already uploaded this file to the Slack, so you can accept and follow the lectures. Thank you. Anna. We also gave you the source file. and the box is to have your own box. You have an std image right? So for inference we have It's been Frank. It's been Frank. 20s and forwards. Thanks for listening. And there are three small . This is not the perfect position. So It's just a simple call, so you need to implement all. Thank you. in here so that you can achieve better So. So. until those politicians have to deal with it. It's my little stinky. next Monday. And the big fire here is ultimately, we'll see here. Thank you.\] So that's about the biggest things. So the basic tips of today's lecture is to cover two things.
+
+
+00:03:56
+
+First, I'd like to cover the general network architecture. So we are going to talk about the H points and their tiny sort of traits. So we mentioned some theory behind the convention layer. Best normalization, best point. And the second thing is, we even talked about the code and how to understand the code structure. So we are going to release an updated version today, which can support both Unix and Windows. And actually, in the video, I'm going to explain both Unix and Windows. Bye. Thank you. There are some things. Maybe we don't have sufficient time for MVP, so why don't you just-It's this number. Sometimes you talk about how to, maybe some theory you have, but for now you can understand it if you have the metrics for English. Thank you for watching.
+
+
+00:04:33
+
+But first, let's talk about something very interesting. So what is it? How can you represent them? So an image is a artifact that depicts visual perception, such as a photograph or other 2D picture. So we capture the physical object and provide the depiction of that object. Just kidding. The finish of the page is a fine detail, but we'll keep it a bit younger. So in the context of signal processing, an image is a distributed MET of colors. So let's consider the figure in here. This is a gray image. So all the pixels in the image can be stored in the AP format. So the pixel value will be in the range of 0 to 25. And they're like. Obviously, we have a lot of white colors, so the value would vary from 1 to 154.
+
+
+00:05:10
+
+So if we consider the image as a metric, we can see the light and width here is the type of light and width. So it's a two-dimensional metric. And. For example, four five this is like this and you cannot set the Excel values. Excel values are beautiful, too. And. So. Thank you. So you can. This is a representation given the image Beautiful. So, like a full-touch image, we provide to you, each touch image has three color channels, red, green, and black. So this Excel has fallen from zero to So. Thank you. Thanks. Actually, because these are three colors, then this color happens to be the volume from 0 to the 2 to 8 minus 1. So we have almost 16 minutes. So the image sign, in this case, is 2 in HD.
+
+
+00:06:03
+
+And this is an RGB image, so we have a channel here for 3. That's why the Rolodex has a sign here for 6. Bye. However, because we store our videos in the same format, so it's actually a compressed format for an image. That's why the size is much smaller. So. I think you'd have some effect. There with the you can see that We. So you can use the function. To make this kind of image also accessible. So from the input, the patch image, how the program generates the input for Xolo. So you can definitely see the configuration file in here. You can see that the input provided for Xolo is an image with the sign 320x250x3. So then. In the testing experience. See you. Thank you. Thanks for watching.
+
+
+00:06:49
+
+And to maintain the aspect ratio of offset after rescaling so we put the rescale image in the center like this at the top. BG. So, in that way, we can maintain the aspect ratio of X offset. So, I'm going to leave the figure in the below. because you have a safe side. because we try to just swing them with a different scaling for horizontal and vertical. you know the subject becomes like longer you can see the box in here you've got a different aspect ratio so in many detectors it's very hard to recognize images to cover many kinds of images practical scaling. So because we can rescale the image in a different error at different parameters, then the very strange, and actually it takes a lot of features, although each looks very different, so either way, the CNN detector cannot recognize it.
+
+
+00:07:35
+
+the system. So for those of you who follow this concept. Pre-processing structure. Just one question. Before we move to the object panel. I'll catch you in the next one. So you. We talked about a lot. Something so you heard about the test flow. So actually, that's a great object to relate to. It's a very complicated definition. But you can consider this answer as an international array of data. So we have a skillet here. Which is just. You can have a picture. Thank you. Thank you for your time. For RCD image, we have a different channel. So we have a 3D texture. Hello. So, I mean, So we have a desert. Okay, so for this competition, we are going to put the time zone in between. So it's actually a significant potential.
+
+
+00:08:31
+
+First, I'm going to show you where I provide the pre-trained model. For tiny jobs, you can see that there are 22 players. So. There are 11 commotion layers that you might recall. And there are three by three layers, and three one by one layers. So to reduce computations, you can also use. By using this structure, you can imagine how it will look, for instance. is going to work so given an image Design and Feature. You find that you're a suprematist. Then what we need to offer is the desert, the free desert. for your book. So this 10 by 10 by 195. Thank you for watching. And those sensors become the input for processing. So, from the different side, what you need to do is to, from the given input, you need to calculate.
+
+
+00:09:21
+
+So that's. That's all. And actually, you see the into the structure of them. It's a layer in here. It seems like the first layer, you see that the, this is the conclusion, three by three. And you see the features. It's a feature sign. Which is 3x3x3x16. So the ring is the first. The 3 here actually is the 3-channel. Which is awesome. Ciao. Anna. Because they're a 16-feeter. So. Up with it. So that's why we can't do the absolute first layer, it's out for the next layer, 320, 320, and by 16. So it's the last number to represent for the number of features. Okay, let's see the convolution and maximum link together. So let me go first there. Given that people not to be the sign. Then draw 16 sides of your 3x3. features and by doing conclusion between the input and the feature it can produce 16 features.
+
+
+00:10:16
+
+Keep your blind eyes clean. Point here. And each image here can be decreased by half. So. You know, the, uh, Thank you. So we. The image. I'm actually just going to turn off the-I'm sorry. And you can find answers to the song. 16, 16. 16. So this is a very helpful thing to do. Four years, two and three follow it's also for the same procedure. So given this, let's say, like this. And now there are 32 sets of 3x3x16 computers. And. Thanks for watching! Can produce one output image. So this is zero, and this is 30, 31, and we have two fish here, and four. Yes, sir. That's what I was going to say. 16 button too. And similarly, similar to the PGS players, that if you do the exploit, that is not a problem. Thank you. My importance. Thank you. So here's the point. That if given, wait a minute. Then we drop 64 side of you. Thank you. Applying by, you know, applying the features. That we can get the and finally you get there that we can from those features
+
+
+00:11:37
+
+so so so you need to provide signal to the solter.
+
+
+00:11:47
+
+Right. And for those of you who didn't know about the contracts, I'd like to keep bringing you some of the information about the contracts. So this is a 2D convolution, and we just want to calculate, provide some output, like 3x3, by using the input of 5x5, and the weight is 3x3, as shown in the figure. That's how the convolution operates. So I'll put volume A here. and do the calculation at the end of the video. Which is covering the value from ABC, FG8, PLM, and do the calculation of the multiplication, the element-wise multiplication, with the weight, the 1, 2, 3, 4, 2, 5, here, and that's why A, which is equal to A. Thank you. So this is the technology for me. Peace out. Similarly, B can be separated by the function so it was between the two of them. So you could say v by 1 plus c by 2 plus mc by 9. And when we saw. you can so this is a 2d So for 3D convolution, we need to provide the Thank you. so now we have the 3d sensor
+
+
+00:12:53
+
+So. So those are the things that we're paying here. then we need to make the It's a full answer. Thank you. So we might be missing. it'd be much more expensive with the first setup. And you can generate the. Thank you. and it'd be my point just answer That's all I said. Right here, and it can also thank you. So the number of channels here equals the life of the system. So if I even wait for the old algorithm itself, then we can generate the 3D. 3, 2, 1. Okay. Thank you. Thank you. If you do the, you know, if you have multiple images. The first debate. The first. Thank you. Information. Then, in a way, it can generate different kinds of responses. So. Thank you. What do you think?
+
+
+00:13:52
+
+Apply the weight of multiple vehicles and we can produce multiple hours so that's the thing. So all of those things can be put together in a convolution loop. Before you pitch about the 7 o'clock show. I'll put that in the description below. So in here, it's just for information. To see that one. Thank you. It's a feature. You know, after doing the promotion, we go to the business level and do the normalization. Thanks so much. So. In general, there are two very common methods for scaling or normalizing data. So the first method is to scale the data to the rate of 0 to 1, and it can be used by the formula lessons. So the output should be equal to the input. Thanks. Because we first define the x main and x max, the minimum and maximum value of the whole variable, and then we do this thing. Bye. Hello. Subscribe to the certain case and find those results. That's my bridge. For support, so just maybe see in detail with the publication. But. I told you to scale the data.
+
+
+00:15:02
+
+This is the formula. Bye. And that's about it. Thank you. And in fact, it's to prevent. So that means that we're going to become so that it can have an excellent function to prevent. Bye. And you have a scaling factor and some virus in this case. So in the neural network community, this is called a white state. And that's not a white state. It's a performance white state on the intermediate layers of the neurons. So the paper is going to use a covariance state and use the effects of exploding and vanishing grains. But uh, you don't have it. Implementation, you just know that you know the formula and you know that there are three. You can take a look at the papers. It's just a focus on how.
+
+
+00:15:43
+
+Okay, this is a slice of national food. So this is very confidential to speed up the difference. In the original formula for best normalization, we need to do the calculation by using some here. So it needs to define the operation and it's not so. What do we do? We find the formula of the best normalization by using just the formula of equation number 4 in here. It has the same meaning and provides the same output. However, instead of using defined subdivision, we can pre-calculate the width and the bias. So and they're doing— you know, the inference. You just use one multiplier and one error, so you can speed up using wider intertopography. It's very slow, so leave them on to abuse. Bye. Thank you. Okay, so after the conclusion of the question, then. Followed by the operator. Next week. So, this is a figure, so the, you know, the example, using the maximum weight for the color side, 2 by 2, so we just might be doing 2 by 2, so we need to find the maximum volume of all the letters in the colors. So, forward and start.
+
+
+00:16:50
+
+So it reduces the weight of the cancer by 2,000. So you can see that's roughly here. And it generates a 2 by 2 output. Okay, let me do it. You know, top-left meter. Thank you. One zero four. The perfect. And there are a lot of. But the folder number 11. It has a story. Which is equal to 1. So, 8-min output to the 3-by-3 matrix. You know, no panic. But if you have panic, then you can produce money. 4 out of 4. So, 4 is the example that succeeded. Thank you. Thank you. Okay, so. Okay. We follow. Thank you. Uh so the conclusion
+
+
+00:17:37
+
+or the key rectifier we need so this type of function depends on the level so we have a small slope here actually so It's important. Thank you. So for the the positive numbers. Then we just maintain the same behavior, which is y equals 2. Thanks for watching. It's a lot. Bye bye. Thanks. for the for the case. So it was a volume up. I thought, here, this is my type of stuff. So we just made it. small. before training. So it's not. And I'm just tired. Hello. Be prepared, though. behavior called it. Death note. so So if you apply right, you get that every year. has a value smaller than zero becomes zero. So in many cases, it's called . right into the case Right, so that's all about it.
+
+
+00:18:34
+
+It's a sufficient. Right, now let's move to the reference software. So we need to convert the theory part into the code. point to you. So we are going to release the second version of Skeletons so we can support the video user. There is no change in the source and the legal set of the pre-trade models. Instead, we could change by providing some third-party libraries and Visual Studio Project Find here to create the first and third-party libraries to support the market driver. The second thing is the Visual Studio-based Project Find. And the 13 is the simple example script to execute the compiling code and the compiling files. Thank you. Thank you. I want to emphasize that there is no cheat. If you're a source of the data set for the future.
+
+
+00:19:11
+
+So you don't have to worry about whether it's that it's different between them. Walk me through it. What's the question? Absolutely. So you Right, so for the I'm not sure whether we could keep the code. So this is what I like. You need to be compressing the code. That we can do the following And do the goodbye. College. So we just make Then we go to the next step. And we updated the directories for the test. So in this file, you have a file like this. I mean, it's already a type of file called textures. And despite all the benefits for the exchange so we have over the 50 years However, you can use absolute derivatives now. So you need to run the main system function to produce a product, you know, derivatives of sets of H.
+
+
+00:19:54
+
+And after generating the package, you can go to the binary folder and do the inference for all the patching. It's okay, let's see some research. So after you compile the code, then just ignore some warnings. Then the object files, actually, I'll store. In the process. And uh, excuse me. So it's a . NET, the binary file installed in the . which is awful. By using those samples, now you can do the evaluation. Yes. Bye-bye. So that will be the difference. So be here, be so there. Thank you for watching. Yeah. So it operates by calling the executable 'find target'. Thank you. 16. What? and configuration. Have a great day. Thanks for the question. You will set this as a . for those money, not the way. Thank you.
+
+
+00:20:53
+
+If we can utilize that as a structure. And later, we can use the calculation and report the accuracy of all 16 factors. This is also provided in 32 bit. Thank you. Precision. I mean, the average . for them to be the ones so let's see here Peace. Which is equal to I'm going to listen. It's pretty good for the response. Let's model a unique setting in the settings for the user. So for the Windows, actually, you can compress the code and follow the signal structure. So we also go to the you know the code folders and open. We also need to update the directory for the cache image. And double-click. After that, we go to the library folder here and double-click. CPU . CFD.
+
+
+00:21:35
+
+So, if there is an issue with the InfoJet conflict, then you can remove the InfoJet file because it's just before the certain Visual Studio world and InfoJet. And then you can double-click to the project file so that you can upgrade to the specific Visual Studio world. Okay, so this is the way you open the solution file. Thank you. You can 64-bit. So you can choose a target either to give up or release, then you can build the code. So it was a little bit. Thank you. And the file is an executive file that you can install. Easy. As I was treating him. Some just helping So. Now, we only have one single file. Um in a similar manner. So we have a here, and we call the providers.
+
+
+00:22:22
+
+Particular method names of these old items All the way. Okay, I'll see you next time. After that you can use it. So it's my solution. This is the 32-meter 44-year-old Cheapster. Thank you. A 3. 2%. Thank you. Okay, that's about it. Okay. Good point. While we execute the call. So let's take a look at the . You know that this was fine, right? Is there a sub-definition of the back-end function? It's an utility function. I'm fine, initially. But C is not great. And for body box, we have two dedicated models. Box . C is not great. Thank you. Okay, let's go. To load and store images that we have on specific libraries. Do it. Thank you. So we'll function for what? Thank you. Fuck.
+
+
+00:23:10
+
+One is just for food precision, and the other is for But in here, we just apply a very simple composition. That's okay. Anyway, it's a good starting point for the automation. Improvise. See you. The content in that. So you can make it function. Jason. Test Detector CPU. And so it's the which you're responsible for immediately. So we need the names. She was a bit young. So these are all the items. Thank you. And the second parameter is . So you can cover . But that's not funny either. Wait, fine. I can force it to be legal. So that's I just like it. So for the threshold, mostly you can just use some . Thank you very much. So this function called you see how this function operates.
+
+
+00:24:02
+
+So at first this function should be That's the new. Deep. get distracted. You You have to edit the pictures in the valuable decade here. It seems like which is equal to, you know, pass the network configuration based on the configuration file. That's all. So. Based on the net structure, you can load the weight. So next step is loading the weight in here. So net here, and it looks a bit funny. From the device. And then this one. Is a lot. I think it's clear. G4. I'll be back. It's like the configuration file, you can take a look at the system, you know, the CFG is the setting file. Thank you. The goal of this step is to extract all the electricity. Practice. So here's a study so far. To the final number, 51.
+
+
+00:24:49
+
+You can see that it applied. Me too. 16 features. I think it's nice to be tweaked. And it needs to apply it depending on what it doesn't need to apply. We use a fixed sign for between, and it needs a leaky function. And the parameter bestNormalization is, here's one way that it applies the bestNormalization, which is there. Singleton. Later. Thank you. Thank you. To the next one. In between stories. So. How we can withstand the structure of the vision. Bye-bye. So from the first five you can go. So then we'll have pictures, and we'll have the layer pointers. And then, finally, we've got some of the many other common alternatives, including the network technology and the front-end services. And. After that, we can do the inference.
+
+
+00:25:26
+
+So also in the function test, we take the CPU. Need to load an image and then call to the function that will predict CPV here. And you can see that this is a net. So by . So why do you open it up? We're going to do the same thing, so you need to understand the behavior of the function, the flow of the function, and then you can match those operations with hybrid. Right, so the function I mentioned previously is called 'Thank you for watching.' Thank you. Load actually so we already have 'Thank you.' 'Thank you.' And depending on the layer type, either it's a convolution, max pooling, roundtable, unstable, or neutral, it may lose the corresponding operation.
+
+
+00:26:05
+
+So, like in here, if we want to apply the convolution layer, then we call the function 'forward convolutional layer cdu'. And you can execute the function operation. Let's see if it works. I'm I'm going to put it here. Hello. And I give them that input. It's an statement. It's an input. Thanks, Paul. And that's the reason you can convert the infotainment to the common It's on. All the operation so we can convert. So call it. So we have Sweet. So we need to because we have a feature between treatment so we need to make two vectors into one language. So. So. So we need to make the column vector for x. It's called and the condition here is not by this function. So actually, just a communication efficient.
+
+
+00:27:01
+
+So actually, in the previous part, I already explained. Maybe you can just see The detailed design of the code is very hard to understand, but if you look at the concept from the formula in the previous part, it's easier for you to understand. After doing the compulsion, it applies a batch normalization. And it has a padding still, a multiplier still, and plus some bugs. Thank you. To any sort of offline statement. Thank you. It was the best part. Finally, it was. This is the flow for the, you know, set-to-couple generator. For my explanation, it's the same way, because you have a, you know, set-to-couple generator, and you just, you know, find, you know, a 2x2. From let's write and then you can pick the somebody for the first time.
+
+
+00:27:44
+
+So that's about the code explanation and you also know how to It's a huge goal either in the new experience or in those new events. You're going to talk about your conversation and how you want to say what you want to say. So that's the fun. So I have a little tip for myself. So that we can get some hints to . So that's the end of it. See you later. Thank you. So we have a technical problem. So, after this lecture, I have to post it. See you. I'm going to need to put that here. It's getting cold. Thank you. Be fine.
+
+
+00:28:24
+
+Is that it?
+
+
+00:28:42
+
+Question. I'm going to post the video. And then you come in, which can be awesome, feels like. Try to pass it so. Today I think you have a look. Clearly, pictures how you should do with this application. So the key here is: from the you understand the input format of image and you understand the structure of features and you do the calculation. Then,
+
+
+00:29:09
+
+for the Polytechnic to contract. Thanks for watching. Thanks for listening. And from the latest model, 3. 20. 20. 3, the features, you need to generate some kind of test around that. And this is responsible for handling the post-processing data. So I think you can understand. If you have any questions, of the country. Don't get the that's it for today. So see you. Okay. Thank you. Thank you.
+
+

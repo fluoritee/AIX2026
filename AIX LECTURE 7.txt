@@ -1,0 +1,245 @@
+00:00:27
+
+Good morning everyone. Can you hear me clearly? Okay, thank you. So welcome back to the. AI, you know, accelerator design. See you soon. So today we are going to continue the system integration topic and then we move to the part related to DMA and top system. So here is the outline of today's lecture. First of all, I will briefly review the content of the previous lectures and then connect the Connect the content that's content to video. See you later. And then we're going to talk about DMA and top system. So previously we were talking about the different engines, and we already know that the seen an accelerator consists of multiple modules including the processing element, like a max edit tree, and a set of buffers, like your input buffers, filters, and some buffers to store the intermediate research.
+
+
+00:01:03
+
+Also need to design something like a pulley, and then that's what you need to design for your accelerator. The last time I already gave you a sample for the controller, so you know how to accept, you know. How do we generate the index to accept Excel as Excel? And then That's what happened in the Either, you know. We just didn't. Uh, pictures. Actually, I already uploaded the file. On those legs, so you can accept the fire in the court while you're listening to the glitchers. Okay, so for the scope. We already provide you the baseline code, so those codes are designed to provide the usage of the components via some examples and test fans. So you can refer to many modules, like processing elements, DSP, multiplier, and multiplication and accumulations.
+
+
+00:01:41
+
+So this is a module for computing units. And you have a set of modules for on-chip buffers, like a single port memory or dual port memory. And you've got the controllers. So you also have a module for loading the data from the memory. So to the buffer, so this one called 'axidma' is read, and another is used to store the data from the the buffer to the memory, and the 'axiom' a right so those are given. So you know where you can use those moving forward. But you need to understand how to use those models and modify or optimize the parameters based on your results. The idea and the proposed methods. And obviously, you need to execute this idea by implementing the RTL code and verifying the definition.
+
+
+00:02:14
+
+So for example, in the figure here, you just start with very simple. example and then you need to I know. uh improve and then you need to develop the Slide here. 434 Slayer, this is for me to acknowledge you. Okay, so for the IO5. Last time I mentioned very important and very very important— you know— issue in designing a hardware we call the simulation verification. And I will show you how to prepare input data. Like starting with an image here. This is an input image. And we need to prepare the hex file. And then we transfer the data to the wall. And then we make some input data in the x . xml format, like this. Or sometimes you're in binary format. It's up to you. But in x .
+
+
+00:02:48
+
+xml format, in general, you can check the content easily. So in here, just show the 8-bit or 32-bit format. So 32-bit, in general, it fits to the. GDR or the biolibrary can be used because it's the best thing. I mean, the database usually has 32 bits, so. Uh, your design or data should be input data in a 32-bit alignment, and it's a very good fit to the system. And after doing the processing, we can verify the output result. So we can use the waveform. This is the waveform. There you can look every you know. You can zoom out the stage in this part for the time, and then we can do the debugging to check whether the results are correct or not. So. I also show you another method to use visual eye verification.
+
+
+00:03:26
+
+So we write down the output image, like a BMP image like this. So you can write the same result by using software. So this is the result given by hardware. And you have another result given by software, and you can easily check whether it's a different or equal between the software and hardware. That's what happened with the simulation verification. Sometimes you believe because you got some error, and then you have to give up the code, and then you're going to fix the error. Okay, for a PME writer, it's just a one very you know kind of pretty standard flow. So we capture. Later. So like in here, we get your all the data and store it into buffer.
+
+
+00:03:55
+
+And after we get the, you know, get all the data, like all the image and you're going to write out the, you know, into the certain file and this specific example is a BMP file. And there it opened the file. And then, you know, it's a. We have a fine identifier that we can use that right to you know to write out all the The research. You want to monitor and then This is a very typical and standard metal tuning. Check if the code is working correctly. So, for in very special cases, then BMP needs to write. You know, the heater and the data, but sometimes you just use a hexa file like this. You can uh, you can just write down the data and you don't need to either, because you already defined some data order based on the preference.
+
+
+00:04:27
+
+You already have you know some predefined data orders, and you have order you want to organize data so you don't need to some heater or some additional parameter to specify the data format. Okay, so I already showed you how to use the controller also in the previous lecture. So you already know that we can define a set of parameters, the input parameters in here, like a width, height, and some delays for vertical and horizontal synchronization. So here you can see a set of input that's what I mentioned in the previous example, and they're even output server stage including, like, a vertical synchronization or frame synchronization, and the horizontal synchronization or you know, line by line, rows synchronization. Then you have a you know, data stage in which you can do computation.
+
+
+00:05:03
+
+So for those synchronization stages, you can load some data, you can prepare some data before doing computation. In order to do the convolution, you need the features and you need the inputs. And obviously, it's not enough. I mean, the size of memory is not sufficient. To install everything. Know before. So sometimes we need to know what these are from the external memory and then during the time, I mean, we cannot set, you know, sometimes we cannot do the calculation. So we, in here, it just gives some sample. Pre you know typical stage you know or you might be behind. Right so I already mentioned I was a top designer so you just design with the four convolutional corners there we use one controller to many you know manipulate the processing and the the finite state machine or the data flow for the AI oscillator.
+
+
+00:05:45
+
+And then we use this for output writer to capture the output. And then to talk about the sliding window, we also do some kinds of mapping. So we have a hardware on the right-hand side here. Is the hardware. And then we have applications. So we need to, you know, sliding the, like a three by three windows in this case, and then do the calculation. So the window will go from left to right and from top to the bottom. And then in this case, it was only the three multiplication operation I needed. So That's what happened with sliding window. And from the algorithm, then we can convert it into this kind of format to generate the input data. Like we checked the battery because we need to maintain the behavior of the software.
+
+
+00:06:14
+
+This is zero padding. So when we have some padding, then we need to set the input to become like a zero like this. So we have zero padding for the battery itself. And then, for the remaining percentages, I use the index of the of the big cell. And then, in that way, we can generate the DNA. Okay, so, Lastly, you can verify the results by doing a simulation with a time of 400 microseconds. and then you check, you can even check the output research, so you can see, you know, very beautiful, quite beautiful here. the output like this, those are feature maps, so you can understand, you know, if you do not know much about the conclusion, then you can understand that your conclusion can be some featuring, so you can generate some features from the, you know, this is always no input, and then you can have different features, so for you know, X image, and it fits my image here.
+
+
+00:06:51
+
+it's quite something to the certain feature, this is a 3x3 feature, and another three minutes. so obviously, to get them, you need to update the directory based on the environment. because sometimes, in many cases, you've got some issues with the directory. so you cannot load the file, you cannot write the file, because the directory that you provided is not correct, so it's not valid. so you need to you know, to check, you know, their territories. Right, that's what we discussed last time. So today, we are going to continue the topic of system integration. So I mean, briefly, explain to you about the concept of US and I hope that you can really understand the concept of this concept and then you should, you know, understand the usage of the summary in terms of inputs and outputs, so you should be able to keep the inputs and capture the output.
+
+
+00:07:32
+
+And we will combine all those things together. So we will extend them. Uh, you know, the attachment we used previously by providing input later, so an on-chain buffer. And then, together with you know, mac units and upwards offers, so we have guys already come my computer system. Before making a certain IP for this system. Okay, so let's start with the VMA. So. the figures. So the you know the top system I'll design so you have a busy working here. And the SOC system in general. Has various components so you have a CPU here. This is the CPU, and then you have a memory, like on-chain memory or external memory here. And some user-defined IP designer. You also have some standard, you know, I'll let you out. So those things are connected via a bus.
+
+
+00:08:12
+
+And then you can see, you know, the connection with the red colors. In this system, we are using the Advanced Extension Interface, or AVXR. So this is a part of the ARM Advanced Microcontroller architecture. So it can have AXI3 or AXI4, so it depends on the version of the specification. So, in here, as I mentioned earlier, I will not teach much about the theory, so I'll just provide you some keywords and some usage as we can. I know. And you can use the code and then you can do the work. So, maybe for SOC class, you can get a very comprehensive explanation about this AXI. Anyway, that's the protocol. Is probably our high-performance synchronous multi-mass communication interface. And it's mainly designed for on-chip communication. So you see that there's everything in here.
+
+
+00:08:48
+
+Actually, let's see on-chip. And there are. Where does the chips would be? Actually, memory is a one-chip, so maybe I risk it. Actually, you can draw it like this. So this is here. I'll keep maybe like this. So just so you know, we have a little memory. That's why we mentioned the DDR and for the remaining practice that happened inside you know the fpz chip the you know the model so that's why we call them you know. All right, let's start with the summary for engineers. So in AI science specification. There are five channels including the read address channel all here. There is not an augmented reality even though it's there. Right, so we have a weak data channel with, and there's some right address channel.
+
+
+00:09:27
+
+Aw, those are used for, you know, you can mean for, you know, the name of port. Use so you can hear it, you can make it, you know, easy to use, even right. So the meaning of the book. And we have a right data channel, W, and the right response channel. So actually, each channel is independent from each other, and they had a couple of wallets and ready single. So you cannot but it's very drop explanation about the grid operation. So we have a master here and we have a slave here. Read mean that the master will read some content from the slave. Master can be with the CPU. Those lives can be like a memory like this or sometimes it can be this dietary coming to me.
+
+
+00:10:01
+
+So it provides some address and control. And then based on those parameters, he can get some data. So the data can be in the sequence for the right operation. We also have one slip here. And they're when the address. In the console, I mean, at first the master will provide some address and control. And then after that, you can provide some data. So this is data. Data for all rights. And then. Even get some response so that you can. Maybe you know stop the communication because this kind of handsaking uh communication. So master insulate we talk together and then transfer data from slave to master or from master to slave. So. In general, you should know that master can be the CPU or processor, and also it can be GMA, isolate.
+
+
+00:10:40
+
+It can be some IP. And. Another thing is very popular component: memory. Right. So, this will look quite complicated, but I will explain about the transaction operation. So, for read, you have a read channel address. This is a read channel address and read data address here. So, at first, you need to provide an address. This is the address. And it goes start address here in the text. You can read that. You should have some start address. And it will have a you can stand you know you can read the manipulators. At the same time, like you have less than four to three or Thank you. three in the value but the because it's starting from zero. So in general, it would be four. So if the incremental was here, so that rest will be increased.
+
+
+00:11:16
+
+Oh, sorry. Thank you. because they don't know the person. Thanks for watching! Right. So after having, you know, you know the ready single I don't know Uh. the data folder, you know, Sleep. I mean, the sleep is ready for it. Then you have a response. While it's here. And then during the time it can send the data to the master. So this is the master. and this part is from a slave here. Obviously, you know, the communication between the master and slave is kind of 'know so' yeah you can say that you can see the old signal either from the master sign from the slip side but um we want to explain this in the we have an address or request side from the master and we have some data here from the slave side so in here you have um
+
+
+00:12:01
+
+because when we load to 4, we have a 0, 1, 2, 3 here so the single request single bay address and then you can load the full consecutive data—not the port— for the return session. And a similar for the right operation is in reverse order. Brother you have a-No. Right address channel and this is the best way to make master. And there, you have another white data here. Saw from the master, so you start with some common requests like address and then the number you know the length. The number of transactions you want to to send 1 to y to the slave. And they're full of that. By the. I mean, following the the comments. is data and you have one Three, four. for something like that.
+
+
+00:12:39
+
+And then This is a sleep slap. So after sending three times, let me notice that the data. the transaction is finished. Anyway, this is the theory part about the inverse mode and the BX9 protocol. For the details about the signal names and the ALI function, you can refer to the class like SoCDesire or maybe some online materials. But in the scope of this competition, I do not emphasize about how to design the protocol. But I want you to see another side of this design so you can use as a protocol and understand the basic concept. can work with the code without you know knowing much details in the protocol, because actually understanding the entire protocol is quite complicated. Right? So for that purpose, we We can use a DMA to load an input image or input feature map.
+
+
+00:13:18
+
+This can be the butterfly image, and you want to load it into buffer to do the calculation. So previously I already explained about the on-cheap and off-cheap buffers, and on-cheap and off-cheap, what could be in the on-cheap part, and what is in the off-cheap part. So you know that the The input can be in the external memory or memory. And then you want to load it into the buffer. I mean, into the on-sheet part and then to those articulations. So for the input loader, this is just an example to use. You know, give me read, give me write, and then we have some certain buffer. To stack the data between the read and write operation. And there, this is a template for them. Kind of rate operator, I mean, ASI-MA rates.
+
+
+00:13:50
+
+So. For this model, you just need to connect, calculate, and Corgi, that's enough. It has another interface for the function port, functional port. So user interface design. I i'm going to you know this is using the face part and you're going to set some parameters. So if there's a specific you know, it's important. Example how to use this, you know, function report. So this is the definition of the quote. I mean, the functional part. So Like or follow? Read operation we start with some you know. No. Requesting also start DMA is the requesting of the starting the triggers you know. And we need to provide how many transfer we use. So we have a number of chance. You can refer to the number of transactions we want to do.
+
+
+00:14:30
+
+Let's see, we have a memory in here. And starting to dress like her. Um. Let's see, From Earth. 16k Thank you. So you want to read. Later. This is a rear. So you need to provide start address. Chris. Ender. No web translation. Want to tweet. So like, you want to read the image, then you need to provide the address for the image. And then you set how many pixels you want to read. Obviously, this idea may have some limitations. You cannot read the entire image at the same time. But you need to read it maybe several times the maximum number of transactions would be less than. Okay. I mean, One. So. So. the, The maximum number of transactions would be smaller than something like this.
+
+
+00:15:16
+
+So you can read more than that at the same, I mean, at a single request. So you have to decompose it into several requests. If you want to know more details, and the without data, we can go to this one, data out. And obviously, we need some polysingle. And the data count means the index. The transaction so we have a single transaction but we want to load like a zero, 1, 2, 3, 4, 15. You want to go 16, you know. 32-bit data, 16 words. And then we need to use the Kaizen index. And this is the data Kaizen index. And you have a dump bit. Dump bit here. So when it reaches the final data, then you have a dump it. So that's meaning of wasn't. I mean, the boat.
+
+
+00:15:48
+
+So. folder. You may wait. So in the reverse order of the DMA read is the DMA write. And when we're completing, when we finish all the computation, we want to write some research to the memory, because the memory is not sufficient to store everything. So we may use a DMA write in this context. And similar to read, it has some standards of protocol and interface. So you don't have to care. This just makes the correct connection. So maybe you even don't have to, you know. understand the meaning of all the signal here. You can read it because it has limited meaning, as I mentioned previously. But um, you need to define some user interface. So you need to make all generators. So we have a number of transactions, start address, and some data I need to prepare.
+
+
+00:16:24
+
+Oh, yeah. So by doing those things, then you can you know write out the research to the external memory or other. Oh, yeah, exactly. Right, so this is them. Uh, the functional port for the X9 gaming, and there it has slots you know I have stuff here. And also, we have a and book transfer. Enter the address and then some kind of buffer value signal. Because we need to read different, I mean, the ASI read are different from the ASI read. ASI might need to access some buffer. To, you know, to provide the data for write operation. That's why it has some buffer wallets. Single from the And there it has a dating data return. And there's some know some requests and they're getting some flavor from your chickens.
+
+
+00:17:01
+
+Okay, so this is a very simple program using a finite state machine to do you know, the word read and write operation via EXI port. So we wait. The first step is just wait until the It's a little signal here. It'll be safe. And when we have a really low signal, then it moves here in this line. It moves to the state like a read operation. So this sets the line counter starting address and starts the DMA read, and goes to another read. Be tuned. So if all the lines are loaded, then that's a load done, and the thing will go high, and it'll go back to its initial state. Otherwise, it just goes to the P2 and updates the image. This is a buffer. And you copy the data, and it's just a wee bit.
+
+
+00:17:36
+
+We pick up. And, you know, it's copied to them— to the memory, I mean to the buffer. And then, because you know, like line by line. Then we will go back to it. It's a weak part one. Until all the Excel in the image transfer from the external memory to the on-chip memory. Okay, so we are going to use this part in the top system. Now I'm going to explain about the top system structure. So we have, um, you know, more models and a little more complicated, but I'm going to explain to you the meaning of it. So on the top of this, and have a formal room. And it can be used to simulate the external memory. AXD map. So we want to simulate the external memory, and we can connect to the resistor inference engine via the XIPort.
+
+
+00:18:13
+
+And we have an AEXI. We have a live logger or image logger here. So it loads the input image live by VRDMA. That's what we're doing. And for other, when we have a controller here, it's a similar to the previous example. So I already explained, even do, you know, scan line by line from top from left to right from top to bottom and then it's kind of doing the control signal for sliding window. And we have a different from the previous exercise. We have a setup buffer for with the weight layers scaling up. And then finally, we have a format. Right. So this is kind of features about this. So We have a. Here. Murunko. You image online loader here. And it can transform the It was an image from the external memory.
+
+
+00:18:50
+
+To the you know Let's see. I'll see you next time. And to have parameters. You know, for those I mean, for the Mac. Welcome to the unit. Then we need to generate some features. And those features can be stolen from them. Also, forms a buffer. You, I didn't use. I think. Design the DMA to load the data to the FIT buffer, but you know, for some later layers you need to do that similar to the input, but you need to load and you know some filters from this memory to those buffers, because we do not have a sufficient buffer to store entire model in the on-chip memory. So you must use external memory to store some features. And then using the controller. And then you can generate the dean. Yeah.
+
+
+00:19:32
+
+Here from generate the day in here to the mac and then finally capture the research. Let's start with some music to remember. To the model buffer. Right. So this is the flow: first load some image from the external memory. And it happened before the visiting phase in there. In the controller, maybe some optimization needed to load the server line of the image. During the scene. I mean this thing is assault, so you cannot cannot look entirely. So we can load the server lines and load some weight by the scale from the buffer to register. And then you happen to be in a confusing phase. So after that, you do the convolution, and then store some results. So let's see what's coming. At first, it loads something to image from the external memory.
+
+
+00:20:08
+
+And then you load some weights. Some features from the buffer to the resistor. Then usually we want to accept multiple features at the same time. So, if you just use a very you know, you know, then we import on-chip offers and we cannot accept the multiple features at the same time. So then we need to fix the recycle to pre-load some features from the buffer to resistance. In the next step, you do the convolutions. Using your loaded features. People in weeks. And then finally, obviously, during the conclusion, we install some research and then finally read out some research. Great. So for the buffers, so we have a weight of filters and bios and scale buffers. So you know that bios and scale can be, you know, generated during the batch normal folding techniques, because we want to eliminate the division of dividers in the highway design in here you generate the three sides of a single port RAM SP RAM and there.
+
+
+00:20:52
+
+Obviously, you have to add them. I already mentioned the literature. Thank you. Right. So in this buffer, we design. You know, he can give you some tips, but he's not simple for so. In here, I'm designing the buffer we're looking for wires skill and reach. So for my host, it's just a 16-bit. But in the feature, it's a 16 by 8. So we can set the 16 now. Um, filters at the same time because uh, expected to have an AP so you have 128 bits for single words so you can you know um change the format or configuration based on the design. Right. There we make the redefining pre-Singapore instant or with my first so we have a weight virus and scale like this then can uh this is just simple so we need to define the you know parameters like how many Be-Pumice.
+
+
+00:21:35
+
+So in here, it should be 128. Is it 16? 16 here? And the, you know, that this have a depth mean that you have a 16. 16 was. The memories in the you know memory and they're obviously to upset. 16 then I mean 16 elements. Me too. I'm full. Forbid. I mean, Thank you. lots of other systems. Okay. So for other layers, then you need to check the parameters. So you need to generate the suitable parameters. to accept the buffers correctly. Obviously we can pull multiple from it, I mean, the multiple was. I mean, the, you, you have, um, so that you never won. Buffer for the first layer, another buffer for the second layer. Then you can combine it into the signal like this, and define it by, like, a way address process.
+
+
+00:22:12
+
+So this is the first layer. This is the second layer, like this. So you can generate the same structure, but you need to adjust the depth and the number of, you know, b2 to accept the range of the first. Right. So to access the buffers, you have some signal, like a signal and address. So because this is memory, you need to provide address and request. Then, by you know, providing those address and request, you can get the data as you want. So in here, we have a signal, some delay. And the Ryan University. And they're, you know, this is all fitter. So all the thing is, I mean. Starting with the weight and the full parameter— or you know, scale buyers— and start with another indicator.
+
+
+00:22:43
+
+Okay, so we will not load You know, some data, so we have some signal for wait by skill first and reload, and then um, here you send some requests. This is just doing the I'll be si-we lost some of them. Okay. Obviously, you can load from external memory later by using GIMP. But in this very simple case, then you just load. Using your on-sheet buffers. And then after getting the data, then you can update it to the sum. Some. Some you know. Ready? As I mentioned, to do the calculation, you load the data from the on-chip memory to some resistor, and then resistor can be used to do the calculation. Right, so in here is the check— the data loading for buffers. So basically, it's just a memory offset.
+
+
+00:23:22
+
+And we, in the very specific case, we have a two-cycle delay memory for it. So it can be one second delay, I guess. Right. There. Can visualize that it's like a visit for buyers and you can see, for set of buyers, so in the waveform in the resistor. And there. Next is scale. And also parameters or features. Thank you. Right, now let's consider the Mac. So to format what do we need to do— input this feature. And previously we already know it from the. Well, obviously, it's a buffer. We have some buffer to install the feature, maybe for multiple layers. Then, during VC during your kinds of layers in the optimization stage, we load from the buffer, the global buffers, to the sum resistor. W. And then. We have an input image here.
+
+
+00:23:59
+
+It will come from what? Digital memory. And we load it with the image. And now we need to generate the data so that we can provide sufficient data for computing units or processing elements here. And then, after that weekend, we get a picture of the week. So we use only four maximum, and then this can represent the four conclusion features. Okay. So let's visualize the operation. We have an input image here. And then you know that for 0 padding, you put some 0 on there. You're on there. Top. Bottom. Left. Right of image. You can see, like, it is a figure. So, for the gain, how to generate gain, previously I already explained about it in a slightly video so that you can visualize them all carefully in here.
+
+
+00:24:30
+
+So first, you need to generate the 16, you know, pixel to map with the hardware you've got. And we have a Windows 3. 3 in here. Then you can see that the way we make them. The day like this because we only have my non-zero pixel before remaining zero so we need to set the value for my pixels and then we can check the boundary collision by using this is about recognition check and it doesn't work. And they're, you know, gonna check it by visualizing. There's a you know the signal regenerated today and regenerative like this so you can see that a lot of there are uh maybe one two three four four zero pixel and then we have a 2a 45 and then we have another zero here and then here 69 and 2a so we can make a kind of vector, beat vector.
+
+
+00:25:13
+
+4 . 13 And similarly for other video, you can, you can visit it. Bye. Adios. Using the signal from the controller, then you can finally get to the very last. Wrote in the image and then gets it in the final output. I mean, final input. And they're From there, me, well, we also, I mean, we generate the data and we also generate the you know synchronized i mean the volleysingles so the data and the values to be generated simultaneously to you know to make the signal See you next time. Bye. And there. For Mac Moodle, you already know that it takes them. Four-cycle delay for DSP and another 4-cycle delay for adder 3 for accumulation so it have an 8-cycle delay and you can check the result coming out And you can check the value become height.
+
+
+00:25:52
+
+when the results come out. Great. Right, so for now, I skip the part for the animation. in the globalization uh if we have a sufficient time we are going to give a little bit to explain about this part You should be responsible for making them. I want to thank you, Amanda. Oh, no money. And then we capture the output data from the Mac module. using the buffer here and then, in very specific cases, we said yes to use the Drupal buffer so that we can, why we receive some data, maybe we can write down some you know the data to the memory so that we do not need to give very large size of buffers, so you can add the you know brams, ips using any catalog like the lectures, fine, I think.
+
+
+00:26:27
+
+Okay. So this is the output buffer. So basically, you just check them. captures data so you can see this. This is the quality. You know, what is it coming from? Thank you. And as I mentioned, it's a quantized result here. We just get them. 8-bit, 8-hour, you know, or 20 bits, so we ignored all the, you know, 12 bits, so it was from the 11 to 0 system. And that's what happened with quantization. And in the software, when you make reference software, then you perform the similar operation so that you can compare the results from the reference software and the hardware. Right, so we have an address by using the pixel count. So the pixel count logic is pretty simple. The incoming data.
+
+
+00:27:04
+
+You know it's valid, then we just either reset or, in normal case, just increase my ones. So even, you know, increase every time you just increase the counter of the rest one by one, so you have a one. I mean, stopping at zero. So we write out, you know, the data to the zero and we have one here and up to two to 16 . 1 in this case. Okay, so in the port B, it's just for verification in this case, but you can see that actually we can use the boot port simultaneously. But in the very specific case, we just mentioned that after we complete all the operation, then we can read all the data and check the values. So coming out in time, go to the OB. The Dictator out.
+
+
+00:27:35
+
+I'll pop in. and then, then you can do the comparison between them. read our data and the data we store to them. I'll go first. Okay, so let's check some results for the aqua buffers. Uh, this one time they're you know we have a full set of uh four max wound and then we have a well coming out here and you can go to the Let's go. You know. We just couldn't get all four pixel in the 132 bit volume here. And then it writes the quantized value to the buffers. And then we got the buffer, you know, the value here is 0, I mean, 0, 2, 0, 0, 0, 3, ff. There you can get them, you know, as a result of the magma loon occupying units.
+
+
+00:28:08
+
+and there you finally can you know read the store value and check the value which should be same as the value you write up. And this read operation can be happening when you use the DMA write. So you want to write down this content to the external memory, then you can load this buffer. You know, doing, doing the computation. You can write down some results with memory and then you can save the on-chip buffer earlier. Because as I mentioned, somehow we cannot store everything in the anti-buffer. So we need to store it somewhere. So dual buffer or dual port memory can be very efficient for doing those like mining schedule. That's it for the uh, the buffer. Actually, this is one volume.
+
+
+00:28:43
+
+And there you uh, we can do the verification that I mentioned earlier, and you can check the rate. I mean, we can do the weight out of the data, and then we check. We do the comparison between the data we wait and then what we write down to her to verify all the functionality. A quick comment. Okay, that's the end of them. Today in lectures. And they're just not ready. I mean, cover all the components we have from the computing unit, but first and their memory interface. Then the incoming lectures I will show you how to make the user define IP so how we can make the difference different engine IP and then you can do the PC host communication and then those things can be, I think, those information can be sufficient for your work in this competition. And then, as you know, that, then, the next lecture is going to be the last lectures. After that, if you have additional questions and again. Trying to get explained to you. Okay, thank you very much. Do you have any questions?
+
+
+00:29:35
+
+OK, and so as I mentioned here, you can post some questions on Slack and I will try to explain all the questions. Okay, thank you very much.
+
+
+00:29:48
+
+Thank you.
+
+

@@ -1,0 +1,275 @@
+00:00:23
+
+Okay.
+
+
+00:00:32
+
+All right. Hello, everyone. So welcome to the Deep Learning Hardware Design Contest 2026. My name is Sunshin Wen from SNU. So probably most of you know about the competitions. And I'd like to let you know that this year, this is the fifth year of the competitions. And I'm happy that there are a lot of students participating in this year's competitions. So can you see my screen? Yes, okay, thank you. All right. So uh, today is the orientation. I am happy to share with you about the condition. I have a very quick start, and uh, you know, we are explaining what you have to do and how we can evaluate and how we can give you the what for this year's presentation. All right.
+
+
+00:01:01
+
+First of all, I'd like to introduce the organizing members, including me, and the student, and the teacher. They gave a lot of support for us. Right, so let's move to the computations. So as you already know, about the computation behind the poster, so in this computation, you're going to design an inference engine on the FPGA. So suppose that you have an image like this, and we can transfer the image to the FPGA port, do the inference, and we can get the results, and then display the bottom box, the location of the offset and the types of the offset on the image, like this. So the key idea is you design a hybrid. So I would work with you during the conditions to make a to have you implement the uh.
+
+
+00:01:34
+
+So that's about the quick overview of the application. So about the different engines, we detect the opposite of this application. So actually we collected a lot of data, like 100k images of the product. See in the vending machine or in a convenience store. And we train the model, and, like the previous year, we use Zolo because it's very lightweight. So talking about Zolo, given an RGB image like this, we can re-run the network, including many layers, convolution layers, and can be text-optic. So this figure was taken from... XOÔI VỚI! Can you hear me? Yes, we can hear you very well. Okay, thank you. So this is about the tutorial network. So given an image here, you can go into your multiple parts, and then you can detect the objects.
+
+
+00:02:11
+
+So I will not explain too much about this model. So we provide you some materials that you can read for further information. So that's about the applications. And this is about the system. So we also provide you the code, the source code, including the pre-trained models, the testing image, and some reference codes that have you to evaluate the accuracy of the model and the code that you can... Read the name and transfer it to the FPCA. And there's some baseline code for, you know, running it in Fairlock to run server components on the FPCA. And during the competition, we also provide you guys the FPCA code so that you can practice on the given FPCA code. And one important note I'd like to say here is, in this year, so the software part, particularly quantization, will be kind of minimized.
+
+
+00:02:46
+
+So we give you the code that you can practice how we can convert the model from the 14-point operations into the 8-bit operations. However, that part is just... a small part in our equations and so far we've been paying more attention in the hardware limitations and um you know we i hope that we can make overview but many teams complete their design including the fbc verification that's the goal for this year because like several In the previous year, many students spent a lot of time for software, for quantization, and they spent maybe about 2-3 months just trying to improve the accuracy of the models, however they didn't have time to implement the hardware, and that wasn't very bad, because it's a deep learning hardware installation design.
+
+
+00:03:13
+
+So designing hardware is a fundamental part of the system edition. Okay, and to support you guys, we will provide you some materials and tutorials. So the tutorials are designed to cover several fundamental issues in designing the AI accelerator. We will introduce some key components and their usage. So we provide you... C code and value code that allow you to learn some fundamental concepts in designing AI isolators. And to keep a little bit more details, we run four online tutorials, including today's orientation. So for today, we learned the overall implementation and how we can set up the environment. And next week... Next week, you will learn how you can generate the pass vector and data from the software model, and you will learn about the overall system, and how to move the data, and how to load the data from XY, and then you can do the pass and load the data.
+
+
+00:03:50
+
+Gaming and then you can understand that this is a data that moved from the software or from postcode and you can get these information and then you can go deeper in the design in the following week. So we can talk about the magnet or the buffers. For the last tutorial, I can explain how you can, you know, use FPC support, synthesize the design, and then you can do the FPC, you know, and host the communications. So, all the lectures will be online, and the link to the videos will be provided. So, you know, you can upload the video on YouTube, and then you can, you know, access the links provided. Even though the competition tries to give you a lot of tutorials, however, those materials do not aim to replace the course at the school.
+
+
+00:04:18
+
+So, obviously, students are highly recommended to take the relevant course, the online course, or the course given by your professors. So, it's just a condition. So, do not expect to give you all the course material, including digital system design or logic design. So, hopefully, you have some background from the course by your own professor. Okay, that's about the tutorial. And here's about the competition. So this is the poster. And then, you, since you are here, I just want you to know about the competitions. And we have a competition during this. And actually, we got 158 students from 66 teams registered for these competitions. So I'm happy to say that this year is among the years that have most students participating in these competitions.
+
+
+00:04:49
+
+And because it's actually the first year, we've got many more students because we collect students from all the schools in Clear. But among the remaining years, this year we have the largest number of students joining this competition. And in the competition, we have two main stages. The first stage is about the RTL design. And until the midterm, we only require you to provide the results from the RTL simulation. Particularly the first layers in the model. After that, the FPC report will be given. However, we've got a lot of issues. Before, there was many teams that joined the project, but they didn't get any feedback. So for this year, we... That report only for the team who submit the return report. So, if you just you know study the material, and other than that, you get no feedback.
+
+
+00:05:22
+
+Then I'm sorry, but you know we cannot call them, give you that, support and uh. I mentioned earlier, I hope to make all of the teams complete the hardware design. So, we have some tentative structure for the report, including the first report, we provide some primary results about the application and layer zero submissions. And the second report, you saw the submission results, including the three first layer verifications. And from the third one, you can have your FPC work and finalize the design. So, that's about the timelines for the applications. See you in the next video. Okay, so let's move forward. Okay, so now let's move to the technical part. So at the orientation, I'd like to introduce the flow of the quick start and to participate in the orientation.
+
+
+00:05:58
+
+So let's start with some very quick background. So this is the application we want to implement in this condition. So this is offset conditions. And actually, this kind of image was a capture in the vending machine, the automated vending machine that we aim to build. So this looked like an alpha call. Uh, navigation. So we want to grab the product items here and then we can ultimately calculate the amount of money the user can spend when buying the item. So to do that, we need to recognize. So to detect an object, we need to quantify the class of the object indicated by the colors in this figure, and we need to know the location of the object. So this one is indicated by the box, the square here.
+
+
+00:06:29
+
+So we need to know the class of the object and the location of the object. So that's the point. Uh, we even provide you the test image, so you don't have to retrain the model. You just use the given models, because, you know, they're very costly to train the model. So, you know, we might use GPU on many things, many computing resources, but here, we can give you the trained model. So, the reference code... are given in the project skeleton here. So you can see the dataset in the folder. The skeleton is like beans, like a dataset. It includes all the patch images in two categories: from long distance, like this, is when you see the quite small object. And close distance—uh, when the camera is very close to the object and the silence is pretty big.
+
+
+00:06:56
+
+It's supposed to make the predictions easier. You know, be easier for the predictions. I also provided the cultures so, um. The graph here is utilized to check the QAC of the model. And you can see the five low-dot names, including all the class of the objects, the product we want to test. So in the graph here, as you can see, you can see the class of the objects. For each image, we have one flight. And in each file, we have a class. We have a multiple lives. And for each life, we can see the class index corresponding to this flight, the index indicated in this class levels. And this is the offset location. It's normalized to the width and height of the offset. So basically, we can know this is the offset and where is the offset located.
+
+
+00:07:27
+
+So this is the ruptures. And here is the name that has matched to the object class. Right, that's all the input you are going to look at. So, for the models, um, either you know the dimension, you know the goal—I mentioned earlier—uh, we will use uh the models from other years, like 24, 25, and 26. So we want you to focus more on the hardware design rather than just a software optimization or anything like that. So this is going to be quite complicated. We have 22 layers. There are 11 layers, even 11 convolution layers. There are six masculine layers, including a square one. And then you can connect the results from earlier layers to some later layers. And then you can forward the content from one layer to the next, and following layers.
+
+
+00:08:02
+
+And the output of the model here, which is the model that takes the input of the 256x256x3. So there will be the three-color image, red, green, and blue. And from that image, we want to generate the... you know the object in class and their location in the tensor. We have a tensor in 8x8x195 and 16x16x195 here. These are the output of the double tensors. You are supposed to generate on the fpz port and in the software. You load the tensor and you can generate the final image result. Okay, so you're a little bit involved in your own network, and if you are interested in this application, you can read a little bit more. So this is the way you can generate the data, given the image here, you assign the image to 256 by 256 by three channels, and then you generate...
+
+
+00:08:36
+
+between tensor 1 and 2 here. And here's the way we can calculate the number, 195. So we have a location, a class of probability, or the object needs a different anchor, a different location. So that's some background about the neural network. So if you want to get tied into the network design, you can read more materials. But in here, we just explained to you the template or the format of the model. That's it. Okay, so that's about the model. So let's move to a little bit about the conclusion. So as I explained earlier, we have 22 layers in the model, and 11 out of 22 are the conclusion. So what is the conclusion? The basic idea of the condition here is we want to, you know, multiply or we want to convolve certain input by some features using, you know, to generate or to output the feature map.
+
+
+00:09:09
+
+So let's see one example here. So assume that we have one image here, and we want to apply the features, let's say, 20 by 20. Then we are supposed to generate one feature map here. So one strand of the condition is we can have multiple features that can look at the image in a different perspective. Something like we can get more information in the horizontal or in the vertical or in a different dimension, a different perspective. So, like in here, if we have 16 features, we can generate 16 feature maps. And if we just gather all the feature maps, we can have an output. Feature map like this. So we can rewrite the entire float by using the nested loop in this figure.
+
+
+00:09:37
+
+So we have a loop to generate the output channel, the row index, the column index, and for each of the pixels in the output tensor here, we can convolve some window of the feature map and the features, and then we can apply other things like activation or pulling later. But that's the concept of the confusion here. So now, if we apply that concept to the model we have here, then we can have this kind of simplified flow. So, assume that we have an image input 256 by 256 by 3. Now, we have 16 sets of features in this manner. The input image with the features, we can generate 16 feature matrices. And when we just merge the data, we can generate 256 by 16. Here, 16 is the number of features used in the distribution layer.
+
+
+00:10:10
+
+And then, if you apply pooling, and that's pooling here— so we can string the feature map here by 4 times, so we can output 120 by 120 by 16, so we can string the size of the feature map, and then we can reduce the conditions, and we can pay more attention to the depth of the information given. And this is about the first and second layers. And we can follow the same computing patterns. So now we have layers 2 and 3. And as you can see here, layer 2 takes the inputs of 128 by 128 by 16, which is the results from the... And now we have a 32-set of the feature with a size of 3x3x16. So here we have 16 input channels. So in the feature here, we also have 3x3x16.
+
+
+00:10:41
+
+And now we have a 32-set, so we have 32 features. So if you count the number of the coefficient here, you have a 3 by 3 by 16 by 32. And from 32 features here, you can generate 32 feature maps. So you have an index from 0 to 31 here. And by gathering the data of the feature map from 32 images, you can form a tensor in 128 by 128 by 32. And again, if you apply nice pooling, you can output 64 by 64 by 32. So this is the result after second and third layers. And following the same patterns, we can generate the data for layers 4 and 5. So, given an input here, 64 by 64 by 32. uh, we cannot do conclusions with the you know 64 set of features 3x3x32 again.
+
+
+00:11:13
+
+32 here is the number of input channels and 64 is the number of output features. So we have 64. And then by gathering the feature map, you can get the 64x64x64 HAPU feature map here. This is the result after the conclusion only, the layer 4 only. And again, if you apply the max pooling, you can get the HAPU tensor 32x32x64. So I already just explained to you the behavior of the conclusions and the max pooling, and the operation of the flow for three first condition layers. So now let's see a little bit about the formulation. So this is the kind of standard formulation for the production. So it's from MIT, some very famous papers. So we can provide a formula for...
+
+
+00:11:47
+
+Or you know, you can formulate the completion operation by using this, um, you know, the visualization and the nested loop. So we have an input activation here. Here, remember, multiple uh features, and we can examine the output like this. And we can write out, in here, for the three outer loops here, if we have the index, we will visit the index for the output feature map, including the channel, the row, and the column index. And for each output pixel here... we can calculate it by convolving the input bitcells and the corresponding features. So in here, you want to compute A, and we need to gather the windows like this, and we have to select the weight, the feature in here, and we have to compose this with the windows corresponding to the A bitcell here.
+
+
+00:12:21
+
+And after that, we can do the activation function, like linear in ReLU, that I'll explain later. right so uh actually a linear value is quite simple sorry so we can see the formula here for linear just forward uh the value of x to the output of the activation function and for value you just make all the you know the negative values uh to the you know to be zero so that's a very well-known formulation so that's not complicated All right, so let's see the max pooling here a little bit. So you know that we have several layers that apply the max pooling operations. So the basic idea of max pooling is to find maximum value of all elements in the windows, in the kernel windows, like 2x2 here.
+
+
+00:12:50
+
+So we aim to reduce the spatial dimension of the tensor. So you can see one simple example here. We have a 4x4 data set, and we apply max pooling here, which is strike 2 here. You can see that for the strike 2, we have 6, 8, 3, and 4. A value indicated in this block here. You can see that 6 here is obtained by getting the maximum values among 4 elements up here in this 2x2 window. And similar to other, 8, 3, 4 can be obtained by using this formula. And for details, you can check the code given in the function in the reference software. And we have other layers, these routing layers. So the goal of routing layers is just to forward the data from certain layers to the following layers.
+
+
+00:13:23
+
+So, like in here, we have layer 16 here is a route to 12. And the meaning here is to compute. The value for layer 17, we just get the result from layer trial here. So we route the output of layer trial to be the input of the layer 17. So that's about the routing layer. And for some more complicated layers, like layer 19 here, it gathered the data from layer 18 and layer 8. So, like in here, we have a layer 8, we have a 16 by 16 by 256, and for layer 18 here, we have a 16 by 16 by 120. So, you know, the index 18 here goes first, then we get the tensor here. So 16 by 16 by 128.
+
+
+00:13:52
+
+And now we concatenate that tensor to the output of the layer 8, 16 by 16 by 256. And now we can obtain the tensor 16× 16 by 384. And 384 here is equal to 128 plus 256. So we can obtain this input of the layer 20. Thank you. All right, and we also have a simple layer here. So simple layer is kind of straightforward. So you just want to enlarge the output condition, the condition of output to generate the simple image. So, like the layer 18 here, if you just look at the small window to one, two, three, four. perform upscaling, we just enlarge the layers in the larger dimension, so just x and y, and we do the upscale in the general dimension.
+
+
+00:14:27
+
+So here we have one here, just replicate the value to obtain the larger upscale image. Right, that's sort of all the layers. So we can have a quick summary here. So, like in here, we have two layers. So we have 11 layers, 0, 2, 4, 6, and otherwise. And we have five layers for maximum. And actually, there are six layers for maximum. And we have routing, absolutely routing here. And for the control layer, it's just the layers that are going to be executed on the host, the PC. So we don't have to implement that layers on the PC. Sampai jumpa di video selanjutnya, all right. Let's have some um some function. Let's see how we can compile and run the code within the code, and do the you know— position that you can convert tomorrow into the you know All right.
+
+
+00:15:03
+
+So this is information about the SDK, the software development kit. So you can check it and you can install on the machine. So for the software, you can work with the Windows machine or you can work with the Linux. And there is a small part for the Python, but actually it's just for making the directory for the dataset. So we can do it manually. So if you don't want to install the Python, that's still fine. And for the hardware, we use VBudo 2021 version. So the tutorial was made based on those versions. So please set up the environment. And our host code here uses C, C++ on Visual Studio. And we have a list here that is used for the firmware. Right, so this is a software code structure.
+
+
+00:15:35
+
+So we have a skeleton code here, and there's some third-party code— you don't have to touch it— and there's some source code, including some key files, like a main file here, or some reference, some inference, some file that... used to do inference with the 32-bit 14-point models. And there are some files like this that you can do inference with the integer 8, and this is the file you mainly work on. And there is a folder, a binary, including the execution files, bus scripts, all the tests. And there's a Mac file that used to run the code on Linux or Mac OS. And you can open the Visual Studio project using the project file we provided. Okay, so this is the dataset. You can hear me. I assume that you are...
+
+
+00:16:03
+
+uh, you have saved the code in the folder 'skeleton' here and then you can run the, you know, you can go to the binary and then script here, run the Python with the script file here to generate this directory so, particularly, the packet . txt here, it includes all the directories to accept the image on the dataset. So it's true for both Windows and Linux. So the Python just needs to generate this dataset, the directory to accept the dataset. Okay, so this is preparing the dataset, so on the Mac. All right, now let's run the code, so we can compile the code. So we assume that the code is located at the scene inside the skeleton. We can just open the project view and clean the project view again, and the executable files can be generated and stored in the binary folder.
+
+
+00:16:38
+
+So all the setup are given from the provided code. And now we can run the script. So we have a executable file here. Now we can run the script. So we have a script for Windows and a script for the Linux. So for the Windows user, you just open the command prompt and run the script. So like here, we run the script. The . cmd command here. So you can test the model by running the model with a single image. So script here includes the command code execution file with some parameters. The class of the object. This is the modal configuration, the modal parameters, and there's a threshold to recognize the object. And this is the image we do, and we can generate the test image at the output finding.
+
+
+00:17:09
+
+So that's the way we do it. You know, execute the model here, and then we generate the object, including the object class and the location of the object, and we can display the object. So this is how the object looks like. So the given code, with the given code, you can run and obtain this result. So the left-hand side shows you the input image and the right-hand side, you know, the object, the image after detecting some objects. And now we can test the entire model. So, as I mentioned earlier, we have a 232 image. If we run all the images and we check the QAC model, we can get those kind of numbers here. So, comparing to the vouchers, we can achieve 81. 76% of the accuracy, which is the mean average in precision.
+
+
+00:17:41
+
+So this is the number you can obtain with the 14-point models. So the model we provide to you can achieve very good accuracy like this. Actually, if you increase the image resolution, you can achieve higher accuracy. And now you can do the same thing with the Mac or Linux. So I'll just give you the guideline here, and for Mac or Linux users, you can follow the guideline to run and test the model. And again, you can test and get the result from a single image, or you can test and run it with an entire model. So that's about the model we gave you. In the next part, I'm going to explain about the quantizations. So the basic idea of quantization is to convert all the operations from the floating point into the integer 8.
+
+
+00:18:08
+
+So this is a very brief explanation of quantization. So we can try maybe 4-bit, 2-bit, or something like that. But in this competition, you can pay attention to the 8-bit quantization and just give you very quick motivation for the quantizations. So this is a very famous figure from the... of the deep learning accelerations. So two key motivations of quantization is to reduce the storage and data transfer. So as you can see here, if you compare the dynamic operation, the multiplication, and the cost of the multiplication, and the cost of moving the laser between the chip and... Memory you can see that the cost when accessing the external VRAM is much higher than the cost to do the dynamic modification dynamic operations, and another motivation is about the.
+
+
+00:18:46
+
+So, if you use 8-bit here, it's much cheaper than using 32-bit, 14-point, or using 8-bit multiplication.
+
+
+00:18:55
+
+So, the key idea here is to apply or to do the computation. So, given the image input here, we can convert the image into the integer value. So, we multiply the 14-point value of the input by some multipliers, and we do clipping. To ensure that there's no values that exist to be applied. And then we then convert it into some metric, we make a column here, and we apply the conclusion, like a metric modification, and then we add some values, and do the activation. For example, we have a value activation here, and we apply a value function. And then we convert the result after running here into, you know, we normalize the result. So basically you divide the data by some factor, you know, like e to the multiplier and e to the multiplier here.
+
+
+00:19:30
+
+So with this, input with the result from the first layer, you can repeat the procedure for the following layers, like the second layer here. So in here, I'll meet the max pooling, because max pooling will swing the output from this layer by dividing what the low, what the weak, and highs of the input by two, okay? For the second layer here, we compute, we convert the data into AP numbers, we apply the metric multiplication, we add the, this is a two-step, represent the convolution operations, we add the virus, and we do activation, and again, we do scaling, and we can do the similar, you know, computing patterns for other layers, other convolution layers. Okay so um we can rearrange this a little bit here.
+
+
+00:19:57
+
+So if we have this image here and we uh we multiply we apply the stage here and now we store this data into the file you know, install the integer design here, and you start the layers, like they're, you know, doing the conclusion, adding virus, and something like that, and computing the emotional two-step. And the advantage of this feature is, if you look up to the layer 0 in this manner, you can see that the input of this layer is... the integer number, integer 8 numbers, and the output of the integer number. And then we can repeat the procedure, so in the second layer, in the second revised layer, in the second layer in revised flow, we take the input, the integer 8 input, do all the integer operations, and then we can wrap the integer output like this.
+
+
+00:20:25
+
+And we can repeat the procedure for another layer. And I gave you some quantization parameters, some hyperparameters that you can just fine tune to understand the quantization flow and to achieve the higher accuracy models. So those parameters I included in the description. So we have 11 parameters for weight and input. So that's a hyperparameter. And those parameters are used to convert from the 14-point weight to the integer weight. So we have a 14-point weight here, and we have an integer 8 weight after conversions. Ender. Here, uh, we have a, uh, so we also convert the, um, let's say the floating point input into the integer 8 input. So we have a source here, uh, and then we multiply the input by multipliers, and we apply quickly. So we want to ensure that none of the values, right? So we can obtain the integer, um, you know eight, um. Right. And there's a certain step for the scaling. So basically, if we just have conclusions, we apply the conclusion at a certain stage here. So as you know, the key idea of the conclusion is just like a dot product engine, dot product operation. So we have a vector A and a vector B, and we multiply it all in.
+
+
+00:21:30
+
+So now we want to convert them into the 8-bit that can be used as the input of the next layer. Then we need to apply this kind of descaling. So we divide this number and we just cropped the data. And then we can update the data with this. And here's a quote from the reference software allowing you to do the descaling operation. Okay, so now we can test the source code. So here's the dummy values, the default values provided. So you need to find two result values. So picking some power of two values so that we can implement the design efficiently on hardware. So if you run the code here, you run the script, you know, like we know, you have a single image with a one-time parameter, one-time weight and activation, then you run the typical flight with a one-time mode.
+
+
+00:21:59
+
+And you can see this kind of result. You the original results given by the full precision model, and the right hand side image here shows you the results given by the model after compositions. So as you can see here, the model becomes less accurate and can take a smaller number of prospects. Compared to the, you know, the original model, the full procedure model. And if you test the entire model, you can see that the accuracy dropped. So in the original here, you can achieve maybe 81. 76%, and now the accuracy dropped to 35. 04%. So you have to improve the accuracy by adjusting the hyperparameters. And you can see the same patterns on the Mac OS or Linux OS. Okay, so next stage is about hardware.
+
+
+00:22:28
+
+So now we have a model connected on the, you know, executed on the 8-bit, on the integer operation. Now we have to design a hardware isolator. So why do we need a hardware isolator here? So as you can see that... like this, you have a lot of features, and you can generate multiple output feature maps. So the fundamental concept of CNN Isolator is to generate multiple outputs in parallel, while performing multiple input operation in parallel. So we want to leverage the parallel computing, like on FPGA or on other things. So let's consider the case here. Assume that you have, you know, like a 3x3 feature here, and now you want to generate... 16 Appleby cells. It can be 2x2x4 or 1x1x16. Then you can compute 9x16 or 144 multiplication per cycle.
+
+
+00:23:03
+
+So it can significantly speed up the operation. So you don't have to generate. You don't have to compute multiplication 1x1. But in here, you can compute a lot of multiplication per cycle. So that's about it. And let's give a very quick calculation here. So assume that we have 144 multiplication and optimization component, a MAC, here. So we know that one MAC has one multiplier and one address, so we can convert to 88 operations. Can run the design on after operating frequency of 100 MHz, we can ideally achieve the peak throughput of 28. 8 billion operations per second. So we just multiply this by this number. So this is the amount of operations we can cover. Now, if you look at the network I provided to you the network, uh, have a lot of routes— is one billion operations.
+
+
+00:23:38
+
+So you're supposed to achieve maybe seven twenty-seven twenty eight difference per second before you do like all the hardware for executing the network. So that's the idea. So just to give you a quick conclusion here. So you can execute all the operation here by fully utilizing all the hardware, the multipliers, and the editors on their, you know, in this design, then you can achieve at most 20. So it's very good numbers. Okay, and this is the FPC port. And in here, actually, we have a port here. And the FPC port that we provide to you has a quite large amount of resources. Like, we have 240... so we can cover more, you know, multipliers. And there are some lookup tables, some logic slides.
+
+
+00:24:06
+
+You can represent a loop or flip-flops, and then you can design more, you know, multipliers or community units. And inside this FPGA chip, you can have a, you know... at most 4. 8 megabit block RAM. This is the dedicated block RAM. So for the RAM, actually, you can utilize those slides to implement more memory if you need, but this is the block RAM given by the PC chip. And there's a DRAM chip here, so 128MB DDR2 memory. So there's the UART here. So basically, you transfer the data from the PC to the DRAM, and this FPC chip can load the data, like the models or the input image, and it can calculate the conclusions on this FPC chip.
+
+
+00:24:36
+
+And then in return, we store the result here, and we can load the result from the VM, and then send it to the horse, VR, UART. So that's about the FPC port. And inside the FPC port, we have a DSP here, and this is a structure of... So we can take some input like 'abcd' here. Inside this, there is the version one. In the center of the GSB, there is a multiplier of 25 times 18 bits. Obviously, you can do the multiplication with the 8-bit numbers input. We can have a free adder and post adder. So we can do the activation as well. You can generate output here. 48-bit output here. So we can implement the DSP like this. In the reference in hardware, we can see this code. So I will get back to you later when we have a code tutorial. Right and actually, we can increase the number of uh, you know, DSP, uh, you can increase the number of multipliers, uh, by doing some technical hacking, uh, so, let's get back to the previous page, a little bit here, so as you can see here, this is the peak, um.
+
+
+00:25:29
+
+So, like in here, this is one way you can increase the throughput, the number of operations. Particularly here, we assume that we want to do the very simple mathematics here. We have a times c plus b times c. And in this formula, we need two multipliers, two multiplications here. However, if we pack the data like this, we have a here. So we can isolate the results from B times C and A times C in this manner, we can have a more operation in C against D. So in some paper I published before, we can use at most 576 multipliers using the FPC code we provide. Okay, and that's about the JSP design, the mock map design.
+
+
+00:26:03
+
+And this is the input engine, so we have external memory, we can load the data into the feature map and the weight buffer here, and we do modifications, and have some kind of edit tree, and we can have a cluster sum buffer, and do the, we're adding the buyers, and do the value, and we can apply the pooling, and that's about the input engine you're going to build, based on the given code. And a little bit about the details here, inside the inferring engine, you can take the multiple inputs in parallel, and generate the multiple output. So, like in here, I assume that you have, you want to generate a single output, then you can take multiple input channels here. So we have AP data.
+
+
+00:26:28
+
+And TI, you know, input channels here, we just do the dot product, so we just multiply first, and we accumulate the result by using the edit tree here, and we can get the committed, and we can repeat it, you know, we need more operations, so we can get the signal. And after that, we can add the virus and do the activation and scaling so that we can get the data from the 8-bit output here. So we have an 8-bit input activation, and we have an 8-bit output activation, and we can repeat the procedure to execute multiple layers in this manner. Okay, and this is the hardware design. And finally, we can do kind of system verification. So we can design, we can do the application first to check the functionality.
+
+
+00:26:54
+
+So basically, you compare the results from the IPL, from the hardware simulation, and their reference software. So we provide the reference software, so we can compare the results. And then you can pack the design into the IP, and you can make the block design here. So I'm going to give you the tutorial to do this kind of procedure. And then you can see this on design, and you can implement it on FBZero, so you can cover, you can take some resources on FBZero like this, and then finally you can test it. So you have a host code here, and you have, you know, you have FBZero here, and you plug the host code to the PC, to FBZero, you know, the catapult here, and then you can communicate with this FBZero.
+
+
+00:27:19
+
+And then you can get some results like this, like you're testing. So on the host, you can have a reference software to have you do this task. Okay, so that's the quick introduction of all the limitations. And for what to do, we have, you know, midterm limitations, which is only for progress checking. There's no limitations. However, as I mentioned earlier, you... If you do not submit any progress, then I'm sorry, we cannot give you the FPC vote for the further participation. And in the midterm, you submit the code and we can give you some award, like a coupon or something like that. And in the final, you have to complete the design and compare the results with the reference software and do FPCA implementation and revocations and submit all the things.
+
+
+00:27:52
+
+The submission files aim to give evidence that you complete the design successfully. Okay, and some information about how we evaluate the meter. And here's some numbers you can get from the design. So there's accuracy, the entrance speed, and the power. So we can gather the information by using this formula to define energy. Power, with the accuracy, and with the frame rate, so you have a unified metric for the simulation. So we are open for some kind of subject simulation, but we prefer for this. And particularly this year, we want all of you, or most of you, to implement the design successfully, so that you can just use the single numbers here. Okay, and then finally it's about the award. So, I think the lecture award should be how much you can learn from this competition.
+
+
+00:28:23
+
+So, since we provide you the tutorials, the source code, the baseline, you can learn more. And additionally, if you perform well, you can get some prize and certificate. So, something like that. All right, that's it for today. We've been opened the folder that you can access the materials. So today, I already introduced about the competition, the scope, and how we can quickly start the competition. And I also explained the policy of the competition. Including the expected outcomes and regulations. All the materials will be included in the folder, the seven folder, so we invite all of you to join this folder. There are some given calls, tutorials, regulations, and guidelines. You can upload the Q &A question here under the template, and we can have interactive Q &A support for you guys. Okay, so that's about it for today's orientation. Do you have any questions?
+
+
+00:29:08
+
+All right, so if there's no more questions, I think we're going to end today's presentation. Let me quickly introduce the folder here. So, did you see the folders? Can you see that my screen has a folder here? Yes. So, in the folder, there is a readme file. We are here to introduce you to an online nature plant. And the folder structure is a baseline code. And the tutorial we provide here. And there are some YouTube links that you can access to some materials from previous presentations. Here and there you see, let's see, in the photo here. Okay, so we invite all the participants to join this program, and hope to see a lot of feedback from you, and hope you can learn a lot from this competition. So thank you all, and I'd like to stop our orientation today, and I'll see you next week for the second tutorial of the competition. Thank you. 감사합니다.
+
+

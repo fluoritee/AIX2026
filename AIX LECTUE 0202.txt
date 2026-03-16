@@ -1,0 +1,245 @@
+00:00:08
+
+Hey, hello, everyone. Can you hear me? Yes, we can hear you. Okay, thank you. Good afternoon, everyone. So today I'd like to present the second lecture, so second tutorial, so I hope that you can have a better understanding of how to design deep learning isolators. Okay, so actually, I already uploaded the computer on the Google Drive order, so you can accept the computer. Can you see my screen? Yes, okay, thank you. All right, so this is the table contents of today's tutorial. First of all, I'm going to quickly explain and revisit what we covered last week. And I'm going to present the system overview of the genesis later. And eventually, I'm going to explain how we can generate the test. Vector from the reference software and explain the simple top design of this oscillator.
+
+
+00:00:53
+
+So, just very quick, remind you, last week we explained the goal of the project. So, basically, we designed a different engine on the FPCA, and given an image on the left, we are expected to generate the image on the right with the detection detected on the opposite. Thank you. So, this is the software development kit environment. So, we make sure that you can install and set up the environment. So, there is an environment for the electrical software, 2D mode optimization, and here you can work with the bicycle code, the skeleton code I uploaded on the Google Drive. And please install the VIFADO, some version, as mentioned, on the SDK environment on the slide. and for the reference software, I believe that you already you know open the skeleton code folder and you can see this structure.
+
+
+00:01:31
+
+So we have a two-party code, mostly you don't have to touch on this code. Inside the source code, you can see the mainfine and inside mainfine there is a code for the FTC verification as well. I will explain it later. But for the other code, like the code to do the inference on the full present model, you can figure out the code in the v2 . network . c or you can check the code for integer 8 quantized model in this file. So basically, you work on the general v2 . network . c file and the main. c as well enter the uh for the you know binary folder you can access all the data set the weight and the condition of the configuration file and we also provide you the script that allows you to test the model with a single image on a multiple image you can use a make file for unique or you know mac os environment or you can use a visual studio environment
+
+
+00:02:13
+
+okay, so very quickly, we talked about how we can compile and run the code, we can run the script, and in this particular script, so in the screen, you can see how we can run the test for the single image. so after compilation, the binary file here... going to use to detect the object on the image so we set a set of you know um arguments including the detector test you know the model defining include all the objects based on their you know on the image and their configuration file and the model parameters and there is a particular threshold so you don't have to modify it and given an input image here test01 . zip you can generate the test output with this finding and you can run the script to test the model on the entire dataset.
+
+
+00:02:46
+
+So as I mentioned last week, this year we tried to focus on the hardware part. So I'd like to reuse some model structure from other competitions. So we've already provided very comprehensive materials that allow you to understand the model and stuff. So for this model here, we can run the test to execute the model on the older image on the dataset. And we can get there. The accuracy is measured by mean average precision. And for the floating-point models, we can achieve very good numbers, like 81.76% here. However, if you do the quantization, so you reduce the precision of the models and computations, the accuracy will drop. So in the baseline, the accuracy we achieved is 55. 04%. So you can see how much it has dropped. Thank you.
+
+
+00:03:22
+
+And in here, I'd like to recap the evaluation standard or criteria so I think there were three long questions about how we can evaluate the design. So I get the answer. However, here I'd like to explain it in details so we evaluate the design based on three numbers: one is accuracy. So in here, we get the mean average precision from the quantized model we provide. So as you can see, the previous line in full precision you can get the numbers 81. 76 percent and in the baseline quantized model you can get the numbers at 55. 04 percent, so the docentized model will be evaluated in the same manner, and we use the MVP header in the score. And we also evaluate the model based on the inference speed.
+
+
+00:03:58
+
+So this measures how many inference the CNN isolator engine can present. seconds, so this number can be obtained by getting their you know the latency of the model at their certain frequency, so it can be like 23. 3 milliseconds at the 200 megahertz and the setting is two cycles. And our number is simply power. So we measure the total on-sheet power. So we know that this power is obtained based on the static analysis. However, we don't want to put some power meter to... measure is a weird system, so we just use on-sheet power as the score for measuring the energy. And we report the setting. The expected setting here is 100 MHz frequency. So the inference, the legacy, is measured at 100 MHz, and the power is measured at 100 MHz.
+
+
+00:04:38
+
+Right, so I'd like to give you a little bit more information here. So in the unified criteria, we combine three factors, including power, QAC, and frame rate or FPS. So why we set this number? So in here, actually, we add a small offset to actually encourage students to improve the design, to improve the accuracy of the model. So with the baseline here, you can achieve this number. So we just get their MAP, subtracting 0. 2, and we can get 0. 35. Zero four in here so it's still good numbers without doing any limitations. But if you can achieve a better model, I mean, you can generate the quantized model with a better accuracy, you can increase this number. So for precision, now this number is about you know 1.
+
+
+00:05:10
+
+75 better than their baseline compact motor and even though the motor is expected, it's somewhat in the meter, maybe like, if you achieve the motor accuracy around 73 percent, like this, then you can achieve maybe 86 or 75 percent of the performance from the full precision motor. So this is the way we can integrate the accuracy metric in the Infine Metric. And now for the performance, we also subtract to get some offset. And in here, the frame FPS, the frame per second, or the inference per second, the number of inference per second, we subtract to 5 here. So as you know, the quick train model has the... One billion operations so we expect to design an engine with a reasonable number of max.
+
+
+00:05:40
+
+Like you see here, if you use 36 max, you can configure like a 9x4. So you can compute for output pixels in parallel with. Then, if you set the clock frequency to 100 MHz, so the peak throughput can be calculated by multiplying 36 by 2 by 100 MHz. You know, 7. 2 giga of linear operation per second. So this is a big throughput. So this is a typical of the performance in a chip. And if you can fully utilize all the computations, you can actually pick... flame rate is 7. 2 divided by the number of operations and it's more than 5 fps. So we ask you to use the reasonable number of max. I think three years ago, some teams just use a single NEC.
+
+
+00:06:18
+
+So that design is not acceptable, actually, from the beginning, I think. So that's the point. So one important note here is the FPS is measured with a physical report called RBL. Simulation at 100 MHz. So, if it is completely complete the design, you can measure it on FPGA, and otherwise you can measure it on RTL simulation at 100 MHz. So, like here, if you obtain a latency of 46. 6 milliseconds at 100 MHz, the input speed or the frame rate can be calculated by dividing 1000 by 46. 6. And you can achieve 21. 46 frames per second. And you have to report the frequency of your chip. And the last part in the evaluation metric is the power. So, power is just used to confirm the IPC evaluations.
+
+
+00:06:54
+
+So, assume that some design achieves 2. 2 watts with 576 max. So, you can fully define all the ESP when you achieve this number. So, this number can be used to calculate, can be plugged into the formula to evaluate the design. So I hope that all the explanations here and answers on the Google Drive clarify all the points you have about the equations. Okay, right. So let's move to the next part. It's about the system overview. So now let's talk a little bit more about the architecture overview and how we can design an isolator. So let's start with the system overview. Give you a little hint of the design. So here, let's explain how we select the model. So this is the model. This is the summary of the model.
+
+
+00:07:32
+
+So you can see the layer index here. Input, output, the website, and some remark. So, if we convert, if we just calculate the memory requirements of the models, you can see that in this model, most of the layers can be deployed on the... without using external memory. Particularly for three-first layers here, the number of weights is quite small. So in that case, you can store the weights of three-first layers in ROM, in a VM or under a ROM format. So for the mid-term evolution, you don't have to care about external memory exact for weight. You just focus on how you can design the manual unit or the controller that allow you to calculate or compute three-first layers. And as I mentioned, the number of operations in the model is 141 billion operations.
+
+
+00:08:07
+
+So it's big enough. And if you design it with 144 max, you can achieve maybe 10 to 25 inference per second. This number is quite good. And with looking at this figure, if you design the system very well, activation actually can be stored in the on-chain memory without accessing the external memory. So we can see the activation, including the input and output feature map, here. You know, um, the total of input and output is below to the available bram so you can design the system very well which you can install the design, store the activations, uh, in the um, you know, in the bram, you know, fp0, on-chain memory. Right, and another perspective is the composition of the software part. So you already see the figure in the previous slide.
+
+
+00:08:42
+
+So as you can see in here, when we quantize the model, we can see that the accuracy of the model is dropped significantly. So when the accuracy dropped, you can see some object was not well detected by the model. So trying to improve the accuracy, so changing some hyperparameters, and then you can improve the model accuracy. All right, let's move to the hardware part, which is a fundamental part of the CCA competition. So in the right-hand side, you can see the figure of the FPC vault. And if you can see in the right part here, this is the FPC chip. And this is a DVAM chip marked in there. Blue battery here, blue box here, and as you communicate with the apps here, you have a UART interface.
+
+
+00:09:11
+
+We can now make a simplified flow of simplified figure for the overall system. So on the left-hand side here, you can see the host PC, the PC you use, and it can be connected to the FPGA board via the UART here. And inside the FPGA, you can have a CPU, UART, and MIG. Those modems are predefined modems. I'll show you how you can make those modems later. And you have to design an accelerator, like Jolo here. Look at the overall figure. And I'm looking at the system a little bit for the details. So on the DRAM, we can store the input image. So it can be 256 by 256 by 3 or 4. So 4 here is just for... you know, for better memory alignment. I mean, I'll be quickly explaining later.
+
+
+00:09:44
+
+It can consume 256 kilobytes on the DBM and you can store the entire model parameters, but in here, actually, you can exclude the model parameters for the first layer if you already stored them on ROM, on the FPC chip. You just store the remaining parameters, the parameters of the remaining layers, on the DRAM. So you have to translate the model parameters. From the host PC to the VM. And the results of the calculations can be stored to the VM. So we can have output 8 by 8 by 195, 96 here. So 6 here is optimal routing. For output 2... 16 by 16 by 196. So you can store the results, the final outcomes on the DBAM. So each of the, you know, part here can be defined by using start address and range of the data.
+
+
+00:10:20
+
+So, you know, you should make a memory map based on the data alignment. Okay, and now looking at the engine a little bit. So here we just have a simple example of a DNA isolator. So we can make an isolator here with many computing units, assuming like 144 max, and you can set it up to your liking. But just I put this— put some number here like 256. It allows you to uh it is sufficient to cover the um the feature maps the lighting switch maps for a single layer here. We have a let's say the feature map. This is like L2, the L2 cache, and install a lot of data. You can you know you can load some part of data of your feature map here. So assume that it's two kilobytes.
+
+
+00:10:52
+
+So two kilobytes here is kind of the size. So it can be two kilobyte here, and you can use multiple channels, multiple memory here, and you can store weight like 36 kilobyte, and you can have a virus and scale as well. So it's a very abstract level of design. So you can put some data to the processing element. So here's just an example, so it's a design on its own. Right, so uh, based on this um system overview, you can see how the data can be moved across different components. So in here, you have a one, two, and three, indicating the direction of the movement. So we can um, first copying the data from DRAM to the host or from host to the DRAM via UART, so we can see this based on the code.
+
+
+00:11:25
+
+The second communication pad is the DMA, which allows you to copy from the DRAM to the isolator here. So copy the data from DRAM to the isolator, input all the weight, the motor weight. And you can also save the result, the output, 8x8x196 or 16x16x196 into the DRAM. So eventually you can load the data from DRAM to POS. And inside the isolator there is the internal communication so we can transfer the data from the big global buffer to the computing unit via, let's say, the L1 cache. So we can transfer the data via a local cache. Here you can increase the number of banks under the L1 cache so that you can increase the throughput to support the data for the engine. So that's about the system overview. Okay.
+
+
+00:12:08
+
+All right, let's move to the next part, which is about the pass factor generation. So we just see the system overview, and now let's see how we can generate the pass factors from the source code, from the software code we have been working on. First of all, let's see the quantize model. So you can check the file, you know, 0v2 forward network, quantize . c, and you can jump to the function, do quantization. And inside this function, there are the set of hyperparameters. For each layer, so we have 11 conversion layers, and you can modify those hyperparameters to improve the accuracy of the model. So you can see this is an array of weight quantization multipliers and an array of the input quantization multipliers, so each of them has 11 elements.
+
+
+00:12:42
+
+So the class here, to improve the accuracy, must find a set of weight and input multipliers. In this particular tutorial, we utilize the default multipliers. It's still quite good. It's still very good to design the hardware. However, if you want to improve the accuracy, you have to modify it. All right, let's see the quantizing model in deeper. Still, we are working on this file, the quantization file. So in this function, first of all, they will visit every layer, and here they will check the configuration. So at the first step, you have to compute the size of a single filter. So this is the formula. The filter size is obtained by multiplying the filter size, the size of the filter like 3 by 3), and the number of input channels.
+
+
+00:13:13
+
+So you multiply three numbers. side and their equal channels so let's take an example: the first layer you can see that the fifth side is 3 by 3 and there are three input channels. Then the size here is obtained by calculating— you know, by multiplying three, three, and three, and you can get the number 27. And similarly, you can calculate the filter size for second and fourth layers. For the second layer, you can obtain the filter size of 144, which is 3 by 3 by 16. And for layer 4, you can obtain the filter size of 288 by multiplying 3, 3, and 32. So that's about the filter size. and in the next, you can set the multipliers from the arrays from the configuration arrays we explained before.
+
+
+00:13:44
+
+So we'll just use a layer counter to check the, you know, to copy the value from the arrays to the, you know, multipliers for each layer. So it's very straightforward. So you don't have to touch in this code. So there are some, you know, checking, like if the counter, the layer counter, is uh smaller than the total number of collision layers, like 11 here. We uh we just use the um the value from the others. Other than that, it's a set for some people. But to avoid some trust, but anyway, you don't have to touch to this. In the next step, You can see that it will calculate the weight. You can untie the weight. So the key idea of this code is to convert the full precision value, full precision element in a biter, into the...
+
+
+00:14:17
+
+integer 8 numbers. So let's see the indexing, the feature indexing here. So this index is used to accept an element in a feature. So the 'i' here is the element of the index of element in the single filters, and the 'f i l' here the filter here is the filter index. So we just get the filter time with the filter side plus 'i' to accept the 'i' element in the filter 'f i l'. So you can see, like, the first layer is 27, so from 0 to 6, we encoder the first feature from, you know, elements 27 to 53, and include the second features, and the 16 features is at the very last of the, you know, the vector. Okay, and now we can save the quantized model for hardware verification.
+
+
+00:14:57
+
+So there is a function to save the quantized model at the same folder, the same file name here. You can see that it also visits layer by layer, and we only pay attention to the conversion layers. So, first of all, we open, you know, we sum to the conversion layers one by one, and we also calculate the fitness line here, and at the same time here, we open the three, you know, new files for storing the weight, bias, and scale for each layer. Let's consider the weight first. So this code shows you how we can store the weight. So, you can see that there are two loops here. In the after loop, it's basically the filter index. The filter 101, based on its index.
+
+
+00:15:28
+
+So, for each feature index, starting from zero to number of output filters, the number of output channels keeps increasing one by one. In the inner loop, we visit the element in a certain filter. So, for the index from zero up to and keep increasing the index. And the order of the data is determined by this order. So we start with row, column, input channel, and output channel. Code because there is an n-line and up-line character here so we've been flattened. The next time you know, for the weight, so h line here just contains the singer coefficient. So to index this division, we use this order. Let's see an example here. Assume that for the convolution layer, you have a 16th set of 3 by 3 by 3. So 0 to 27 here.
+
+
+00:16:07
+
+So from line number 1 to line number 27 here. Cover the coefficient for first biter and the next biter is going to follow the same pattern. So, for all the coefficients for the elements in the first biter, we have a row, column, input channel. So it's going to be from zero to two, from zero to two, and zero to two. This is popular example. Like, one, three years is a you know the value of the zero, zero, zero. You know, row, column, and channels. The information are zero and they're next in the next column. The value should be F5 here, FA here, for another value here. So you follow the same. And if we check the model parameters for the second layer, the layer 2 here, as you can see in the layer 2, we have 32 sets of 3x3x16 fitters.
+
+
+00:16:44
+
+So the single fitter has a size of 3x3x16. So you need 144 lines to store the single fitters. So from 0 to 143, we can store the first fitters. And then the next fitter is stored between the lines 144 to 187. and you can see the mapping in a similar way, so keep like here start from 000 to 2215, right? So that's about the features. So now we look to the virus. So the virus is kind of, you know, we can see the straightforward way to print out or to install the virus. So the virus are stored in the 16-bit format. So in here, with the virus, you can simply check, you know, because we just need to check the index of the features to print out the virus.
+
+
+00:17:22
+
+So for the first layer... Uh, 16 virus the second layer, 32 in the third, 64 in the virus. So, um, XPeter has only one virus. So, um, actually, the number is quite small. So, we can store all the viruses in the wrong file. So, we can make the code and gather all the miners from all 11 conversion layers in one time, in less than 2,500 lines. It's not that big. So, we have sufficient hardware resources to store the entire miners on cheap memory. And then, the next is the uh scale. So, actually, the scale here of all the entire layers we only have single scale. So, actually, in here, you can you know just print out the scale like this, but actually, you can use resistor to stall the scale.
+
+
+00:17:57
+
+So, the scale here is 80, 80, 128, so you need to offset about 7 bit to obtain the result from the accumulator. And for the second layer and third layer here, you can have a 40 at the scale, so you turn to the number 64, you have to offset, or you have to seat 6 bits to obtain the result from the accumulator. Okay, so that's about the modal quantization. Now let's go to the activation quantization. So last week I explained the flow, and now we will visit the single step in this flow. So there is a function for what condition layers on time indicated by q here and therefore the input image here or input of the for a certain condition layer we you know multiply the input by the multipliers, the multipliers in the configuration array.
+
+
+00:18:39
+
+And we just clip it, so we make sure that the value here belongs to the range of the integer, so that's the idea. So there's a clipping operation here. Just multiply the protein point numbers with the multiplier input quantization multipliers, and do the clipping, then you can obtain the integer input here. Thank you. The um in here there is a reference code to install the um the modal um the activations in the file so uh if you turn on this way run the signature image test uh you can see there's a code to open the file and there this is the pixel one by one and print it out in the hex file so you can accept you can open this file on the you know using very long so in here
+
+
+00:19:17
+
+this is the channel index so we can visit the tensor channel by channel and the inner loop here is the reference to the index of the pixel in one channel so like for layer 0 you know that the input tensor is 256 by 256 by 3 so we have three channels and you can accept the input channel tensor by using this index i here so the channel comes to you know frame size plus with the index the pixel index in your frame so it's a very straightforward here and uh for layer two you can have a single happens so the tensor is two hundred twenty eight by hundred twenty eight by sixteen so the uh uh the you know the frame size here is about sixteen k you know hundred twenty eight by hundred twenty eight and uh for each uh we have our 16 so um later You have to adjust it for your data format, but in here we can just make a flatten.
+
+
+00:20:00
+
+I'll just flatten the data, so we just write from zero to the end of the file. In the next step, you can see the convolution operation here. It is calculated by using the Zener metric multiplication, or ZEN format. So you don't have to touch this. So we can understand that you have A, which is the weight. Which is the input region map, and then this code will calculate the convolved A and B, and you can obtain the result in the C, or the output under bar Q here. So this is the result, the code to calculate the conditions, and you can obtain the results from the conditions at the output under bar Q here. And after doing the conversion here, we can add buyers. So the conversion here is just a few metric modifications.
+
+
+00:20:37
+
+So now we need to add buyers. So the buyers is adding for every pixel in their app. accumulator results, so for each of channel and for each of pixel in one channel, you just add the output. You know the plus and the minus after corresponding channel. So it's very straightforward and uh. Next we can do the uh activation. So if it is a model, we also have two kinds of activation functions and so one is value and another is linear. Maybe it means nothing. For value, just check if the value is um you know smaller than zero and set to zero. So basically we maintain the value if the output is a positive number, then the output at zero is in another case.
+
+
+00:21:15
+
+So if you design the hardware and calculate the function and do the adding virus or do the random those things are quite straightforward and I believe that you don't have any difficulties. All right. In the next step is about the scaling. So um if you look at the flow until this point, you can see that we have accumulators uh in a 32-bit. You add with a 16-bit uh you know virus and you apply value. So the data here is 32 bit. So now we want to apply the scaling. So basically We divide the accumulator value, uh, to some you know numbers like the product of the quantize multiplier and multiply here. And if you multiply with the input quantize multiplier of the next layer, then you can obtain the values for next layer.
+
+
+00:21:48
+
+So the output here becomes the input for the next layer at the point. And inside this code, we can see some part for finding the input quantization of the next layer, or the code to write down the Apple feature net. So again, check every Apple channel. And for each output channel, we visit the pixel one by one. So we can see that the index IDX here, you know, it changes from zero to the size of the output frame. So for every frame here, we just multiply the value with the multiplier of the next layer. We clip the value to the 8-bit numbers and we write down into the file. So here is an example of the files we can obtain from the activation quantizations. So for the first layer, see this is the first input and output.
+
+
+00:22:25
+
+And actually, you can calculate the number of the side of the input and output. So like in here, if you can see right now, just with the threat, the tensor. So the input of the first layer has a size 1256x256x3. So you can obtain this number, so about 192k. So that's the number of elements in the input for the first layer and for the output is going to be 256 by 256 by 16. So as you can see in here, there is no pooling. In this code, there is no pooling. So pooling layers is done separately. So there is no pooling layer. So for that reason, you can see the size of the output here is 256 by 256 by 16. And you can see the similar pattern for layer 2 and layer 4.
+
+
+00:23:00
+
+Okay so um, based on those uh, you know, files generated from the software, well we can make the configuration for hardware. So in here it's just giving one example to know what to apply from the test vectors. So, as soon as we build something like a patch band for the first layer without using pooling, then we can define all the, you know, directories to accept the file, including the input creation map file, output creation map file, all the weights of the files are still. The below include the setup for the model for the layers. So it takes the input like 256 by 256 by 3 to generate 256 by 256 by 16 without pulling. Okay and if you decide here three by three, uh and uh.
+
+
+00:23:32
+
+And the max pooling is going to be visible, the max pooling mode, because we consider no pooling here. So the scaling is going to be 128, so we will seek value to obtain the result. So that's about the first layer configuration. And the second layer configuration can be explained like this. So again, you can set up the directory to access the the parameter for the second layer and the modal parameter either the side of the input and up tensor can be defined so you just modify you know you can follow the same pattern to you know to conflict for all the five to pass a single layer and uh after uh defining the defining their uh directories and uh you know the configuration for its layers you actually can load the data from layers so in here you can define the test data including the weight on the input and output memories
+
+
+00:24:13
+
+and scale as well and you can load the data from the file to read the content from the file to the resistor so that's the way we can obtain the reference pass vector so we have an input weight the input feature map and we have an expected output feature map here and we also have a BIOS and scales so now you can design and you can verify the hardware from the you know the generated pass vector from software Thank you. Right, so that's the way we can connect. You know, we can generate the test vector and we can understand the entire flow of the software code at least for generating the conditions. Now let's move to the next part, which is about the sample top design.
+
+
+00:24:46
+
+So, uh, this is the um, you know, the simple top design. Um, next week I will release a code for you. So, on the left hand side here, there's a host code and uh, you already know there's a chip. You know, on the FPGA, you have to design the module. And we can give you the template here. So there is a JOLO engine with XE in the face. And you can set some configuration register to control the module. And there is a simple controller. actually there is the you know the uh dma part the direct memory as that part allows you to there's a dma controller here so you can read the data from the uh dmvr the mig the memory interface and you can write down the results like your tensor uh from the buffer to the uh you know the dmvr and the mig so um you can see you can see somebody in the buffer here just read the buffer and then you have to design a complete
+
+
+00:25:26
+
+So this is the isolator you have to design. And basically, you design the main controller, the buffer, and the engine. So let me explain a little bit more about the module, the buffer, and the engine a little bit. So for the buffer, you may have some questions like, when we cut the green color here, you can see that a lot of model parameters and you cannot store all the model parameters in the VRAM because that's one challenging part of this computation. So, uh, we have to store the model parameters here, so we cannot put everything on the you know FPZ chip. So, uh, how many words you store on the website? How about the initialization mapping alignment? So, uh, when you design a buffer, you have to answer those questions.
+
+
+00:26:04
+
+So in here, I'm just giving you one simple design, one simple. So in here, we can see that if we can have a small tie of weights, like a three by three, and have four channels here. You can see that you can um you know for three by three you can flatten then you can make a single line of memory uh with the 72 bits. You know, three by three by one. And we have a call here. We can store it in consecutive matters. So we can set a number here. So why 4K? So here, we can expand our design here. We want to store all three layers, like the first, second, and fourth layers, in the B-band, like the ROM, ROM manners.
+
+
+00:26:38
+
+So we can locate the 64th first line here, and we use this for the first layer, wait, and another part here is the line for the second layer, and then the parts that we store in the third layers. So we have a 012 or 024 here, so it depends on the index. So you can see that this is the memory, the alignment quality of the model parameter. So like you're starting up right here, you're 0 and ending by 64. And for the second layer, you're going to be starting from 5-trap. And you need to find trial lines. There are four layers. Uh, we start from the address, and we start from 2k. There are 2k elements. Okay, so that's one simple one. One way to design enter this is the ROM style.
+
+
+00:27:12
+
+So you can generate the coefficient file. So, in the you know the function, you can make some code to generate the file under the format you want. So, like in here, in the single line here it indicates it has nine elements, it has three by three features. So, in here for alignment, we pad some zero, because we have input like three by three by three, but we want to make a little bit better alignment, so we have three by three, I mean three by three by four, so we have four lines here. So it's just one feature set here, and move to another set. So there's some padding, there's some zero padding for the features here. And the next part is about the patch band, the simple patch band.
+
+
+00:27:44
+
+So, you know, one simple engine here, we just forget about the computing unit and just see how we can charge the data from here. External memory to the, you know, to the buffer via a DMA. So there is a DMA read, a simple DMA controller, and DMA write. And we've been providing the RAM model and just clocked the high supply and generated from the software. You can notify and then you can you can use the engine to accept the memory in this manner so there are memory interface UM models here as well, so we can load the data like input image to the buffer of VRDMA. And this is an example of the memory file. So we can install, the base Wi-Fi has 8 bits per element, but the memory here has 16 bits, so you can install it in this manner.
+
+
+00:28:20
+
+And here's a trick for reordering. So, like in the previous page, I just showed you the padding here for the channel. And here, if you pad, we reorder and install the weight, the activation. In four consecutive channels. We can set the first as the zero channel, the one channel, the second channel, and the fourth channel. And for the very first layer, you can see that 32-bit 00, 70, 70, 64 here can be split into two 16-bit lines of 7064 and 0070. So you can make a software code to then have some fun for all the layers you want. Right. So let me summarize today's lecture. So after this lecture, you can understand the setting and the SDK environment. And you also understand how we relate to design, including accuracy, performance, and power. and you can see how the system overview looks like and how we can generate the task vector from the quantized model and activation during the inference. You can see the example design including the hotmodule, the weight buffer, and the touchband. Those are the simple designs so you have more room for improvement and optimizations. So, based on the simple code and design, make your own design choice and complete the computation well. And that's it for today's lecture. So, do you have any questions?
+
+
+00:29:32
+
+Okay, so I already uploaded the materials on the Google Drive folder, so please study the material and do an in-demand design. If you have any questions, feel free to upload them to the Google Drive folder, and I will try to answer as quickly as possible. Thank you for your attention, and goodbye.
+
+

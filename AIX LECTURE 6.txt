@@ -1,0 +1,230 @@
+00:00:43
+
+Good morning everyone. Can you hear me clearly? Okay, thank you. So I hope you are doing well. Today we are going to continue the topics about the you know hardware design Zulu. TinyZulu v3. So the content of today is about system integration and we talk about sliding windows and the CNN controller. So we're a little bit behind schedule, so I just slightly changed the schedule. So we are going to talk about GMA Park on next Monday. Okay, let's start the miniature. So this is a roadmap you can start by reviewing some of the contents in previous lectures. And I'm going to talk about IO5 and controller in a second. So previously, we already mentioned about the inference engines, and you can see in the figure. So we have an array of processing elements.
+
+
+00:01:21
+
+Go back to the tree. And there is. And that provider, you know, data position models but we use a set of buffers, like input feature buffers. All features here. This is the first software. This is the second offer. So simple inputs and there's a catcher of installing. Installed outputs. We use it, you know. I'm not the first. And then, depending on the layers, we may have a pulling. We can just install the results, you know, so they still can win. So, in the last lecture we were talking about the memory and how we can generate the report or Singapore. That's right. By using the design. I keep going. And you can see that those are very important models.
+
+
+00:01:54
+
+So you can provide the input for the buffer and then capture the output so that we can, after the calculation, we can get the result and then restore it to external memory. And finally, later we can read all the research. And then those not going to be considered infinite. You know the and then you can display it on the PC. That's all the offers. Actually, I already uploaded the ppt file and the code, so you can access the material so that you can follow the lectures. Easy. So I'm talking a little bit about the available HTML code structure. So in the baseline code I provided to you, Good afternoon. The main folders. The first folder is the source. Copy the computing units like a multiplayer with USB or add a tree, and then it will still cover the launching first in here.
+
+
+00:02:34
+
+So you can set the SPRAM wrapper for single port memory or DPRAM wrapper for the dual port memory. Because sometimes you're going to use a single port, but sometimes you're going to use a dual port memory so that you can improve the in the group and then I add a new module called controller so today I'm going to explain about the controller. And there are two modules called for gaming weak and bright. We are going to. to have some examples on next Monday. And therefore, the second Fourier is the same. same as a soft form of simulation so you can see a lot of input data like right here actually you can see a lot of input data so you can see some image stored in the hexadecimal format and you can see the parameters for combination layers and to understand the structure of the source.
+
+
+00:03:14
+
+We have I also provide you a lot of And then actually some attachment you already practiced previously, like a Mac for multipliers, or SPRAM or DPRAM or something. So let's talk a little bit about our scope of the competition. So the key idea here is how I mean the main problem here is how to you know to use those components or given components. And to design the hardware for this application. So for the baseline code, those things I designed. Uh, to provide you the usage of components via some example attachments, so you will learn all you know the behavior and functionality of all the components, like processing elements, this being multiplier or on-chip offers. And you will learn how to load the data, certain data from memory to the new engine, and how to store the final results to the memory.
+
+
+00:03:55
+
+So those things will be provided. For in the baseline call. But for the competition, I mean the second part, you should understand how to use zone motors and you should be able to modify and optimize the parameters for zone motors. And from a certain idea you need to execute the concept and implement it in the core that's it. Let's call it here. So in the figure you can see in here in the tutorial we just practice with very small, you know, example with the input is 128 by 128 at once and then we can output, maybe this is four out of 16. Yeah, I have a 16 you know features but um we may just upload four speeding up the simulation and you should apply the similar concept to the design form.
+
+
+00:04:29
+
+Bye guys. And they're like when the input size are different, or the number of filters are different, and how to implement the max pooling. So for those things, you should be able to implement those things based on the baseline code and the example and the attachment we provided to you. Alright, let's go back to the tutorial. So the main objective is we start with a very simple task. So the input here is just one gray image. So the slide image is 128 by 128 by 1. So this is one color channel. We have four features, uh, and then wires and scales. So actually, we use a batch normalization footage. So you know, we just don't use your single bios and scale. We do not need the gradient or you know, rolling mean or something.
+
+
+00:05:00
+
+So it's a very you know, expensive operation for hardware implementation. There is a feature sign here between and the features are stored in the ab format while the BIOS and SCALE are stored in a 16-bit format. So we have a lot of features. So we want to reduce the memory, reduce the buffer size. Then we want to store it with a smaller number of bits. But for BIOS and SCALE, the number of BIOS and SCALE are equal to the number of output channels. And it's just relatively small. So we can use a 16-bit format. Right, so the goal is to output for Fisherman. So we need to operate the convolution, and then we can generate that. So. you're going to make an infinite engine to execute this very simple task and I hope that it can provide you full flow and then also No.
+
+
+00:05:36
+
+you know, detailed explanation about how you use those components. Okay. Let's start with the eye. So let's recap a little bit, so the input is of this condition or the information is an image and you already know that the image can be considered as a 2D, two-dimensional or even three-dimensional metric and there it should be the kind of cancer and in this aspect, example you know that the mixing this is a great image so XP cell can be you know storing like a before match and they cover from zero to 100. That's 155. Dude. This is the content we were studying previously, so I'll just briefly mention it. So in this lab, we are going to read an input image from the next line and then generate the Excel data and store it into a BMP format, Big Map Image format.
+
+
+00:06:13
+
+So you can understand the image formats and you can visualize. Know how we can do the verification. So I think those things are very important for you. Photo. Implementation for this. Right, I just really talk about the DMP format because this is the Windows and Big Map image 54 by iterator. So, if you have an RGB image with this sign, then the fight sign can be the slide image, slide image here, plus with the heater, so you can get this kind of number. In the heater, we can install it, convert from the decimal numbers to the next lesson number, and then we fall by then you can store you know the physical image. Yeah. Similar for the image width, we can do the same thing: convert it into Hi everyone, I'm Danang.
+
+
+00:06:55
+
+We still, you know, So let's dig into the heater. And then for the remaining things, I'll pass that to It's open source, I have a second. Let me reset to zero. That's the B &B fight. So. For data preparation. Actually, Verido cannot read an image directly from a BMP file. So that's why, in the SQL or in the \[ um you use Python you need to create a certain image and then convert it into the format like X5, like this. So in this case, this one image can be you know you can convert it into the 8-bit or 32-bit formats. 8-bit is kind of optimal in this case, it's my speed case, but you can see that with the 32-bit format, it's on your web online with the 32-bit machine, then it can be easily extended for the RGB image because you know that in the AIX competition, we are going to work with RGB.
+
+
+00:07:34
+
+So this is just you can like 32 bits, then just call them, just store in the arm. and B, so you can easily to to make the input and prepare the time for the simulation. Um. So I provide you to a model called the BMP image writer. BMP image from the incoming pixel. Very good for simulation verification, because in many cases you want to check what kind of data you can visit, and then you know you need to do the comparison between the data you got and the i mean the data on your username. Rendezvous. So to do that, I just provide one way for verification, using writing to the BMP file. So this model has a I mean, this figure shows the port of this model.
+
+
+00:08:16
+
+So you have an input, like, pop and reset. This is a global input, so it's going to be useful in most of the models in this lab. And it has an improved phase of Excel. So this is the AP. You already know that with the AP, we just accomplished 0. 02. And it has a lot of signal. So the data should come with the policy so that we can distinguish between them two cases when the data comes and you know when we do not have data. So there are some parameters like your pixel sign meter and the median height of the image. Also, you need to just— I mean, there is a parameter called alpha. This is the location to install the Apple Fire. When we use this model, we need to specify where we store them.
+
+
+00:08:53
+
+Bye. Believe me. Okay, so So local parameters can be the frame or image sign, and there are some signals. So it has an Excel counter, Excel count. So it gets the index of the incoming pixel. So it basically counts from 0, 1 to the frame sign minus 1. So it counts all the pixels in the image. And in this specific case, you already know that it's considered a gray image. And for a feature map, it can be considered as a gray image. So it can be a big keyboard. For. Is that right? So it has an Excel buffer of images. And there is the old Excel data. And then some register for heater, the BMP heater. And then it also has index and 5. 0.
+
+
+00:09:30
+
+Okay, this is actually the logic of this module, require, not that difficult. So the concept is, at first, it has an initialization step. So in this step, we just reset all the related resistors, like the pixel counter or the frame dump. And then, when the system will receive the incoming pixel—meaning, the valid signal is equal to one— it going to update the pixel index. So the pixel counter will be increased by one or reset. So this is when you know. is not the last pixel, then just increase by one. But when you know pixel, contrary to the very last pixel in the image, then just reset to zero. I do. It's going to be set to you know the freedom or the layer dance. It's going to be set to high when you know the.
+
+
+00:10:08
+
+And then. Based on the index, this model will update the buffer. So you can see that the buffer is updated by incoming data and their index. Bye. So after we see all the data, so when all the pixels are stored in buffer, then the frame value is raised. And then it's going to run on BMP5 image. And they're basically, it opens the binary file. And the find identifier is defined by ID here. So this one can use Fwrite, Fd, and then first and senior. So it can write a character to the file. And for other cases, you can open the dxdefine. And you know you can write the data in the next time you know. In the next time. Thanks. So. This is a very standard procedure to to verify the obsession research.
+
+
+00:10:47
+
+So if you want to verify other types, you know. Um, and then you make a file. You write out the content of certain signals based on some condition, and then you can do the verification and comparison with it. Is there a reason to even buy software? Okay, so in the touch man, we need to provide some parameters and a signal. and it's important to check the directory so, based on I mean um, we got many questions related to directories. Directories, even for software, have some measurement between there. And sometimes the executive will find it. Located in the different folder compared to the folder which is different from the data, so it has some enrichment issue. For the hardware simulation, you may get the same result.
+
+
+00:11:30
+
+You need to, you know, carefully check the directory to get the values. Thank you. Right, the attachment is quite simple. So we have a design test here and we set the parameter. I mean, the data tree for the output. Is this better? And then, as I mentioned earlier, we can't really check them. And everything. And in here, we are using the clock of the 100 megahertz, and the clock period is just 10 milliseconds. Right, so the attachment is quite simple at first— it's a read. This is the first step, read and it's fine. Then you find the info and the content will be stored in buffer in image. And the procedure code for test case are given in this. So at the beginning, it waits several cycle before starting the layer of frame.
+
+
+00:12:05
+
+And if you use a piece of paper, you can see. Hey there. Thank you. Hit them. It has a follow-up in here. And actually, before starting, I mean, before starting online, actually, let's use this. Before starting online, it has some kinds of line or row synchronizations. So it waits several cycles. And then, after that, it can have a business data. And this is just a you know, the input. The pixel is going to be copied to the game. And as you know, the day in we move to the image mindset. And after completing the loop, then you have a display layer on the framework. Thank you. So, if you do the simulation with the time of the phone Microseconds, then you can get these kinds of loans.
+
+
+00:12:44
+
+Um, figure just kind of wait for so you have a done frame here. This is a frame there. We have a single line here. Let's see the single line a little bit. So we have a line. The first line is the second line and the third line you can use a row anyways. So in the first line you start with the index zero here. Then when you go to the second line one two like this starts with you know some synchronizations and then data. Any follow up? Labeling it and see who treats as a final Break. And there's another research is actually smartphone but the output image is stored in the was pretty fine directly like offline here and you can see the image sizes it's awesome.
+
+
+00:13:24
+
+But it'd be the result of a system. See you. So you not only do you see the waveform but also see the you know the kind of image is more interesting. I hope that we can improve from those estimations. Okay. So that's about the IO5, and I hope that this can provide you with a very concrete explanation how you can start from there. Input files and then you can check the output. Okay, let's talk to them. Next topic is about which is about the controller. So the motivation here is—uh— we may have a different configuration different settings for different layers, like so. In the figure on the right-hand side, so the image size, the frame size can be different, like for the tutorial, just work with the 128 by 128.
+
+
+00:14:04
+
+But for the context, sometimes you will work with the first layer. Like the first layer, we will work with this sign. But after pulling, it's going to be this layer. So, you know. able to handle in different cases, and we are going to design a controller to support this behavior. In the second lab, we are going to design a controller which generates the control signal. So basically, this controller performs the loop generator. It has a global signal as input and clock reset, and it has some certain parameters like width, height, and frame size. And for each layer, it may have a different synchronization delay. So you have a frame layer synchronization delay. You fly by this variable delay. And then, for line-by-line, it can have a different configuration form.
+
+
+00:14:39
+
+I mean, the base layer may have a different configuration. So it can wait longer or shorter. So we have a single layer here. And to trigger one layer, we use a key start. So that's about it. Uh, the output will be the 'I mean' indicator, you know, wasn't. Operator 'I mean' the status of the controller it's going to be VC casing or just later. So some index, like a row, column, or pixel index, can be output too. And after completing one layer or one frame, we have an end frame. So that's about the controller. So, controller we have a four-mean four-state. The first stage is the SDL engine, and at this stage, it's happened before any documentation or computation. So it's like the engine is going to be asleep.
+
+
+00:15:19
+
+Sleeping during that stage. And then we trigger the engine by setting the QStart. So from there, the engine will move to vSync. So it performs frame-to-frame or layer synchronization. And during that time, we may reload or transfer some data from external memory to this engine. Some filter or some input pixel depending on the layers. And before starting a line, maybe it takes some time for line or row synchronization. This time can be used for data preparation or transferring to then. Obviously, we can reload some features or into pixel. Because before doing computation, we need some you know inputs. So it can be features or pixel. So we need to make sure that the data available before doing computation. So async and you know this can be you know form last bloopers.
+
+
+00:15:57
+
+And the STD time just refers to the time we do the computation. There are some interesting local data accounts and entry. To let them, just let them be used to it. Soon. Oh. To generate the correct data. Right here, I use a finite state machine to describe the controller. So financial state machine is going to update the current state by the next state. So we can do something like a sequential logic. And then the next state is going to be designed based on the value of the current state and some condition. So the combination of logic I used was this. Let's check— I mean, visit the finite state machine in detail. So at the default state, the finite state machine or controller, thank you, is in the you know sdi.
+
+
+00:16:36
+
+It's a before stage. If there is no, nothing happened, then it just stay there. And when the, you know, the controller is triggered by key stats, bye now. the machine will move to the frame synchronization as db sync. What is this minute? Otherwise, just stay there. Right. So, during the frame synchronization, it has a counter. And then it can increase by certain amounts. I mean, when the culture free to the certain volume, like, basically, here the financial dimension can move to the you know, is seen on the next stage for line or row synchronization. And the SD vision is useful. You know, before starting, all free So. As I mentioned, during this time, the engine can reload some features, or it will excel. So it depends on the data flow used.
+
+
+00:17:17
+
+Right. And. during the async or you know, the line synchronization time, then there are two options. It can be stayed in the same stage if you know the the counter, the async counter is smaller than the body will manipulate. But if you bring to the volume, can you see the delay here? Then the finite state machine or the controller can move to the next state as the data. So. You also know that this is a synchronization, so it can be used to reload some data. We may see this later. Right, and the last state is going to be data. So expect that during this data stage, the engine will execute the conclusion and get the data, something like this. So there are cultures for lines and for rows.
+
+
+00:17:52
+
+And if it reaches the end of the line, then the finite state machine can go to the end of the line. Another synchronization state called STAC. And they're, you know, it's really great to the end of frame players. Then finance the machine can go to the address and then you can stay there before you know there's a hostel. Then I mean, the top move to the bottom layer, so we can execute label layer. And then in the same minute. Right, so let's see, in the code implementation, there are some you know, except the eigenstate, then there are you know, three active states including you know, VC and data. So you can see that there are three resistors for indicating the status of the access stage.
+
+
+00:18:30
+
+and then there are two synchronization counters for either frame or layer synchronization, and the row or synchronization. So we have a control vsync counter and the control async counter here. The logic is quite simple. For example, for the frame counter, it then resets to zero when then you know when you got some reset. Then during the vsync or frame synchronization, it's just increased by one. Other wire is just zero. So it's because in here, it's a consequently increased by one during this time. So it does keep increasing. This assumption already we already assume that it can you have another logic for them, fantastic machine to avoid overflow in this case. Similarly, for the light signalization here, it's just a keep increasing. And that's it. can be used to make a delay.
+
+
+00:19:08
+
+Or synchronization time before we go. Doing conversion for a certain mile. Right. And um, directly, you know, counter at the counter for row column in Excel. So those are related to computation or you know, as the data stage. So it should be updated when the control because I want to show you good one. For the Coulomb counter, it just comes from 0, 1, 2, you know. Of the the width of a frame. Fisherman. So it updates pixel by pixel. But for row, it's going to be updated row by row. So it's starting from zero and it counts to one until the Q part, and then it can be reset to zero. And the other pixel culture, and it comes from zero to one, to the first line, and it's you know— so the layer you know, done flat, is raised to high when the pixel count is 2000.
+
+
+00:19:47
+
+Thanks a lot. My pleasure. Right so this is attachment and we need to provide some parameters. There are some signals, signal envy, you know, define like a Qubit height, frame size, delays, and then trigger. And you already know that those things can be different among different conversion layers. Form. You need to check what kinds of those numbers. We're going to be optimal. Forward. You know, register. and then we have some wire here to monitor the outputs of the controller so we need to check the frame synchronization or night synchronization or data and we can also check the order the constant value for the row, column and pixel right it's a touch band here you can see that you have a design on the desk on the right hand side here this is the design of this and there you should you know do some kind of layer configuration so we need to provide with high-end frame size like this so you can see that in here we have a menu setting depending on the
+
+
+00:20:36
+
+layers so you need to do that and find what kinds of you know the set of parameters are optimal for a certain layer. And then, from those configuration inputs, then we can get the controls, like a v-sync, a-sync, and some counter values. Right, the test case is very simple. So we set the parameters and the trigger is the key start. We can get this kind of image. So when you do the simulation, we time it for 400 microseconds and then you can get this kind of waveform. And if we carefully see, I mean, maybe zoom out. The-the waveform then we can check the time for like layer synchronization and line segmentation and also computation so we can see the timing clearly, like we can do at first we do the frame synchronization and it moves to you know You takes additional time for loading.
+
+
+00:21:16
+
+some data and then after that we can do calculation we need to take some time for loading another kind of data and then we can do it That's right. So We can take a look. you know the I'll put it line by line Okay, so Now let's move to the slide videos. We're going to use the controller we built previously, and then let's see how it works. Right, in this example, we are going to use four corners, main corners, similar to the convolution corners. And we use one controller. you're going to generate the data like a DNA and body signal to do the calculation. And then finally, you store the output research by using the BMP image writers. Right, let's see the module structure. So in the top convolution attachment here, you know, some of those.
+
+
+00:21:54
+
+Therefore, oh good. Zooms in. Know which I'm responsible for being the conclusion, and there is one you know, CNN controller here, and it's going to be used for generating the data and in the control signal, and finally, here we can capture the result by using some writer. I'll put myself here for each of the corners. There are you know, you already know that there are 16 multipliers and one added tree, so in total, we even have a 64 multiplication operation. Mean the this is a different engine can execute 64 multiplication operation in parallel. So we have 16 multiply by 4, and the whole yellow. Know 64 here. So it's a typical way to speed up the design compared to a single course. If you want. Adrenal. Single call system.
+
+
+00:22:37
+
+Okay, so in here, we just predefined some features. And then the fitter is going to be win from 0 to 4, 0 to 3. And then again, we'll post here in a second. Put it on the pinnacles. So those critters may come from the quantized model, so that's important. And later, maybe those critters will be preloaded during some frame synchronization or line synchronization, or sometimes you can hide and preload during computation. Right, so let's go see some mapping. So you already know that there are four. You know, for Macs, this is just a Mac called Conversion. Let's see. Let's see. Zoom. And the first title feature I'm gonna use to provide the input for the code. And similarly for the second set, we're going to go to the second corner here Mentos.
+
+
+00:23:17
+
+Thank you. Thank you. So that's the reason we have a full set of features or actually doesn't fit in here because Alright, let's see some you know, how we'll protect them. How the procedure is processed. So we know that the input here is just 128 by 128 by 1. So in the software, the typical way to do the 3 by 3 feature conclusion is to use some padding image so you can see a lot of zero here. You know. So we have, you know, we allocate some larger image. So it should have, as a science internet, thank you. Thank you. Is it patchy? And they're it has some you know zero on the battery and then we put the the original image in the center of the patching so zero padding means that all the battery pixel are set to zeros.
+
+
+00:24:00
+
+But what happens with the software? This is what happens with the software. And the hardware implementations should replicate the similar behavior. So let's see how they do. So The Hopper all the sliding windows It needs to generate the data. and it makes the vector. like there's a, you know, so in the random block here. So this is a big. and then you know the three by three features so actually they mean just you know in this very specific case only Night. interplayers I should use. or you know doing calculation So the sliding windows, maybe slide from left to right and from top to bottom. And then you can see here, it moves the windows, one pixel on the right. And in that way, we have to generate another day in.
+
+
+00:24:35
+
+So we have another new day in here. But, you know, um the main module and the convolutional corners. Just accept the new incoming data. We are going to use the same rule. To do declaration with the new data. And that's why we call it mapping. And similarly, another Saturday, time to be, you know, make. Maybe made by the same procedure. So we have a Thank you. We make all the data. This is a kind of seven two zero here, but then you know that only 9. Because I have some meaning, but the meaning is a joke. Okay, this is number four. Okay, so in the patch band we have to define some parameters so as usual because we have a four I would. So we need to be final.
+
+
+00:25:15
+
+Directories for the full feature map and obviously you need to check if the directories are correct, because sometimes if you do not provide the curating directories, then you may not get any data. So it's just a rat in the waveform and then there is no upcoming data for simulation. Okay, so after defining some parameters, then there are some signals for the convolution curves. We're getting here. So you see that they're not full. You know for setup feature. You know. Once again. And therefore each feature and therefore. You know what's happening? Accumulate data and then we're going to connect the accumulated data to the BMP writer so that we can get the research. Right, so the question here is how we can generate the data and the house lining windows, and only checking—actually, I mean, zero padding actually happened.
+
+
+00:25:56
+
+So we have some boundary checking flags. This is the first row, last row, first column of our score. Then it uses some condition, you know, Thank you. Operation. to know to provide outputs. I mean, to do the calculation for those effects. And then, to generate the inability signal. We know that during the computation, or you know, the control data run is equal to one. That is that the body signal is one. This is what I sing on. And there we will define the dean. We will make a vector. We can generate the dean, your phone. For the conclusion, so it has some check, like it is a top left corner. The first line, I mean, it's like in them. Uh, for patch image.
+
+
+00:26:32
+
+So, it, as the first here, when you check all the conditions, if, you know, pixel happened in the kinds of battery here, then it just passed to zero. Otherwise here, it can be moved to the certain location for the, you know, the first day in seven to zero. This is the first, you know. Input pixel for the feature. I mean, for the macro. Similarly, similarly, the other pixel will be defined. We have, in the first, you know, in this example, we have a three by three. So, over, we only have a nine. You need to define how to be self-sufficient. What? Right, so after that, we can do simulation and get the you know the research here so we can see that the lower part response. Here. So that's for console control.
+
+
+00:27:11
+
+So based on the configuration data here, and if we generate the control signal. And from the control signal, it will make the, you know, generate the DNA. And then. Get the accumulated research so you can see that you have a fixed weight. This is a feature that can be set for you in time frame. There we have a game. It's going to be changed, you know, pixel by pixel. I mean, Apple Pixel and then you can generate them pixel output in this manner. And then, when all the pixel—uh, you know, or the accumulation research— captured by the BMP writers— so after all the you know pixel and Okay. I'll get yours done now. The writer can erase the frame time flat, and in that way, you know, that it's an anop.
+
+
+00:27:48
+
+You. Okay. Alright, so. Zoom. This might show them some image. Output image, which are stored at the predefined directories. And then obviously, you need to update the directories based on your environments to get the valid research. So you can see the research method 0, 1, 2. We forget about the indexing because sometimes in the envelope, we see the index number from zero. No. In fact, in real life, News meeting this morning. All right, so I just show you how he can, you know, write a certain image. How he designs the controller and then how he combines the controller to generate the input for the macros. Then you do the calculation and you can get the research. So I hope that this, you know, just later when you provide, you waiting.
+
+
+00:28:29
+
+Very you know, visualized visual example for designing the owners later. In the coming lectures, we are going to continue the system integration, and we need to add more modules, like buffers and DMA, because for now, we just assume that we have all features available, all the input data are there. But um, Argentina. In the practical case, we may not have sufficient buffers to store all the data. So we need to send out the data to the memory or get some data for filters. Because actually, our model size is not that small. We cannot store entire model in the on-chip memory by using just on-chip memory. So we are going to talk about the buffers, I mean, the use of buffers in this integration and the use of . So that's the end of the today lecture. So do you have any questions?
+
+
+00:29:20
+
+Okay, so I'm going to upload the video later. and also, if you have additional questions, then you can ask there and I mean answer some questions. And thank you for listening. See you on the next one.
+
+
+00:29:36
+
+Thank you.
+
+

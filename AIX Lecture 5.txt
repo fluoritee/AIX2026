@@ -1,0 +1,217 @@
+AIX Lecture 5
+
+00:01:05
+
+Good morning, everyone. Can you give me a greeting? Yes, that's great. Okay. Salute. Today I'm going to talk about the anti-puffer and block memory. And then we can continue the lecture, you know, previously. And then let's see the outline. First of all, I am going to preview the content of this lecture. And then. Additional explanation of how I look HDR. Then finally we do something like this. So first of all, we got the questions. Related to the format of binary file width, so the question is: what is the format for the binary file? So I think some students are using some different programming languages and they want to understand the structure of the binary file, the weight file, so that they can do them.
+
+
+00:01:42
+
+Additional analysis such as you know profiling or analyze the range of weights for some things to do with quantization. So the format of flying is as follows. First, it has a meter. And then it moves to the parameters for the conclusion layers. So it's a player by layer. So for each layer you can see the bios. And if there is a batch normalization, then you see some parameters related to scale, mean, and variance. And finally, you can see the parameters for features. The code for loading a binary file is in the load-weight-up-to-cpu-additionally . c, so you can actually accept the code and see in detail. But here, I'd like to briefly explain the structure. So in the code, there are two steps. The first step is to decompose the header part, or pass the header content.
+
+
+00:02:18
+
+And if you see the binary file in their head start form, it's like this. Then you can see that there are some parts that are 20 bytes. Cool heater. So if you are using other programming languages like Java or Python, you can actually upset this. Your content so that you can analyze it. Morning, Green. And after that, you have a lot of primitive failures. This is all the primitive failures. And let's see the structure of all those primitive failures. And you can see. that this is an example for best normalization. I mean, the layers that are using best normalization. So we always start with the bios. So for the first layer, you see that there are 16 filters. So you can see this is a 16 multiplied by 16 multiplied by four.
+
+
+00:02:50
+
+So you have a 64 by four by four. Mean that you have a 14-point number to represent you know, wires. And you can see the scale. Mean and variance. So you have like this in the first layer. So you see 64 bytes for scale, 64 bytes for bios, and 64 bytes for variance. So you have a 16 plus 16 plus 16, you know, float number. And after that, you can get the features, feature value in here. So let's see some examples for the first virus here. And you can actually see the volume in this, so you see BF 46 A A one and actually you can get this number in the floating point. And for the next virus, you see 3AB, 1B, C, and 6, 3. And then you can get this number.
+
+
+00:03:32
+
+So I hope that this explanation can clearly define the binary format and that it's easier for you to use another programming language for. You know. So last time we were talking about the design fbj design flow for FBJ. And you know, that there are two parts. The first part is related to function behavior simulation. So you want to verify the design, why it doesn't RTL simulation. So starting with the application, like a tiny job between, in this case, and you can design that here. You can do that here. Then during the verification, in your design, you can use some IP, some existing IP in the library, and then you make some test run and verify the functionality of the model. So I recommend some you know Some of them.
+
+
+00:04:09
+
+Uh, program or some simulator that you can use. So, for text editor, you can use, and the full RTL simulator you know you can use, one LC IC or, if you go, I see, anywhere from jackets. So, for the next part, you can move to the FEC implementation and the way you can use them. Is to be able to synthesize the design and then do the physical layout, mapping, replacement, and routing. Then, we will do some additional optimization, so based on the timing, power, and resources the design, you can find some critical parts in their own designs. All right, so the previous lab, we already knew the DSP. And then regenerate the DSP by using a view-to-IP integrator. And then you test the DSP unit while you build some multipliers, which is the rock road of the DSP.
+
+
+00:04:48
+
+And we also do a set of multipliers and do an edit tree, so we can do the macro multiplication and accumulation model. and there I recommend you to use it that's mac for doing the certain promotion layers at 11. 3 so that's what happened. So let's see the top of the system. So this is the Inferent Engine. The block diagram is a very simple block diagram of Inferent Engine. So you just see that you have a Mac or computing unit in here. Have a set of you know Mac or GSP players, and then followed by we use some editry to do limitation. Then to supply the input and then you know connect the Apple from this module. Then there are many buffers like an input buffer. This is an input buffer or input fisherman.
+
+
+00:05:21
+
+And there we apply some features on the input. So we have a number of features. So we have one buffer, two buffer here, and we also have the code buffer. That's used for oil. Storing the intermediate resource or partial sum or sometimes we can just you know use this as like so. That's about it. And then we also need some point model. So we are going to put in here and outside. On the top we need the controller. Let's improve everything together and make some good scaling. So that's about the CNN oscillator, or Infront Engine. So previously, we just designed a Mac. And in the previous lecture, we just designed a Mac. So. Just a little. You know, the model, like a motion layer of C and V. That I presented previously.
+
+
+00:06:00
+
+Then you know that there are four makes instant in this module and they're HMAC gives one side of compulsion features. And the inside here you know that we have a setup you know Player. Thank you. And after you multiply there, you multiply there, you have a Kaiser header. It was. Until we get to the point, so how to provide data for hosting, then I just keep very you know sort the introduction because we can you know like the first layer we can the content from PHY to the certain resistor or sometimes we call buffer, so this is the input resistor, but actually this is a stash band. So we are just for simulation, so we can you know just define some resistor and then we read the content from PHY, store those content to the a resistor, a resistor, and then from here, we can generate Hey.
+
+
+00:06:37
+
+That they can't even afford. You know, folder. Network. Also we have another set of resistance here for it can be for weight. And one key message here is those that come from the quantizing model. So that's the connection between the two. Hyperdesign and the quantization code that we mentioned in the previous which Okay. So in today's lecture, I'm going to talk a little bit about Verilog. Actually, I'm going to give you additional information about Verilog HDL, like data flow modeling, assignments, or data types, or operation. Because I believe that some of you may not have much experience in Verilog, so let's provide. you know, additional information about syntax and And then this part would be the last thing we mentioned about them. Why don't we have a recording?
+
+
+00:07:16
+
+so for the meaning which is there is no you know the additional explanation will happen you know, when, when he was. right so because i've been doing some laughs about the memory and then we talk about single Thank you. Okay. so by law. Let's not be. wasn't you know. redefine redefine. i mean, we already mentioned how to do simulation. and then you find the report, the input, and the output, and some two kinds of block making combinational and sequential logic. law. so for any digital system, it can be constructed by the interconnecting the resistor and the combination between between them for the performing your necessary function. so we have a resistor here. there's a resistor and the resistor and in between there is a combination.
+
+
+00:07:52
+
+so actually, this kind of data flow provides a very powerful way to implement the design, and the synthesis tunes can be used to create the gate level circuit. So from the party level, resistor transfer level here, you can convert to some gate level and put it into the FD0. That you can implement in a very fine detail. So in Verilog, there are two basic forms of assignment: continuous assignment and procedure assignment. So that can be used to set the value for net and variables. So for continuous assignment, this is the most basic statement of data flow modeling. It starts with some data, I mean some keyword, like assign here, and then it can copy the data from the expression to the net value.
+
+
+00:08:20
+
+So it will be used to define the value for net volume here, and the copy the content from expression. So there's a lot of format for expression, so it can be known the net output or sometimes it can be the resistor. All right, let's see some formula for some example for the continuous. So in here, there are um, you know, two ways to be flying to do the assignment for the body to out. This is the first way, and this is the second way. So we want to define r which is equal to n1. and internet. Then there we can. Declare you know declare the net i mean. Thank you. And then. You can do it. We separate the variable declaration and the regular continuous assignment, but sometimes we can put it together like this.
+
+
+00:08:57
+
+So this is the continuous lesson, and it kind of— but you can actually use the most important thing here: I provide some kind of keywords so you can refer to this document. If you need additional information, you can refer to the class as I mentioned previously on Google. Right, that's about the assignment. Then, actually, in the assignment, let me go back a little bit. Operation. And meet. Some kinds of body. So we are going to define some things in the following slide. So first thing is the variable of data types. So there are two classes of data type: which are net and variable. So net means that any hardware connection. So it's kind of wired. It's a connect— a different room together. And we have a sum variable that represents any data storage elements.
+
+
+00:09:34
+
+So it can be forward time, it can be resistor, integer time, weird time. Okay. So, for variable with the types here you can see like the most familiar is you can get in the resistance. So it holds the volume between the signs, and it may be used to model the hardware resistance. So we already fly by the keyword resistance here. And there are, it can you know have a many format like first in here. So we do not have to define that, you know, there is nothing. There's no big indicator between them. Thank you. Thank you. Thank you. So. is no indicator here, there's nothing here, so we can you know this is a one-piece. And we can define the 8-bit resistor. But as you can see, there are two formats.
+
+
+00:10:10
+
+format is: if for MSB bit number seven, then we use this on a resistor you know seven to zero and then But what? There in the model definition you can have a resistor you know from zero to seven and you have a data b. So you should be careful you know defines the resistance because sometimes you change the you know bit order then you've got different and then you may find the sine inverse. So in that way, like in this case, D7 becomes sine B7. Okay. So there are a lot of variables, like the integer. So it contains a healthy 2-bit integer, and it treats like a sign-resistant variable. And the LSP. What is up? Uh, you know, integer I say here. I mean, actually, it can be resisted. Thank you.
+
+
+00:10:51
+
+So we can use that. You know, if I set up, but um, okay. In that way, we have a memory, and then we will talk about it a little bit later. So another you know variable types can be used in the time of the time of year. Those things can be used during the simulator. It's very good to you know to get the timing of the simulation time. Yes, then we can use the time. We only time right and the template for definition is just— you use a keyword here and then followed by the you know as in the Bible names. And so we are going to. Right, then. In a way or hardware, any other description language you can use a big vector. So it can describe a bunch of signals at the basic units.
+
+
+00:11:25
+
+So there are two templates. It's a high-to-low or low-to-high. So high-to-low means that the LSP bits should be 0. And low-to-high means LSP bits should be 0. Like in previous cases, to be seven to be the least significant bit. So what nets and resistance data types can we apply at the vectors? And if there is no bit indicator or range, then it defaults to be one bit. Better. And it's a very powerful way to accept the part of it. So you can put the starting bit and the let's say, the number of bt1 dot set. So assume that you have a Previously, we have Dean. Oh. which is wondering. Seven. Seems like. So if we want to accept the first feature, we can. I mean, on the first input pixel, then it can be Zero.
+
+
+00:12:08
+
+So this way you can provide a powerful way to accept the content. very long better so similarly you can exit x1 Thank you. So the. You know, the stocking can be valuable. But this is the debate, must be. How's that going? That's what I like to emphasize. You can use this very powerful way too. You find it. And then we'll beat the ones I'll send, but it doesn't matter. You must define the bit weights to be the constant knowledge. Thank you. Right, then. you can use, a lot of times, array or memory blins so it's kind of resistant and all the net and very quickly the time allows me to play the multi-dimensional array with this. So you can use, you know, can be, you know, the scalar, or vector, or even the net, or resistivity of time.
+
+
+00:12:51
+
+So what you can see in here, in the conventional way, in the previous example, we just see this line of x element, but now we can see another dimension for that, like x here. It can be defined four you know an array of four elements has you know eight bits, so for y which is 16, um 16 million dollars, and their element has 32 bits. Right, that's about the volleyball. Then now let's move to the operation. Then I release all the operation and then, for some operation, let me give some example, but the remaining when you actually work with a certain operation, then you can refer to this document you know search. But I think they're in here at least most important operation in the value coding.
+
+
+00:13:27
+
+So the first the setup operation is the bit y operation. So we can do the with the bit y. Level here. So the first indication like a zero, then we want to get one, then we. We can put the negation in front of, you know. There's a certain Bible. Then you have an N-or-ecosignal operation. So it's a very simple form that we can use when you work with a bit-one operation. So, like in this example, you see many kinds of nodes. This is an indication. And there you see N. Appreciate it. And that you've seen. Origin. It's a connected two side. It's okay. Like a toon's internet. Be careful. I love you. All right, we have a very long coding, or I mean, this is programming that we also use in some arithmetic operation, and it's quite straightforward.
+
+
+00:14:10
+
+So addition, subtraction, multiplication, division, or respond. We saw him. Modules so you can reference those things in there. You know, when you do that. Quick. Right, so another operation is concatenation and authentication. So for concat or concatenation, then we use a ranketeer. And actually, let's see some examples. Here is equal to a, b0, and c1. So we can formulate a larger bit by grouping three parts. The first part is from a, second part is from b, and the last one is from c. So we can take the one bit from b, one bit from c, and merge the content with the a. So this is a very powerful operation. So sometimes we need this kind of operation to make it longer. Bitvector. especially when we want, like, you know, you know, if we have a under the same TV.
+
+
+00:14:50
+
+then we need to most of the consensus. than even knitting motion content from you. different locations. because sometimes you really have a gain from one buffers and I mean, the first volume, second volume, third volume are from a different location of the buffer. Then we need this kind of operation. also if we set some contents, then we can use a replication operation so they specify how many times to replicate the number inside the brace. Right, then in here, just some example, we want to do the, in here, we want to do the calculation t, which is equal to y, you know, it goes all to the variable. is a four times you know, dedicated seen so another case is very popular in the when doing when we do the addition so we do you know addition for multiple volume like xt and c in here and the point is we need to avoid the overflow so we may have a carry out here
+
+
+00:15:39
+
+and then we will treat the nitrosome because sometimes we need some carrying out bit when it exists the range of the summary Okay, and we have another reduction. So reduction is performably one vector operand. So when we want to be vector, we may use this. I'm going to speak up, so it's very simple. Detector. Simple things like this then you can check it all— the bit as it all or all the big R1s like this. So it's very powerful. So, for condition, then you need a logical relation of operation. Finally, the equality operation. So it's also useful for checking the condition. All right, that's all about the operation we used in there. Uh, you know, relocating and then I hope that um you know sufficiently functions that you can you know, implement the design of that.
+
+
+00:16:18
+
+Hello. You know. This is a very well. So now the question is how he can Oh, sorry. Um okay, so now the question is how we can apply this whole thing when we design a certainty, a certain model. You know, they're like it's like it's like you know them, but um. The thing is, how we can express the idea and use it to make the sentence and to implement a certain logic. So the main topic of today is on-sheet buffer. Let's start with some motivation. So overall, this is overall pictures I mentioned previously and the last time we already talked. And to produce the input and capture the output of the computing units, we need the buffers. And we need a bunch of buffers over here.
+
+
+00:16:54
+
+So you see that this has an input feature map, and it has a number of features. So we need to capture the research so we have intermediate research buffer. If the side buffer is not sufficient, then we need the eastern buffer because that's the point we have many kinds of personality, many kinds of memory. Right, let's see a very simple example. Why do we need many kinds of buffers? So in here, I just mentioned three kinds of buffer that can be used to store weight and scale. For the first solution. So this is one example that we use: 16 features. 16 sets of features for the motion and for each feature, then you have one, you know, and because we use, you know, to the batch norm rapid that we can use on a single scale.
+
+
+00:17:30
+
+Single wires so we can actually, as I explained in the algorithm part, we can ignore them. Some division, additional parameters like variance and rolling means during the hardware implementation because we already did it offline in the software. So, like, in here, we want to define some offers. It has a 16-line. So you already know that, like, we need the 128 globalizers. So it's very if you define like this, it's very easy to force to you know accept entire set entire set of features at the single cycle. Also, we have a systemized scale. And you can see here, we may use it. Um 16-bit for single BIOS landscape, so if we decompose it's 128, then we can see that it is equal to you know 16 multiplied by 8, so we have 16 features.
+
+
+00:18:14
+
+Peter has such a point. Okay, so how to connect those requirements to the existing resources or memory in the FPGA. So the most efficient memory implementation on FPGA is the block RAM. Or dedicated blocks of memory. So actually, there is a Thank you. We need one block RAM. It has a 18 kilobits per block, and you can see this number in here. Then it can be, you know, just 16k down. So you may use multiple blocks for large memory. Or you can use some part of this to build some single or two robots dedicated. So in this picture, it's so the good one. One example. So we have a here. So we have a B prime. The B can also separate. So in that way, you can do the read and write operation at the same time.
+
+
+00:18:55
+
+So in the Nasys A7 board, we have 270 block RAMs. So we have about 5, 4 . 8. mega bits for the you know fast program and that's the maximum amount of memory you can use for on chip offers. So mostly you cannot store entire model inside memory and you cannot store older feature map you get you know when you do the calculation. So you may use another external memory on the magazine. And there is either . So. We support them. And for today, we are going to talk about . Okay. So as you see in previous slide, you see that sometimes we may have a memory that's 128 bits per word or sometimes it's 16 bits per word. So we can change the aspect ratios of the program.
+
+
+00:19:39
+
+So with the same sign, we can define the number of bits. So we can determine how many bits we use for the single words. So that's the point. So we can use the same slide memory, but we can, you know, decompose this in, I mean, the number of people was over like, so that's the point of it. The rainbow. You know, aspect ratio information. This is some number it is so with the you know you have an 18 kilobit program then you can complete it into you know 512 words and it was 36 bits but you can complete to another option like a thousand words and it was having 18 bits or something Okay, so in the first lap, I will show you how to use a single, I mean, how to generate the single program.
+
+
+00:20:15
+
+You know We can generate the dedicated RAM using the Vivado IP catalog. We can initialize the content using the COE file. This is the COE file. I already added it. I included it in the code. I uploaded it on Slack, so you can see. In this specific case, you have a 16. beat for one so you have one word is it zero one. Thanks. And the maximum should be. You're in the seat. A configuration for certain layers so you may here depending on the layer you use then you can do this. So this is a single port SBRAM under the WAPR. and the the basic signals are still in the figure, so we have a clock, so you can see. So we have a clock here. And there you need some signal.
+
+
+00:20:52
+
+And we need to sometimes we need to wait. All right. And to get the data, then we need some address. Thank you. And if we write, then we also need to provide some data. And for me, we didn't get some deal. So like in this game, we have a 16 here. 16 here means that we report in record time of 16 bits for data, but the full address because you have a six 40. So we need the little bit. Okay, so we can design a buffer of memory into multi-digit simulation, so you can just use the same resistor. The E-I mean, so you have to use the FPJ mode, so you can call something you know. We can obviously get the optional tools and initialize memory cell from a file.
+
+
+00:21:32
+
+So for simulation mode, then we have a certain resistor. For storing the content of the whole memory cell. The memory cell will be defined by two parameters. It's the data width. So if we install XFITTER, it's 128 bits. Then DW here is equal to 128, and the force given by us we may be able to define equal to 16. And you have a depth of the number of lines used for the memory. So in the very specific case, you may use 16 lines. Before, you know, the first layer. And there are two basic operations in read and write operation. So for weak operation, it copied the content from the memory sound to the port either in the reverse order for right operation, the content from the input is copied to the memory cell.
+
+
+00:22:14
+
+That's a good point. The reason we call it the Singapore program because we only it only support read by operation. I mean, the read and write operation. Set the same address for you and only read or write occurs at the time. So we cannot do both read and write, but at the time you just do a single operation. Right. So let's see how we can make it on APJ. Then we start with the IP catalog here and you can start the keyboard block memory generator. And then you can find their studio. The is a Z-mile. That can be used to customize raw memory and you can double click on that. And it shows the gy for the memory which is similar to the GSB and in here we define this in Singapore.
+
+
+00:22:47
+
+And we need to enter the name. Slicker. In here, we indicate how many indicated depth. Multiplied by . Thank you. Then you select the memory time. Okay, so unlike the port A, because this is a single port, then we only see the system's port A. And we can define the data with the W here. And there are how many you know data we have like in this game you have a depth number so from here you can convert to how many bits addressable. And then what you need to do is enter the proper bit depth for the modem. Because sometimes your first layer, second layer, or third layer, you may use a different memory. Or you may use a very big Zener memory for different layers. So it's up to you.
+
+
+00:23:22
+
+There is another option that we can actually initialize the content of the memory from the file. So you can click and select the load init file and browse to the file, the COE file. That's it. You use for initialize memory so like the fire I saw in the beginning you can. You can agree. The you know the set some value for the memory based on content from five. And you also can fill some remaining memory location with some 0. initialized content. Right up to this setting, then just click OK. So let's talk a little bit about the proper. So as I mentioned there, you can generate a lot of people are tired of, you know, memory because sometimes it's like a four-week. You have a 100, let's see, 128 by 16.
+
+
+00:23:55
+
+But for scale or BIOS, you have a 16 by 16. So you have a different structure. So I provided to you a wrapper so you can have a two more wrapper. So one is a fpz mode and another is just for simulation mode. And here you just provide the width and depth then that way you can get the corresponding memory model. You have. So for FPGA mode, Um, or you need to define the depth, width, and the address width. Need help me address with enter that so like in this game before, like 16 bits, six, 64 bits for data, eight bits for address, and the 256 before that. Okay. So you can customize actually, as I mentioned, because you may have a different configuration for memory, so you can customize by modifying the parameters and uh uh, you know, you know, for simulation, you may just set the parameter from the top.
+
+
+00:24:42
+
+And, uh, I'll be. You know, 13-bit for address and 32-bit for data. But for IPZ mode, you need to generate this model from IPZ. Thank you. I keep a lot in previous law. So you need to generate the actual model is derived from a music. So when you generate this, then actually you— You can see. This moment. inside. the record. you It does work. Okay, so right. Right. So let's move to the wrapper explanation for simulation mode. And then. Let me turn the memory down here. Though actually, this is for right operation. Then just copy the content from the whiteboard to the memory, depending on the address. The given address. For it, then we can do in reverse order so we have a content in the memory at a certain address.
+
+
+00:25:26
+
+There are some options for the multiple delay because by default it's set to one cycle delay, but sometimes we may have need to slow down. Then you may have a multiple delays, but uh, mostly you don't have to modify this. Okay. So let's test them. So we're gonna Oh, this is such bad meaning, that's dumb. Greetings. First, we just wait. The initial line volume. That we need. Got from the coefine. So the beginning, the content in the memory already you know initialized from the the fight and then we can write we can overwrite some new content on that part of memory and then we replace. So we can check all three options: initialization, read, and write operation. That's the point. So for read operation.
+
+
+00:26:03
+
+This is a read initialize and I mean the initialization reads and we just upset and then we send you know the right read request 16 times if the depth here is 16. So we can request 16 times. At all and then we uh we need to load some data like in here we'll take that from address zero to Zero to one, zero to one. Peace. So. Thank you. In order to first like that's a default information for them and then like in here after once here we we set a read here and we put some address and you can get the data and then if you change the address you can accept another property in the memory. Now, how about this? So in this example, you can see that we can write some new content to the memory.
+
+
+00:26:41
+
+So we write like a 16-bit block from 00 to the F. And then we write all 16 blocks of the first 16. You address in the memory and then we'd be back and we can see that we successfully do the grid operation for this certain memory. Okay. Alright, so in the second lab, we even worked with the dual-port RAM, and actually dual-port RAM is very similar to single-port RAM, so not leaving it. I mean, mostly skip some detailed information but doesn't indicate some key difference between the two. So for robot RAM or DV RAM, the key difference is we have both pod A and pod B. So pod A is kind of identical to the single-pod RAM, but pod B supports the read operation. I mean, we have a TV. Be-be-be-ha-bum.
+
+
+00:27:22
+
+For me, that can you know do the read while we are doing the right operation? So actually, the key is that it allows the right operation at the center, so simultaneously we can do the grid and write pressure. That we can increase the data movement among the memory and the computing units. Right, and they're either FPGA version, you can choose similar to the single program, but now you can select another option in the single program. You can define the new buffers as you want. So that's the end of the. Today. So actually, the main motivation for today's lecture is to show you all the basic operations for the and then we do a different thing about the buffers. So we just add some buffer groups and then either actually the final incoming lectures we put two things together: we put buffers and we put the computing units together and we even do the sliding windows and controller. And I'm going to stop now. Okay. So that's the end of today's lecture. Do you have any questions?
+
+
+00:28:20
+
+Right, so thank you for your attention. We are going to upload the fight on YouTube and you can. You know. Thank you. Snipe myself and if you have any questions, send me Mrs. Just like in the name. To DPRAM. Oh, that's a good question. So the question is, what is different between simple DPRAM and true DPRAM? We can choose in a simple DPRAM we have a Thank you. This is week only, so we do not have a, you know. write-option for public. Either way or either. It can kind of reduce the bandwidth, reduce the connection. But fortunately, when you click it, then you can see the entire world. And in full version of . b, so we can the support will be great option for b as well. Thank you. Right, so. See you on the next picture on Monday. Okay, thank you.
+
+

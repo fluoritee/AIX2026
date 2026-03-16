@@ -1,0 +1,242 @@
+AIX Lecture 3 
+
+00:00:36
+
+Thank you.
+
+
+00:01:18
+
+Good morning, everyone. Today. First of all, I'd like to check whether you can hear me clearly. Last time there was a problem with the speaker, so I hope that you can hear me clearly today so that you can study the materials after this lecture. Can you— can you hear me, Clint? Okay, that's great. Okay. All right, so today we are going to talk about the model quantization and the data preparation. And then let's see the roadmap of today's lectures. First of all, I'd like to talk about the content of previous lectures. And I've actually got some questions related to the oscillator. So I'm going to explain a little bit about the theory behind the hardware oscillator for CNN, for the building level.
+
+
+00:01:48
+
+And then we move to the next part, and finally provide an additional explanation for the reference software related to quantization. All right, this is the dot structure in the tutorials that you already know. And as you know, in the first three tutorials, we didn't focus on the quantization model. So the main goal is to make a code to generate the quantization model, as shown in the figure here. Okay. Thank you very much for listening. You want to generate a pattern, and you want to generate a pattern, you know, pretty quickly. So in the previous lecture, I already explained to you about the structure of image. And one image can be considered as a 2D, two-dimensional metric. And the image given for this application, it has three color channels, red, green, and blue.
+
+
+00:02:20
+
+And you can check the sign. This is from HD. So the height is 1,080. And the width is about 2,000. And the image store has image in there. The rolling carton it's going to take some freedom in the image I provided to you, just using the However, the network doesn't receive the last line of image. And actually, they do the scaling. So the question is how to make an input for a neural network. So for a given input, it's a rescale in a square RGB image. And as I explained previously, there is the input side of a neural network. For this competition, you just turn around, turn around, turn around, turn around. So to maintain the aspect ratio after scaling, they put some— you know, um, you know— just put from the original image.
+
+
+00:02:52
+
+They need to keep you know the center part and there's a remaining part set to the green colors. So this is a . So we released the pre-trained model. Which is defined by two parameters, two files, one in configuration and other is the parameters. So this now has 22 layers. including 11 conclusion layers, six max pooling layers, and there are some other layers like routes, and up-single, and low layers. So what we need to, I mean, the scene accelerator should do is From the given image, it is like a tweet. 20 by 3, 20 by 3. And the setup features. you have to do the calculation and then i'll put the you know the denser so they're one not given by the layer number you know 13 and not even given by layer number 20.
+
+
+00:03:29
+
+So that's the goal of the savings, right? So for the meter evaluation, we need to you know you guys need to design and verify the architecture for the first layer. So I'm going to introduce the three first originators. So for the first layer, given the input here like this, and then uh, you know, the research the answer is this: it's a 3D dancer. So given you know, there are 16 sides of features, so it's generating the you know the fish map from zero to the 15th, and there it formed them after you know max point going to. I mean, the output the tensor like 160 160 by 16. This is the first evolution layer and next one. And for the second evolution layers, it's given the input 160 × 160 × 16.
+
+
+00:04:05
+
+And you do the conclusion with 32 sets of data. That's why this can produce, you know, the 32 feature map. And the output after the max pooling is 80 × 80 × 32. And the last, I mean, the third, I mean, we need to, you know, you need to. That would be 40 by 40 by 64. So that's about it. And I hope that you can understand the concept of commotion. So we also, you know, in the previous lecture, I also presented about their basic operation in the network. So we have a convolution, actually 3D convolution, and batch normalization. So in there, we introduced some technical batch non-phobic, so just using the requires and the headers and then you can do specialization without you know using uh divider.
+
+
+00:04:42
+
+Actually, it's not a friendly, you know, highly friendly operation. And I mentioned what the activation. So it's a leaky right unit and also the max pooling. But in the next point, you should know that there are two types of next week. One is just using with the strike you know two and other is quite well. So you should study the previous. Also, in the last week, I released the codes that support both the Unix and the Windows user. So, some changes, like you add some third party, some library support for the Windows user, and then you can use the Visual Studio project, give them the code, and then run some script after, you know, compiling the code. And I hope that you can work with the, you know, my slide code.
+
+
+00:05:09
+
+There finally you can get some results like you know this is a 14. 32, so you can achieve. But you receive up to 83. 2. That's what we studied, and then we got there from the previous study. All right, so in today's lecture, I'm going to be talking about oscillator, some motivation, and then I'm going to be talking about NDSP. And then I'm going to next talk related to quantization, so I'm going to be talking about the background of the quantization, and then both the post-training quantization and training quantization. And then I'm going to be relating that part to the code. So about the accelerator. So I think some of you may not have any experience related to the accelerator. So I think it's very useful because we got some questions related to something like pruning or some other things.
+
+
+00:05:42
+
+So it's also related to software part. Not very related to this kind of vision. Well, you can apply it up. I mean, at the end, I mean, at the very last part of the condition, when you already complete the design, you may add additional, you know, optimization techniques. But I don't think it's gonna be, you know, dominant parts for this kind of condition. I mean, something like, so. I'm going to explain the parts in the future. So let's start with the motivating example, like the first conclusion. So the conclusion, you know, that this is how to include what is this?
+
+
+00:06:11
+
+It's going to be 1. 6 million. Operation. So it's a three, you know, this is a formula to derive the numbers I just mentioned. So what each output is, it can be calculated by, you know, using the sum of, you know, just a vector. It's an element-wise operation. So we have a two vector, w mean), weight. And I mean, the reboot all. You put them in Phoenix. So for to produce a single excel here, we need to do, you know, I mean, it requires a 27 multiplication operation. So it becomes a number-multiplication operation in the neuron to produce an entire volume. Very long answer here. It's going to be $44 million. So, we do that with the classical, I mean, traditional architecture.
+
+
+00:06:45
+
+So even though this is our, you know, design, but if we just consider the, you know, the red part here— i mean, the red box— so in the figure, this is actually it's a conventional center, of course, computer. So you can see in here, processor or center processing unit, CPU, and the CPU only has a single computing unit. I'm not really pointing it in there. Well, thank you. I love you. I love everything you do. I'll see you. So you have another proxy memory and the IO. So actually, we can execute the network. The network. So that we do not have an oscillator here, so we can do that. But we got the problem of performance. So for the first layer, we need to do, you know, the 40 million times to use a single scene.
+
+
+00:07:22
+
+That's you know, we slow down the system, and that's what happened with the you know. So the question here is, and they're One, you know, technique is using compression. So the motivation here is that deep neural networks are very big and getting bigger, actually. So it's too big to store in the entire you know memory like SRAM or VRAM. So it consumes a lot of assets and actually it's not very suitable for the power of the system. So people want to do something like a pruning or quantization, and some like how many so it can swing down the weight style to the side of the model. And then, seeing that we mentioned about pruning, and I got some questions related to pruning, so I'm going to explain it in the next slide.
+
+
+00:07:53
+
+So this slide about the pruning. So the idea of pruning is to remove the weight from some synapse that's close to zero. So if the value of weights are very close to zero, then we just ignore it in the computation. But the problem is we need to do it in an iterative manner. So we need to retrain the network to maintain the accuracy. So it's a repeat until we reach a certain amount of accuracy. That's the problem with the pruning. So, in that way, need to we need to know the dataset and it's not the case in this competition. So I want you to focus on this kind of technique. So we have to retrain the network to drive them. I mean, the prune— i mean, the side of weight, including some, you know, pruning connections between there's a neuron here.
+
+
+00:08:21
+
+So anyway, but you can learn some concept here. So in the original architecture, you have. And this is the feature map for the first layer. Then what happens with pruning is in the conventional architecture, you can have a dense connection between the original input and the future map. But if you put that you know, put some connection, then you can derive some stock in here. In that way, you can reduce the number of multiplication operations we mentioned here in the previous slide. Let's see what we can— It was the same thing for the second-layer and third-layers, and until you get to the very last layer. So, so far, we can get the spot level. So. If you apply the pruning technique for the, you know, convolution like the first layer you see that in the original form.
+
+
+00:09:00
+
+It be quiet 27. Not the wire, I said the figure. So what happened between is we ignore some operation related to zero weight and we do not include the research of those operations during the calculation. So the point here is actually it's not very great for the conclusion. There's basically how much you would expect for this kind of scale— it's going to be maybe one, two, or three. So that's about the point. And another condition is you must know the data set. So we must know that we you know perform the retraining and you know to meet the certain level and there we need the you know it's not there finally it's not very great into the conclusion because actually the number of multiplier here is not that much it's kind of moderate compared to the let's say the fully connected layers or metric multiplication.
+
+
+00:09:34
+
+So those are the limitations or weakness of the printing. So in this competition we focus on the parallel computing. So this is some specific for parallel computing. So we need to do the calculation that we need to compute the sum of n products, common operation in the same scene, and what we do is we have you know n multipliers and then follow by the edit tree. This is one, you know. One week to leave the man. These operations can choose other methods, but this is a very natural and very easy method to visualize how we can speed up the system. So let's see the operation step by step. The first step we have to design some multiplier. Let's do you know the calculation.
+
+
+00:10:07
+
+There are in this case there are 16 multipliers working in parallel and you can do it simultaneously. Then we have a two vector. Here is the w weight and the accident. So Just stop for a minute. And this is the first vector. and other is starting from zero, so there are two vectors and I'm given two vectors. And since we have a 16, you know, research the next step is just to do you know enters we do that. So 16 16 research will be reduced to eight. So there's zero to seven here. I mean, the C and they're in the second level of header it reduced by four though. We have only you know four output here. Finally, it reaches the level before we can get the research.
+
+
+00:10:46
+
+So the concept behind the oscillator is to use a multiple processing elements. So there is the processing element array P array to perform the convolution, activation, quantization, conversion. So there are two kinds of parallel factors. One is to indicate the number of conversion kernels when to compute, so which are equal to the number of applications we want to produce. And another is the number of multipliers in each corner, equal to ti. So we have a ti and ti here. So you can see, like, in the figure here, we have a minor key here. So this is going to be about the computing units. So right up here, we have 16. Good. I'm losing course. And for each corner here, we have a corner 0 here.
+
+
+00:11:14
+
+And it has a 16 multipliers so by doing that we can use you know we can use 256 multipliers which can run in parallel. So in any case we expect that we can speed up the operation compared to, you know, the single or the conventional applications. That's what we need to design. Obviously, obviously the question is, can we just increase the number of you know ti and like, why don't we use 32 by 32 or 64 64. So what you know numbers determine the you know product factors so that's why we work with the kinds of people so the episode using form is in this application is the you know sign up can see in here it has a certain limited amount of RAM on chip program here and another factor is the DSP it's a number of slides so the point is the DSP is dedicated to multiplication and accumulation.
+
+
+00:11:57
+
+So we have a lot of, you know, we have a lot of, I mean, the replies. Um but uh. Psst, what the-or IP can support the multiplication operation that's the point this number we need to mean. So the I and the I here, any random factors, should be constrained by the number of DSPs. So this lies under the DSP structure. And actually, the DSP takes three input lenses. So. It does a calculation process so actually the GSP by 48 block is. And there is a computation chain in the ESP48. Contains just three parts. The first is, this is the first, the first part. And there's an addition or subtraction. The second is the multipliers, and the last is, there are some certain engines to do like so.
+
+
+00:12:37
+
+This is the most complicated function in the FPJ. It's kind of printed on the FG and there you can do the complicated function like 'a' which is equal to 'b' multiplied by 'a' plus 'd', the sum of 'a' plus 'a' and the final 'a' plus 'c'. So actually, the parallel factors, like 'our ti' multiplied by 'ti', are constrained by the number of 'p's. So how many multipliers we can do in parallel, depending on how many months it's been up. I'll turn it over to you. So that's why we cannot even start there. I mean, we cannot increase the parallelism of its rate, even though we know that it can speed up the system, because we can process a multiple multiplication operation in parallel, and then we can do the conclusion very fast.
+
+
+00:13:10
+
+That's not the case, and there, hopefully, you can understand why. Behind the oscillator, and you also understand, from here, why we need some kind of composition. Because also, if you use a 32-bit, which is 25-bit and 80-bit, so if you want to do the original. The operation we have to use, kind of, four years, so that we can actually, you can have, we have to decompose, so in other ways, uh, you may, you know, sacrifice their throughput, because you still, you can use them, you know, if you can fully utilize it, you may use them 240 on the flyer, but if you have to define this number by four, so you only it's accused 16 multipliers in time, so it's been slowed down. Thank you. Thank you.
+
+
+00:13:48
+
+So that's why you really want to do some kinds of also. On decision or sometimes, Okay, that's about the isolated part. Then let's move to the next part, which is quantization. So what is the technique we need to do, and we need to know about quantization? So first of all, let's go see the format. So my definition of quantization refers to mapping values from the 14. 32-bit format to a lower precision format. So in here, you can see three kinds of 14. 8-bit formats. You can see this is a Wikipedia, you can you know accept it easily. So this is the fp32, this is the fp16, and this is the vm16 by Apple. So they give up their very specific architectures for machine. So if you use Mac, then I mean, no problem.
+
+
+00:14:26
+
+Some recent products by Apple, I mean, maybe M1, M1 chip. Then it is a default. And they're reporting that. Then it used the self-capping system. So, from the 14-point values, we can convert to the integers 8-bit, 4-bit, or even binary. So you can represent the certain numbers, 14-point numbers, in the lower precision format. So actually, the quantization is specified by the format from McIntyre or granularity. So let's see them. Some very simple one. Definition and formula for the quantization. So the quantization scheme can either apply mapping: All the integers Q to the V number are here. So R, the V number is equal to S, multiplying by Q minus G. Thank you. Just this formula. So S and C here actually is a quantization. I promise you.
+
+
+00:15:08
+
+So, for example, for 8-bit quantization, q is 1 times 2, you know, 8-bit quantizer. So, you know that 8-bit quantizer means that it couples the range from minus 128. Absolutely. So in our case, Q can be quantized into a b-bit integer. So for some certain parameters like bias or scale in the rationalization can be quantized into the 16-bit integers which is a constant as first game here is the uh Under this number, we can convert it into fixed points. It's going. Either 16 or 50p also, and there are the constant number z here. It stands for the zero point, so it's at the same time. But actually, it's a question to the real number zero. You know, you do the mapping between two moments: one is the real numbers, and the other is the numbers. So you need to do some policy.
+
+
+00:15:54
+
+So the one-time buffer can determine the queue here, vector queue time. Q is a vector, and this element in the vector is in the key type. So if we have an integer, then we have a vector of, you know, let's say, for example, a 16-bit integer. This meeting number. So you can see that's the green cube from the Q's zero to Q. This is what you saw in the memory and those are the numbers. However, after doing the completion, we need to do some scaling, and there are actually some Z that stand for zero points. So we need to update the virus. Sometimes the Z is different from zero. So this is an example of how we map the values from the floating point to the 8-bit integer format.
+
+
+00:16:33
+
+So, because of the . and then you get what we call index print. So we have a 20 by 20 feature here. And actually, depending on their scaling, the scaling factor here. We can have, you know, we can generate a different amount. So the first is— you know— you might put this number minus the 0. 3302 to the minus 3. Thank you. So we can utilize this point to define my So we do this kind of . So this is, you know, the way for the quantization. And by the way, so, I mean, this is a, by the way, so we can, you know, quantize all the floating point numbers for the feature here into the integer. And this is the three, you know, we have a three scaling factor, so we have a three, you know.
+
+
+00:17:09
+
+Um, is the keyword that's only the biggest line. And you can see that all the elements for Q here belong to the range from the minus 128 to 128. It means that all the numbers can be represented in the 8-bit integer format. So it's going to be the valid format for quantization. But what's going to be the difference among those? So if we check the error after we quantize the value, we can see a pre-error, let's say, in the metric here. So in the first, I mean, the representation here is. You know, it was. one. don't to the Lord. Please. there you can see the number very different so you can use them you know. Let's go in. factor is 1 divided by 128, you got the error 0.
+
+
+00:17:44
+
+0057 in the first for the first element in the features. However, it may be used in other formats like . One fine bite. 256 then we got the smaller and they're. Lastly, we can use this factor. I'm I mean, a much smaller quantization now compared to the previous. When we do quantization, we need to find the good mapping, the good representation of 1448, I mean, the 8-bit quantization for the 1448 values. So we have a true value here. And we have an approximation. And how we can obtain the good approximation. That's why you need to solve when you're making the quantization code. That's all. actually after we do the mitigation for the models uh we can uh do you know the use those things to do the inference so just like so you know the very important part for the difference is which is only
+
+
+00:18:33
+
+on the inverse of the conclusion letters so from the input and weight here after doing the quantization we just use the integer one side here and then do the conclusion then we can add there are not this is the accumulator resource can be in the unsigned in very specific case and it can you know do the editing i mean add some virus here and after that to generate them. integer ap and then sometimes you need to do some clipping for the right so so input and output are represented at the ap integers and they hold the operation even with you know and then the final year is those are just one vacation and then it's producing maybe you know So from this kind of scheme, it can be very friendly for the hardware.
+
+
+00:19:09
+
+I'll see you. So we can, you know, use some company to set up ESP on that too. to execute and to run a certain amount of operation process. And then, if you use the reference paper, you can refer to the famous paper called \[insert paper name\]. Even what you can represent, and then I sold at them. The quantized model will achieve very good performance because it can maintain the similar accuracy than previous I mean, the full precision, but because it's just using integer arithmetic, only operation. So the latency in here. Actually, if we subject the image, you know, horizontal line, then with a similar accuracy. The quantizing will run very slow. Run very fast compared to the 14-point model.
+
+
+00:19:44
+
+And for designing the oscillator, we also need to guarantee that we have sufficient DSP and we can map the operation to the viable DSP nicely and achieve the good speedup. Okay, so there are two methods, two typical categories for quantization. The first one is post-training quantization, so it's referred to as quantizing weight and activation to reduce the equation without retraining the network. So in general, we need to estimate the statistics of the activation for determining determining the quantizer parameter. So previously, we already mentioned that we have a scaling and sometimes an origin. So we need to define those parameters based on the given pre-trained network. And the keys are on. To measure the quantization error. So those quantized parameters are determined by minimizing the metric, like KL divergence or saturation error.
+
+
+00:20:25
+
+You mean, Right. Another is to. To perform the retraining and actually, this is not the scope, because I do not give you, uh, the training as a data set. So actually, you cannot do the retraining. So anyway, but I just mentioned the structure. So this kind of theory. It trained the simulator and you see the figure here. There are two fake functions: weak quantization and the activation quantization. Anna. To function guarantee that all the distance. Can be similar to the integer. on the inverse. We have an input like and we have um, then all the operation here, even though it's kind of similar to the floating performance, but um, it can be implemented in hardware. So the resultant graph approximates the integer arithmetic-only computation graph in panner.
+
+
+00:21:10
+
+But it performs the retraining to adapt to gradient or bit. So we do not consider that consistent in the scope of the computation. So does it end? Is this competition even focused on post-training quantization? So what you need to do is characterize a good approximation for the given level. Right, so that's maybe enough for the theory. Let's go to how we can work with the reference she already provided. You were given the goals, but now let's do some explanation. So in the source file, there is a set of specific files for the quantization. So all the functions related to quantization store in your ZOB2 forward network for quantization. And also, you have a subfunction called toSaveOnPriceModel. So in the main function, even both the floating Fourier inference and the quantized inference.
+
+
+00:21:44
+
+Can you? Using I mean a code in the test, so we use the same. And the floating point. You. In the test detector, you know that the given configuration file, the first step is to load the parameters, the full precision parameters from the file, and then define a variable command here, and then give me code. Pass the configuration file to give the network features and then later on, it's actually at first it's like the inputs here and then you pass every you know the convolution practice so like, for the first layer, you have 16 features, each feature has three between you know fit the size three between and they're heading to be one because it's a pretty good and it is a key function so this is my just we use probably pretty soon thank you for inside that's the detector cpu function you know that first it's already determined
+
+
+00:22:25
+
+the other is an input image and what it needs to do is the inference function so for the floating point equation, it uses network predict cpu and the art function is a reference code for the quantization so it can predict network predicts for the context model so it's the same people but they use a different function and this is the flow for them for the call. So first is model quantization. So actually, this is a Q1. Anna. The code here is, first, it calls some fused back-normalization in the configuration with time-virus. So you can refer to the batch-norm FOBI in the previous slide to get more information on how it fused the normalization operation with the conclusion. After that, you use quantization for weights and bias, and compute some scaling factors for these layers and for the infinite part.
+
+
+00:23:02
+
+The second part is to load the quantized weights, and given a certain image, this can do the quantizing. Conclusion, and by applying the activation here and then finally do some normalization—uh, kind of uniform operation for different layers. So this is a function you can see in details. This is the baseline code for the organization. So usually, you can actually better, you know, on the next one. Okay, so let's see the function do quantization a little bit in details. So we have a parameter because we need to align the operation of the quantization, I mean, the quantization and the inference. So we need to balance between the input. I'm talking about the players. Let's get right to it. To be able to apply to the 1440s before, you know, casting to the 8-bit.
+
+
+00:23:38
+
+For the week, this is the week. And our next part is the buyer. So we use AB, and that's what we can do. 64 years. So actually, the provided quote is just a major revision of the decision, so if you just do it, you know. You know your reasonable fashion so that you can implement To Howard. That's the point. Okay, so for input calibration, it's a very similar format like in the paper, so we need to derive some scaling factor for input. Because in a floating-point version, we assume that the range of activation is from the minus 1 to 1 times normalization. So that's why when you want to get out there, you know the integer rule operation we need to multiply. So in here, 16 or input calibration.
+
+
+00:24:15
+
+So you need to find out the good input calibration parameters for each layer. All right, so this is a part related to weight and biostimulation. There are two steps to do the biostimulation. First is to multiply by the scaling factor. It's my scaling factor here. So in here, we call it multipliers. And sometimes it may, you know, the output result may exist. Hello. Which is the quantization range, like if we want to represent the number in the 8-bit, and if we've got some number larger than 127, so we clip it into 127, so if we have a very small number smaller than minus 128, then we need to do the clipping, so that's called the clipping. So what you're used to follow the same formula. Thank you. What's your name? So.
+
+
+00:24:56
+
+Uh equal to scaling factor with Blimey Q. This evening. So in here, this is a multiplier. And sometimes you'll need to between the Z. You know, the bias, but anyway, in that case, my results. So. That's about it. What is it? Right, so this is about the way. So with that motor, we need to do the inference, and this code is about the inference in the network and it actually uses a loop here. So the code is accused layer by layers. And depending on the index of layer and the type layer, you can call it some function, like a convolution function here. So you can call this a function. The dominant function in our design is a convolution at the max point, so you can visit those functions to see the code in detail.
+
+
+00:25:38
+
+So for the convolution function, first you need to convert the input here. It converts the input into the APK. Just a—so in there, the code, these layers, have a normalized input and output. So you need to multiply those numbers to the scaling function. And that's what we can do with the integer operation. And after getting the zero numbers, then it does the first thing: first it converts from the image to the column. And then you mentioned previously, like you have a Thank you. by three by three tensor here and when you make some column, then it will be zero to 26 resistance. So we can divide this kind of vector and this is the input. If we have another vector for filter or width, then we can do the union-wise multiplication.
+
+
+00:26:13
+
+Then you can generate some power. And the operation for generating the output is to do the convolution and virus activation. And between CNN and the oscillator, the inference engine should perform those operations. And everything here should be, you know, comparing with the hardware. So when we do the hardware, when we design the hardware and verify the design, we need to extract the output from this kind of software and then compare with the result from the RTM simulation. So that's about it. Thank you. Okay. So how to compile the code and. You know that you need to calculate the map, so this is the final verification. There you find you need to provide some parameters, actually, no touch parameters.
+
+
+00:26:45
+
+We have quantized back so that, yeah, we need in here we want to indicate that we are doing the inference with the quantized model, so that's why we use the quantized option here. The other option is we can save the parameters. After doing the quantization, we can save the model and then we can do that for, i mean, use it for the verification. Okay, so this is an MAP comparison between the original version and the package version. So for the floating-point version, actually, it achieved 83. 2%. Thank you. The NEP is 83.2. And after very simple quantization techniques, then the accuracy drop quite large. It goes to 33. 6%. That's why in this competition, we ask you to develop the quantization technique.
+
+
+00:27:19
+
+And you need to generate a set of quantization parameters so that you can improve the accuracy. To make it very close to the floating point model. And the quantized model we're going to use for the RTH of the Inference Engine Design. So we're just trying to achieve a higher MVP. And by implementing better than you. What does it just mean? All right, so finally, after we get the quantization, we need to store the weights and bias in the srsm format. So it can be used for RTL simulation. And also, finally, it's going to be read by the hot PC code and then sent to the FPC code so that the FPC can do the calculation. That's the goal, right? So we provide some simple code for them, saving the model right here.
+
+
+00:27:50
+
+You can see the meat. We have a loop. For the layers. One year. So every layer, you can generate three files. 24 weeks Under these laws. Thanks for watching. And visible skip. So we have everything. And, uh, well, I find it, you know. There it is. This is the 32. Bitcoins. And then there is. So we generate the weights and the one-time weights and the bias in 32-bit format. So those alternatives can be used for after simulation or for final IPv4 verification. Obviously, you can adjust the code to save the activation output because you know that when you verify the local, you need to sell that though it's all hardware. Execute the same function and functionality so it's very good to use both of the applications. Okay. So that's the end of today's lecture.
+
+
+00:28:32
+
+So in the incoming lectures, we are going to work on computing units and ESP on Mac. So today's lecture is the last lecture for the reference software. From just the first day, we are working on the RTL level. Resistor transition level of code so we're working in high rate code and we can use a nice model given by you know the this kind of lectures and they're for authentication. Obviously, in the meantime, you should build your own quantization scheme so that you can achieve better approximation and higher accuracy compared to the baseline quantization model we provided to you. Okay, thank you. So do we have any questions?
+
+
+00:29:15
+
+Thank you. So I already uploaded the file on the comment in the slack so you can set the file and they're you're going to upload the video on youtube and then you can study and if you have an additional purchase then you can ask. And you're just like. So that's it for today. I hope that we can already provide you with a good background in theory related to the oscillator and quantization. And I hope that, based on those, you can design very good optimization schemes so that you can achieve very good accuracy. Thank you.
+
+

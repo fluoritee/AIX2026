@@ -1,0 +1,205 @@
+00:01:29
+
+Thank you.
+
+
+00:01:46
+
+So, hello everyone. Can you hear me? Good.
+
+
+00:01:53
+
+Thank you. So, welcome to the orientation of the e-learning hardware design contest 2023. So, here is the roadmap of today's relations. First of all, I'd like to introduce about the AI building design class. And Irene is going to talk about the environment setting. And lastly, it's about the code structure that we are going to provide to you. So, here is a brief introduction about the organizing committee members. I'm Xuan-Chuan Nguyen from Seoul National University. And we have the four TAs here: Kim Ki-Hwan, Cho Woo-Woo, Koo Hee-Woon, and Jung Kim-Woo. And we have a lot of people start, and they're advisors from many professors from the committee. Okay, so this is a copyright issue. So about this competition, as you can notice in the announcement, in this competition, you are going to design different engines on FPCA.
+
+
+00:02:40
+
+And for a given image here, you have to deploy deep learning models that can be executed on the FPCA and produce the output, which is the model box of the object, as shown in my figure here. See you in a second. It's the orientation. Gracias. And for the AIX, we target three things: application-based, object-based, and case study. So first, we target our application, which is object division. So we first collected a lot of images, about 100,000 of image items, and we labeled the data. And we already pre-trained a deep learning network for object division based on the Kinase 0b4. And they're given an RCD image here. The network we consider a lot of our layers, including convolution layers with features like three by three, one by one maximally, and competing layers.
+
+
+00:03:25
+
+And the image here is, and you can upload the objects, and you can localize the position of objects, and we can classify what kinds of objects should be, like a dog or bicycle, in this figure. And this is the system base. So we are going to provide the retrain model and the test data. And for the interim engine, we can help you by providing some reference code for evaluation. And there's some code for our program. And these results will be provided during the competition. So we've been happy to deploy Modo. And from the given testing data set here, some pre-training work, what we have to do is to implement the inference engine and then to provide the inference results. So to support use, we provide a lot of tutorials to cover several fundamental issues in the AI design contest.
+
+
+00:04:09
+
+So we will start with the core structure. We revisit the reference software and analyze the network architecture. And see what is the evaluation metric. And then we also talk about model quantization, some theoretical background, some mathematical background after quantization and data preparation. And in the second part... Support about the hardware design, so let's show you how we can program with the hardware description language (HDL). HTML, specifically, is very local. We will implement the computing unit, and we talk about, for example, on-chip buffer, some memory offset module, and then we do the system integrations. So we may provide the YouTube videos as you can access. Based on the last year's competition materials, okay, so this is a big picture of all the top structure and tutorial.
+
+
+00:04:45
+
+So, given a set of attached images and portray model here, you first have to do a kind of quantization. You may not know what is quantization for now, but after studying the materials and seeing the videos, I believe that you can understand it. And you can see the... the content based on the tutorial from one to three. And during tutorial four to seven, you can learn how we can make a hardware IP, hardware oscillator, and then how we can integrate it into the system. So we'd like to show you how we can manage this kind of hardware resources. And in tutorial number 8, we talk about the system integration, how we can prepare the data from the PC and from the FPC area so that we can make the entire big picture.
+
+
+00:05:21
+
+All right, this is a timeline for the competitions. So we already finished the registration process and we no longer accept more, you know, registration. And they're. We already have an announcement, online announcement, previously, and today we post that to June, you know, for announcement for our agents. And there is a period for competition from today by 19th of May. So you have about four and a half months to work on this competition. and we have a progress checking only during the by February 24th, so we have to submit code and presentation, and we provide some templates. The over 70 is going to be the 26th of May. And since we have a student from different schools, so we may use online at all, but it may be changed. We can notice it later.
+
+
+00:06:02
+
+So. So as I mentioned, it's different from last year. This year, we only have a student from seventh school. So all the team only have two to three members who already applied, and we do not accept the student that already got the prize last year. and here is the final results for you know application antennas and you have 142 students in 58 teams in four from the four schools and you can see the portion of the team and the students you know voice Right. So back to how we can evaluate the results. So we first check the accuracy. So the pre-travel will be provided in the floating-point numbers, and I will ask you to convert into the 8-bit integer numbers so that we can deploy efficiently on FTC.
+
+
+00:06:48
+
+and we measure the mean average precision, so the formula for metric and the code for evaluation. I'll let you provide it so you don't have to care about this and you can see this kind of accuracy in here. So the concept here is we check the object, the location of the object, and the class of objects by the quantized model and compare with the dataset, and we can calculate the mean average precision and AP here. We use the amount of overlap going to be the 50 percent. You mean we just collect the quantized accuracy for integer 8-bit. So some may use a 60-bit, which is not acceptable for now, or some use a 4-bit, even they have a lower you know accuracy. So we only accept 80.
+
+
+00:07:25
+
+Like you can see here, when you run the code, and then you can drop this kind of number, like this is the floating point version, and it achieves 87. 80 87 All right, the second metric is going to be the inference speed. So we measure the number of frames. That's a, you know, CNA-NASA IP, which is set in a second. So like in this case, we check that the IP can complete the computation within 23 or 23 milliseconds. And then we can convert it into like about 40 or 45 frames per second. And we graph that number. And we call it the inference speed. And lastly, we need to measure how much resources you use. And to do so, we use the on-trip power. So the more resources you use, the more power you design and consume.
+
+
+00:08:03
+
+So we measure the on-trip power of the design after FTC implementation. And it can cover many functions, like the LOSIX, memory, DSP, and IO. So we use a unified number as the power here. So for evaluations, different from last year, there is no elimination at the midterm evaluations. So we just want to check how good the one-time smooth will be, and how much you do for the after-assimilation. It's very simple, like a three-first layer, and you're supposed to submit your code and reports. We will provide the templates and submission guidelines. and for the final, we mean grab the results, like accuracy, speed, and power, from the design. Then we brought the presentation along with the code and design so that we can support all your presentations.
+
+
+00:08:42
+
+And for the midterm, I was as we mainly focus on the chicken. Uh, we evaluate based on the software—uh, you know, the one-time software that you provided. We check how you understand the network operations and how you prepare the data for patients. The numbers like the mean, average precision, so we can evaluate the accuracy of the model and activation quantization. So we can check that number and we can see how we can generate the data, like input data output data. So this is the test vector before hardware implementation. So when you implement hardware, those are going to be test vectors. And for how we design, we're going to see how we design and how we follow up.
+
+
+00:09:24
+
+Please view this. Thank you. Right, and how you implement server modeling, like scaling, descaling, or activation, quantization, and max pooling. and like to see how you can verify the output. So I'll just mention the hardware submission, and we hope that you can gather all the information based on the uh into the presentations. You can explain the results, explain how you do the monetization, and all the ideas that we used to implement the result. We are also interested in how it distributes tasks among members, and so here, we can give some support based on the materials. Right, and this is a tentative evaluation for the final. So we keep all the design, you know, completely verified. So we expect to do, like, a single objective evaluation, combining the energy, accuracy, and speed.
+
+
+00:10:08
+
+So this is all one metric, and we can measure how better, you know, we can measure the quality of the design from the different teams. So in here, the accuracy is measured for the 8-bit integers one-time model as I mentioned earlier and obviously this case only happens if the team completes the design until their FPCA verifications. But um, from the last year, we found that some teams just complete the part of the you know the design, so we may you know continue using like a subject relation based on the software to have a design and the presentation when the design is not complete. Right. And after very hard working, and you can enjoy the prize. So we have a, we may provide the prize up to the third position. So first X member of the winning team can get a notebook. And for the second prize, X member, we get the Galaxy Tab. And for, you know, third prize, people can get, you know, the winning team can get the Galaxy Birch. and, for additionally, we will provide some startup coffee coupons and you know, after verifying the result of the meter, you know, invalids and actually, another very important thing is the tutorial, so you can learn about prs competition. So, at this point, is there any questions?
+
+
+00:11:20
+
+Alright, so let me continue and I will answer the question later. So, the next part is about the environment setting. so, this is the software you can keep environments that you should prepare for this you know contest. So, for the software, for the remote organization, you can you see a C++ and actually, the reference code is written in C. So, you can use the Windows Visual Studio. I test with the version 2019 and also I test with the Linux version GCC 7. 5. 0 on Ubuntu 18. 4. 8. 4. and we pass with the map also. And here is a Python that can be used to generate the directory for the test image. But you may use Python to analyze the data for quantization as well, and you should submit the code.
+
+
+00:12:04
+
+Actually, the code is likely to work fine with our version, actually. But we just indicate the version that we use. So we really need to give additional support if needed when we have some version conflict when working with the code. And for hardware implementations, we usually use Xilinx Pivotal 2021. 1. So most of... The hardware tutorial was developed under this version, but it probably works fine with the other version, but we recommend you to use this for it. And we will use this for RTL simulation and verification, making the model IP packet, and synthesize the design to measure the resources, and finally, you know, generate the bitstream via the FPCA implementations. And actually, Xilinx Divados only support Windows and Linux versions. So, if you use a Mac OS, you need to install the computer machine.
+
+
+00:12:49
+
+And it's quite big. Thank you. You may utilize a desktop PC in the laboratory as a school for you know position software because, if you use a personal PC, it may be quite slow, I think. And finally, for system integrations, we want to combine the PC and the FPC board. So we have a host code written in Word version, C, and C++, and Python. So we will provide you with this kind. So you can connect to the UART interface and then send data to FPC boards. And then, you know. Grab the results and then do some modifications. And for the FPGA board, we have a Xilinx Vertices so that you can generate the firmware code for the processor on FPGA board. So those three— you know— categories are the SDK environments that you should prepare for this.
+
+
+00:13:29
+
+So there's some questions like how to work with your Visual Studio. And actually here, I just assume that you have this kind of code. So here, I just show you some procedures to make the SDK for the software parts for the quantization. So first here, you have to install the Python. You go to this website, and you can download the version of Python 2. 7 here, and this version. And then after you install it, you can see this directory in the OPC. And then you can see the executable file. and then you can go to or you know, open the comment comment prompt on Windows and there you can go to the directory and then you you use this executable you know, executable file on there you know the code that we already provided so that you can generate the directories of test image and you can visualize this kind of directory.
+
+
+00:14:14
+
+Another you know, manual method is you directly change this kind of directory by manually so it was so feasible but this is the way you use vital to generate the directory so I just show you how to prepare vital to make it to make the directory for the gas pipe and for Vivado, you can visit the Zally website to download Vivado and select the version. We will provide a separate tutorial for this installation so that you can work with this you know, SDK, you know, conveniently. Right, for Visual Studio, since I assume that you already studied in a school, so you can just use that. And it's for Linux and it needs to be easier, because mostly we can use this very simple command line to install the software.
+
+
+00:14:52
+
+Right, that's about the environment setting. So I hope that before you know going with the competition, then you should prepare the environment and like the PC and the PC at the laboratory so that you can share it right. So, for the code structure, I just remind you that, given an image here, we want to you know do the inference from the hardware and then generate the results like this. First one is the object detection. So, for the object detection, we have to provide two things: first is the proposal or location of object, so as you can see in here, there is a body box and this body box, uh, locate the position of certain objects. So, you have a like a different object here and then you have a body surrounding the objects so that you can get the position of objects and another information is classifications.
+
+
+00:15:32
+
+So we even know the class of objects, so we can see a different kind of color and object here. So in here, on the you know in the corner in the top uh top left of the Xbox, we put some you know object connotation so you can know that this is what kinds of objects are going to be detected by using the object. So here is the top structure and tutorials I like to make. This kind of course structure is for software at the beginning. So we work with the skeleton— maybe a different version of skeleton, but it's called skeleton. The goal here is to grab image and a pre-trained model, and make the quantized model. Originally, the pre-trained model is for 14.
+
+
+00:16:08
+
+32-bit numbers and we will convert all the data and computation into quantized 8-bit integer numbers so that's going to be hardware friendly and actually the code is based on the original zhulu code but I did some modifications so you can use this code nicely and we have a data file here. And for the face folder, we have attached image. It's located in the skeleton, binary, and data set. And we have objects, I mean image, that capture from the short or long distance. So if it's captured in the, you know, kind of long or close distance, and then we put all the, you know, the object very close together, and then you can see this color for your image. But also there are some objects that can be well-aligned.
+
+
+00:16:45
+
+So we can see that each object here can be differentiated from the position with other objects, and there is not much occlusion or something. And actually, in the Unix command, maybe we can use a Unix command, like Python makes this curve here, . pi, so that you can get the directory for all the images and store them into this file. And previously, I just showed you how to use this with the Windows version. And for Unix, like with Linux or Mac OS, you can just type the Python make list curve, and then you can generate all the directories for more than 200 images. Right and in the test image there are rockers, so this is the problem. So the first here, the first column here, gonna be the glass object, like a travel.
+
+
+00:17:19
+
+Here, the object glass should be wiring body wash. So this should be the body wash items. Each line here actually has a class and the location of objects. So it will normalize its location over there in the side image. So like here, it's a 25 or 20 percent of the x position. So if you multiply this number with the width of the image, then you can get the position, the corner of the body box. There is another file you can check it. Cover it includes all their 60 class of products. So those five are names of items that you can detect on the image that we provided. Okay, so there is a retrain models located in their skeleton being here. The memory here and uh, Inside the pre-trained model, actually each pre-trained model is defined by two files.
+
+
+00:18:03
+
+One is the network architecture or configuration, CDFG. And you can see the input size of the image, and the training and testing options, and some layer settings. So what is the size, how many input filters, what is the input size, and how many filters, or something like that, you can check it. And you have parameters. So this parameter in 32-bit floating-point numbers. So we provide this file for you. And we will provide some programming guidelines so that you can find the format of the file. So you can use different languages other than C or C++ to read this kind of file, read this kind of data. Okay, so for the resource farm, we have... different files here and we have a definition for all the functions— from the devnet, actually, from the zero framework— and we gather it, but it is some modification.
+
+
+00:18:45
+
+So we just based on this code. For bounding box, there are two dedicated files: box. c and box. Here and to load an image, we use the standard library. So you can read the name from the legacy page format and then convert it into the setup itself. So if you follow some tutorial, you can understand the image format and then you can understand, like, how you make image can be you know organized and then here you can use this one. This is the forwards for the baseline solo network. So this version is for Oh. For you know, protein point version and there are a lot of them with quantize. So you can see how we can do like a function of organization and I'm safe to quantize model and how you can you know, actually keep their interest for the one time smooth.
+
+
+00:19:28
+
+So mostly you can focus on this file so that you can edit the file for optimization. On the top is there is a main file that can you know come in from the command window and then do the calculation for reference. All right, so how to compile on the port. So, if you use Linux or Mac OS, you can use a profile makefile to compile and run the bin documents with some appropriate arguments. So, there are some references, you know, speak here that we can check what kind of work, what are the arguments, and what is the commands that you can execute on this framework. So, I just give you some explain here, like if you execute this kind of command and calculate the map, and in here, like last year, we have this configuration network and this is the data set system parameters, and then we can, from this slide, we can calculate the mean average precision from this type of comment.
+
+
+00:20:16
+
+And if we want to calculate the MAT, the mean average precision, for a quantized model, then we put this type of flag. And we can say there is an option to save some parameters. So the final goal of the quantization is to prepare the data for hardware verification. So we have to save the quantized model, also the data, so that you can compare the software. Here and the hardware we will implement later. Here, so the output from the hardware should be identical to the data from the software that you provided. So you should modify your \[you\] to generate the data as you want in the certain orders so that you can verify the hardware you know. Verify the functionality of that right here. Is the flow so?
+
+
+00:20:53
+
+As soon as you extract the zip file, then you can type the following comments: first, go to the \[uh\] the folder, and you can go to 'make' and you can compile the code, and the executable file is written to the binary. Then you can go to the data sets so that you can generate the directory for the test image. And you can go back to the 'bin', the binary folder here, and then you test the model with the given test image that you generated on the upper part. So this script is used to calculate the accuracy, the MAP, for the floating-pole equation. So after you run the code and then you retire this kind of team, then you can get the results like loading the model here.
+
+
+00:21:28
+
+So when we retire this kind of code, then you can grab all the parameters, all the you know network architectures. So in here it's having multiple layers and it's going to be convolution and routing or something like that, and overall computation is going to be over five to billion. So it's about 500 million of multiplication and additions. And then you can load this architecture, there's a network you know, configurations, and you can load the weight to the network. So this is loading the step for loading. And the other part of the experimental research is QAC. So you can see this kind of research here. So we have a different class ID. Like, what is the average precision for each plot here. And you can drop everything together to form the MAT or mean average precision.
+
+
+00:22:14
+
+So for the baseline model here, it achieved 88. 88%. And actually, if you use a Mac OS, then the number will be slightly different, because it uses a different data format. The default data format is going to be default, instead of floating as a normal data format. But if you use Windows or Linux, maybe you get identical numbers here. and actually report the accuracy of all 16 items and the average. So how about quantization? So if we do like an input, we convert the input to 8-bit, and we convert the weight to 8-bit, and we do the multipliers multiplication and accumulation. The accuracy may drop a lot. So we provide some, you know, templates for those kinds of multiple players during quantization.
+
+
+00:22:53
+
+Here it reports the total layers for calibration quantization and it's like we have a 18 layer here. Each layer has some certain parameters and this is for inputs. Another you know, the vector here is for weight. Then if you do that, you can see that the accuracy the map drop a lot. So from the 88. 8 it drops to 26. 15 so you can see that require you to understand, to analyze the network, and then provide a good set of parameters so that you can improve the accuracy. And then you can design the hardware based on that model you generated here, the quantized model that you generated here. And one small thing here is if you just change the number here, like 128. So the previous lab used 8, but now you change it into 128.
+
+
+00:23:33
+
+And we want to do some quantization for this first layer. And the accuracy improved a lot. So from the 26. 15%, it can be increasing to 41. 02%. So this kind of thing is a hint. You should analyze the network and understand the number of structures and then find the set of parameters. So this is for monetization. And for the incoming tutorial, we will provide the SDK guidelines for installation and some guidelines for programming and their guidelines for integration. And also the YouTube link for video lectures and material from the last year's competition will be provided. So, that's the cover for today's orientation. Thank you very much for your attention. Do you have any questions?
+
+
+00:24:28
+
+So you can present in Korean. You're going to speak English. We uh, in the organizing uh committee members we have a many other Korean TAs. So you can present it in Korean. And actually, I can understand possibly, but anyway, you can speak in Korean for presentation. And the question is: He wants to ask about Zilu. Um, actually, there is no limitation for CPU. But I think it's all. Yeah, it can slightly speed up for inference when you you know measure the accuracy of the hardware here it can speed up a little bit so for all team members. So each team member can get a notebook, Galaxy Tab, or Word. So it's a team, team members. You cannot divide a notebook for multiple people. People here. So about the CPU, I think if you have a good CPU, then it can slightly speed up the program. But because this is inference and we have only... 200 images. That's initial. It takes maybe about 20 to 30 seconds for the moderate PC without using TV. When you view your CPU, maybe four or five seconds. For inferencing all 200 and maybe 20– 232 images,
+
+
+00:25:48
+
+you should figure out. I cannot say so. The question is: the first layer is the top component for accuracy. So I just show you the case. One case but you should analyze it. We provide some other tutorials for the data format or something. So from there, you have to answer that kind of question. So we can say that this is the top component for QAC. You can figure out when you practice with the code.
+
+
+00:26:21
+
+Thank you. He will send his team a one-happiness award. Selamat pagi. Yes, we will provide the videos that you can accept with the flyer. This video recorded here, we need to record the video I already recorded. Enter here after that, I will upload to the kind of YouTube playlist and then you can I'll let you play at home. Then you can study and listen several times as you
+
+
+00:26:55
+
+What do you mean to everyone? Everyone here means the people who do not participate in the competition? So the question is, when will you provide the two-day proper beautify to everyone? I assume that I provided you the answer. Participants of this competition. Here, let's do it. Meaningful lifetime.
+
+
+00:27:26
+
+Are there any other questions? So, if you have other questions, you can upload it on the Q &A section and then we will reply to you. And they were. Hope that you can— you may enjoy the competition, enjoy the tutorial and materials that you learn from here, and then Companies and competition, welcome. So I think that's it for today's orientation. And they're Thank you for your attention. In the yeah, you may keep clicking the Q&A so that supports you guys based on the condition. And I didn't upload the material and the status. Maybe I have a Google driver and I can send the link to you guys via email. All right, thank you.
+
+
+00:28:14
+
+Well. eight bits for storage, not only storage but computation. Um, so on. fp0 on the board. The question is whether data just good for storage and has to be analyzed for better accuracy. The answer is no. There are two reasons. First, storage. So we can save about four times right to use it instead of 32 bits. The second thing is, if we do the multiplication with the two eight bits, it should be what four by four times means. 16 times simpler than with multiplication with 32 bits by 32 bits. So in the hardware, you save a lot of resources. So assume that you only have 16 resources. And if you use APT, I mean 32-bit multiplication. You may have just one more division. But if you use 80, then you can have 16 multiplications with the same amount of resources. So you can speed up the program by using your 8-bit or integer 8-bit computation in this manner. So the question is, can we maintain the accuracy somewhat similar to 32-bit? And we try to minimize the accuracy drop by using 80 instead of 32-bit. So you have to do that during this competition.
+
+
+00:29:22
+
+Okay, so I am going to close its orientation today and then, Yeah, thank you.
+
+

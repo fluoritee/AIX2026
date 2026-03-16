@@ -1,0 +1,257 @@
+AIX Lecture 4 
+
+00:00:57
+
+Good morning, everyone. Welcome to the Gloss Ender. Today we are going to continue with the topic of the tutorials. AI design contest and the topic of today is about the how we are discussing language and their communities. So this is a roadmap. Can you hear me? That's good. Thank you. So, the outline of the debate lecture was about the three parts. First, I'm going to review the previous lecture. Secondly, I'm going to talk about the red note, HDL. And thirdly, it's about the company unit. Actually, for the appendix part, I... I uploaded the code, and there are the um some kind of like for installing the people there. You can check the code in the tutorial and the materials I'm representing in almost like So it can be easier to follow the lecture.
+
+
+00:01:36
+
+Okay, let's continue. So, last time we were talking about the motivation for the AIS or designing, you know, the CNN oscillator. So we start with some motivating example, like we calculate the number of you know multiplication operations for the first layer. So we thought that it's sweet finger. Or four million per population, just for you know the first layer, so that's a huge number. So we use the conventional you know architectures like a CPU. You may just have only you and the memory, then you got the problem with the performance. So like if you have to execute the 14, 44 million times up, you know, so that you can execute the multipliers one by one. So it's very slow. So the question here is how to boost the performance.
+
+
+00:02:09
+
+And that's motivated to design this later. So for oscillator, the key idea is to have an array of processing elements. So this is a key processing element. We perform convolution, activation, quantization operations. And there are two primary factors, tr and ti. Convolutional corners so it's corresponding to the output feature map and therefore ti is indicating how many multipliers we can execute in parallel for certain corners so overall the number of multipliers is the ti multiplied by ti and they're in the So in the conventional, we just use the Qs one-to-one, and now we can use the Qs in 256-multiplier multiplication operation simultaneously. So that's increased. You can use the execution time, and there's And then. To design an accelerator, we have several constraints. And we start with the constraint from the perspective of app-disabled.
+
+
+00:02:54
+
+And this is the block we are using. And there is a limited number of LOSIX line, and the block RAM, and DSP. So through the tutorials, you will. Understand the impact of based components in here. So by default, DSP is the number of tm and ti. And actually, those DSPs are dedicated to the multiplication and accumulation. Today, we are going to work with DSP in the hardware description. And we are going to do the simulation process model. Okay, so. You know that we already explained about the DSP and, actually, the computation for DSP. I mean, the size of input for DSP is limited to, like, an eight by eight. They're 18 bits, and they're the thing is, we need to do the quantization so that we can fit the existing computation to the bit.
+
+
+00:03:25
+
+So, if we use like a 32-bit operation, then we need like a four DSP just to you know do a single multiplication operation. It's not very efficient. That's why you mentioned the quantization. And actually, in this condition, you need to you're going to be able to organize the scheme. Previously, we already defined the quantization scheme as an undefined mapping from the integers to the B-numbers. And there are two parameters, scaling and the zero point. And those are what you need to mean. To optimize the one-time model for the given network. So we already mentioned one example for mapping the models from the floating point to the AP integer format. And then you can check that. You can see that the one-time station error, the error between the...
+
+
+00:03:57
+
+you know, reconstruct value and the floating point values, maybe vary depending on the how you select the scaling factor and the initial or origin parameters. So you should define that based on the you know, the understanding and analysis of the given model. All right, then, after having some theory of quantization, I already mentioned about there is a code, the C code, the reference code we use for quantization model. And there are two big steps, actually. One is a model quantization, which is execute one time. Here and now, there is a difference on acquisition. So giving them the image is— we do the new calculate— the output based on just integer operations. So you can go to the function-like quantization and the forward quantization layer queues to see the operation more clearly.
+
+
+00:04:35
+
+Right, and then I already mentioned about the performant degradation. Plus like the, you know, the natively quantized model. So if you just use a very simple quantized model, then we got the, you know, the fulfillment drop-loss. So the detection accuracy is great because we didn't approximate the model well. So quantization is actually a type of approximation, the 14-point model, by using just low precision data models. So that's why we asked you to develop the algorithm by choosing the specific parameters so that you can improve them. NEP gives me credit words in the From the side of quantization, now we can know that this whole operation here can be executed by using the integer-only-animate operation. So this operation here is a subject for for the oscillator.
+
+
+00:05:13
+
+So the oscillator is used to do convolution, at-virus, do activation, and sometimes normalization. Thank you. Right then, uh, we can save it into the you know like 32 bits or you can save it in 8 bits or other time you can't even answer that many times. And I'm going to show you the next step. Right, that's about all the application. So let's move to the value of HDL. From today's lecture, we will focus on the hardware design. So we just assume that we already have a quantized model in there. The integer inputs then we can design the hardware to you know execute the operation. Okay, this is the reference. In this design context, I mainly focus on the body lock. So, um, I think some of you may be more familiar with the you know vhdm or other system value.
+
+
+00:05:53
+
+So, in the scope of this competition, well under the scope of you know the reference code I use a video it's very I think it's kind of simply of hardware description language. And if you do not have them experience and you can see some materials, some open source code from the, not code, but the materials from the digital system design experiment class given by SNU, and actually cover all the typical things about the type of design. So if you already take the digital system design class, I think there is no problem to transfer this knowledge from a different language to another. All right, so this is the FPGA design flow. And then we start with the model, like a tiny journal, or actually it starts with a certain publication.
+
+
+00:06:23
+
+So in this case, we use a tiny journal between the end there. If we do, we need to do the functions of classification of the model, like how many, you know, multiplication we need, what's our buffer or something. We need to... make the, you know, to do the profiling older. uh that requires an operation we need and then the slide frame we need and then we need to look at the rtl design I'll tell you later so for rtl design here Let me see here. I'll take it. And they're either you just, you know. The very basic syntax or it can't use some existing IP like designing IPM. Those are some predefined libraries that you can use for you know the design and from there you can do the behavior simulation.
+
+
+00:06:53
+
+So this whole step from the application to the function specification and RTL design here is called 'the step for function simulation'. You can use some text editor to do coding like Vim or Notepad++ or Visual Studio Code. And therefore, you can use some environment like a VLC or ISC or... So after having, you know, the design, then you can go to the FUZ implementation and you can use the Xilinx ISC for that purpose. So if we move to the server step, first is to do the synthesis. So it checks how many, you know, logic, and the component we need. And then do the physical layout, like mapping, or placement, and protein. And then finally generate some disk stream. So given the disk stream, then we can do the programming to the FUZ board here.
+
+
+00:07:25
+
+And then you can do them here. Like a bit more verification, final verification, so actually in the second step you need to do some kind of optimization as well. Like we need to check the timing, because sometimes we put too much too many single clock from a period. And in a way, you cannot reduce the clock frequency, so you need to reduce the complexity of the logic. And sometimes you want to reduce the power and reduce the resources you use, then there's all kinds of things that can happen for the FEC implementation. However, first, you need to complete the functional simulation. First check the functionality and then we can do the kind of implementation and optimization. That's the design flow. Okay, so let's start with something very basic.
+
+
+00:07:57
+
+For those of you who already know about hardware distribution language, I'd just like to review. So, HDL is a software about hardware distribution language. So, there are two commonly used models, like programming language, okay, value of HDL or VHDL, very high speed integrated circuit, HDL. And the feature of HDL is that it can support as a flow. So a certain design can be described at a very abstract level. And you can do a functional verification at a very early stage in the design cycle. Because sometimes we do not want to complete all the design flow like the previous slide, but we want to complete them. We want to check the functionality as early as possible and if there's any problem, we want to fix before moving to the next step.
+
+
+00:08:25
+
+That's the point. Then, actually, designing with HDL can be conversation with the computer programming. So later. It's a two, you know, it's like it's an analog to the computing program. Alright, then let's talk about something simple. What was the basic unit of the system is the motor. You can see the figure here is like cheap and now you see a lot of pink here. And, uh, it's a cool, it's a support people. Or something called interface, so it's okay also requiring communication between the cost and outside and inside there are there is a call circuit something called internal or voice so it performs you know the required function like it may be the addition or it can be a multiplication here, let's say this is what we need to you know doing this on occasion.
+
+
+00:09:01
+
+Okay. So this is the coding syntax. So a certain modem is defined between the modem and the modem here. And we start with the modem name. And it's helpful. In the scene. I guess, if we can, and there, it's a. This is the basic block model—this is a basic unit block in the value of HTML and it can be an element or a collection of the low-level design blocks. So we can put it's like a function and we can call the sub function. Inside here there's some block like for always or initial. So all the behavior or statements go to this block. You can have a task and function. So for those of you taking the system, you need to spend somehow working in the class I mentioned earlier. Okay.
+
+
+00:09:34
+
+So this is some very conventional, some convention for the numbers. So for the hardware, what we want is at the bit level, you know that. So that is just the number. We are going to, in this case, we're going to work with the four bit, binary numbers. So we start with four, and bit refers to bit here, it's a binary. And there is followed by the, you know, this bit value, 1001. And sometimes we want to have, you know, if we have a binary for 16 bits, we have very long, you know, numbers. I mean, this is very long. Numbers. So we may use a hexadecimal format. So you can say 16, H, and there are four wise values, A, B, C, D, or something else. And sometimes it can be unsigned format, and it's a default to the 32-bit numbers. Maybe some, you know, they're unknown values, but we highly recommend just using the predefined and the very verified values, instead of using some unknown stage. Um, it can refer to some negative numbers so thank you. Okay.
+
+
+00:10:19
+
+So for now you can reference them anywhere in the world and the button is not be driven by affinity or the output for the movement. And for the register, it can be written anywhere inside the model, but it can be assigned within some procedure statement, like a function from there. It also can be in the model. Okay. So this is a very simple multi-port declaration. So you have two modules here. One is the HAP header. The other part and the mother is low here— so in here just check the declaration. So the input you see the input port, and you see output you can find by something in there. The key was input and output, and sometimes there are some minor reports. You know. The port condition can be followed by the name or the position of.
+
+
+00:10:54
+
+So, for the position of 'in this case', we just use mapping the port for the certain instance to the the structure based on their you know the position. So we start with 's' like 'x y' and 'uh' this is map. So as we get back to the first point in there, you know, in the definition. Another method is using names. So in theory, I highly recommend using these kinds of name association rules for connecting the board. So you can clearly define the connection from the, you know, like a top model or the big model to the submodel. Peace out. Okay, there are many modeling styles, like structure, data flow, behavior, all mixed styles. And in the screen, we mentioned about the RTL design previously. So RTL means resistor transfer level.
+
+
+00:11:31
+
+So we refer to the code to be synthesizable. and there it provides some data flow construct so that's about the transfer level code and that's why you're looking at this. There are another level like a gate level to support, but we're not dealing with that level of design in the scope of this competition. So let's start with the structure of a slide. So the structure of a slide of interconnected gate primitives. So we have a So we can call the primitives, and then we can deal with the gate level. And we can have a suite level. So that's about the structure of. Obviously, in here, it can design in the hierarchy design. So we have a one-volume full header here. And it calls some instance for half-headers and an instance for all gates.
+
+
+00:12:14
+
+And in that way, we don't have to spread out all the code for half-header inside there. Clear. So it's similar to our programming language, so we define some small functions so that we can easily verify the functionality and then call the function at their high level. For the dataflow modeling, it will specify the dataflow between the resistors, so it will write this kind of format. So we can assign the volume expression to the volume, and then it has a delay. Delay means the amount of time between the change of the operand using the expression and the size of the volume. So what we continue is a statement in the world executing concurrently, regardless of the orders that appear.
+
+
+00:12:44
+
+So you, you have a set of this is one statement, and you have a two and three statement, and all of them are the key simultaneously. So when you change the orders, Thank you. Thank you. Okay, so the behavior modeling, it uses a procedure constructed by the initial and the always. So for initial specimen, usually it is for the, because it is executed at the simulation time, so this is for simulation. And therefore the design, as I use the rule-way statement, is executed repeatedly. So it's all. Why? It's always like a... why eight months. So at the same time, 0. 1, 0. 1, 0. 1. That's it. OK, so we can combine those three modeling styles in the same way. So you can have a structure that's using some primity gates in the library, like a saw and here.
+
+
+00:13:23
+
+Or you can use a data flow modeling for, in this case, for, you know, so it has a style like s equals to the same saw with the s1. Or you can use a behavior here. So you use an always block. Then you can do you know you can put them right so after we design the model then we have a system like this or sometimes design the test and do it. We need to do the simulation, so we generate some stimulus, and we monitor the response from the module. So that's about the simulation. So we have a top module attachment, and then we generate some stimulus, some kind of signal, and then we check the functionality of the design and the test based on the response. Okay.
+
+
+00:14:00
+
+Right for simulation, you can use some function like a display monitor stop or finish so you can check the. You know, you can google in here and you want to keep some key, you know, keywords so that you can easily to check the functionality. Like, if you use a display here, you can display it's like a print, print out or see how either C and C Plus Plus so you can monitor the volume at a certain time stamp and then you can just like when you can verify the Okay. And the one important thing in the hardware is we just like have to we care a lot about the time. You know, the cycle level so we need this time scale.
+
+
+00:14:28
+
+So we need to design time unit and then 24 is one nanosecond and it may have some precision so it's one before one second. So this number is very important because sometimes you want to add some delay by using this format. Then you should multiply this number to the time unit. Like in this case, you want to generate some delay like 15 nanoseconds. So we use the same time. So actually, for FPGA design, it's suggested to use a manual second as a target. So by default, in this tutorial, our description, we always set it to one nanosecond and one picosecond. It was so how many days He's a wonderful people. Okay, so that's a very short introduction to Muzzoon.
+
+
+00:15:02
+
+We had a special language, so I think for also where you take the took the course to reduce the system design and then you already learned you know all the information I provided so you can consider it as a review but of course we didn't take the class then you can see if you have a guy like that to you know to do the distribution Okay, so. There are three labs in the tutorial that we can use the previous, you know, knowledge of how to have a description language and the neural networks and transfer it into the code. So we can use the XLAB 1. 1. First, it's about the GSP and the multiplier. Second, it's about the magnets. And the third one is kind of practice, so you should do practice by yourself.
+
+
+00:15:28
+
+I'm going to provide some kind of skeleton code, and then you can do signature. Okay, the first slide is the DSP on multipliers. So, the goal is to view the multiplier based on the DSP generated by the ViewMultiplier. So, we first need to generate the DSP, and we use it to view the multipliers. To test the model, you need to make a test span and test the multipliers. So, you can refer to the code I uploaded on this slide. Okay, for the first step is to create a DSP using the Xilinx IP generator. So the first step, you can see the IP catalog here, and after you click it, and then you can search the keyword DSP. And for this version, I'm using the DSP48 macro here.
+
+
+00:15:58
+
+And then you choose this, and then double click, and you pull up the... G1. This is UI for the OGC and you can see the block visualized. So this is a DSP has a port including club A, B, and C. So A and B have 80 bits and that's the motivator to use animation earlier. And C you can do here. 49, 48 bits numbers and you can produce a P. So to do that, the DSP already finds the name of the generated DSP. So it's like a Mac. We need a modem name to call it in the design we use. So the DSP formula here is the P equals to A multiplied by B plus C. So we have A. You know, it's a number.
+
+
+00:16:33
+
+You have to multiply to number to 18 big numbers and then close with some kind of initial value or some some pretty fine value so that's about this kind of case and there you can click OK so that you can generate the GSB I need that from the library. So inside the DSP, we can choose a specific format. There are many formats. You can, after you click on the location, then you can see many kinds of formats. So depending on the... The formula you want to do, then you can select the corresponding formula. The inside the DSP, you can configure the pipeline register. So, like in this case, there are four cycle delays between the input and output. So we have a four-level register here.
+
+
+00:17:00
+
+So, if the input comes in here and the output comes in here, so it's a period. We do need to put in a full cycle. So you can do the Anyway, maybe just using the . This way and eventually, when you become more familiar with this design, and then you can do okay. So, after you click 'OK', and then generate, other than clicking on the top videos, then the DSP design is generated and you can check that it's also one DSP after the synthesizer. And then some . free flow because everything is in the SP. So, you know, all the things like having resources using, used by the SP after, you know, So now how to design the multiplier.
+
+
+00:17:32
+
+So we make a model multiplier, so we choose an active sources here and there we even add here and increase the resources and quick mix. So after that, you can create the query file, and then make a file name, like a multiplier. So for me, the MUL. In here, I narrowed the scope as I was using HGL. And after that, you really click 'OK'. And then the file multiplier code is. Actually, I gave you the copy file, but you can follow this step for when you make the project. Okay, so for the file I provided to you, you can see that this is not the players, and it has an input and output that you find. In their figures. So we have an input here in the column.
+
+
+00:18:03
+
+And the weight and the input pixel. So what we want to do is to just do a calculation, y equals w x, a very simple operation. And to use a DSP to do that. We need to provide the port for ESP. So we define some internal signal with ESP A, ESP B. dsp p for the output and for a we use the you know reset value for the weight and this is so in here as you can see that we checked the size of the number the msv bit the bit number seven here so if this is one in the negative numbers then we've been assigned to what is this way because you need them to compete in numbers. And otherwise, you use them. You're just there.
+
+
+00:18:36
+
+多謝您的觀看 ,下次見! for the NSP bits of the GSPI and GSPB. so for those you know the variables we can make the dsp instant and just connect for the clock to clock dspa is connected for a b and then you see just before zero because you just want to do multiplication in here and there finally you get the output from p and based on the given here take a look why那這 我要賣貨了 Okay, so to test, that's the SP we just made, and I gave you the test analysis. Actually, you can design your own test map. So we start with the, for the test map, we start with the time scale.
+
+
+00:19:05
+
+As I mentioned, it's one number second, and the time unit, and the one picosecond is the time precision. So we need to define some register for the input. And the register are connected to the input. And we have a design on the desk here. So we call that. And in here, we use a username. ASSOCIATION So you can use a positional association to call them. Call an instant but in here so we connect. Thank you. W2, W3, dan W4. And then we are testing the design with the clock, you know, 100 megahertz. So we need to set the clock frequency to 10 per second. 10 here is just 10, right? But it's multiplied by actually the time. Unit and you already know the time you've already got one second.
+
+
+00:19:38
+
+So if you define another time, then the frequency may be different, even though you set the clock period. So in the classroom is defined in the initial block. So the first is set as one, and every final second is the chain is the flip. You know the current stage. So one you know this is one, and then after five seconds zero and one. Something so you can generate the clock and use the forever. So that you can generate the clock for you. Okay, so for the best case. Um, we you know that the design needs to make two uh you know two kinds of people— some of the perspectives. For the by setting those inputs, and then actually, first you need to initialize some state. After that, say, do them beside me.
+
+
+00:20:13
+
+Do not use them. C'est ça, c'est ça. C'est ça, c'est ça. But after that, it can generate the test case in the 16th cycle. Here, so we use a funnel. and every time for the other positive x dot com, we said weight is equal to four and uh, volume x here will be you know zero to one one two two and then we have a 16 cycle. So we create the very simple Okay, and then we can do simulation by click on the simulation and resolution and run behavior simulation and visualize the weight fall. So the weight here is decided to fall in all 16 cycles. You'll see that it's starting from here. And you can be here and listen to 16 cycle. So give me 16 cycle for X winner.
+
+
+00:20:46
+
+Set from the 0 to 15, then you see the 0 here 1 2 3 4 up to 14 15. And then what we expect is to see the result y to be as you see that here 0, 4, 8, 12, and up to 60. So actually, for a given input, its output comes out after a full cycle delay. So you can see the gap between the input and output here for cycle delay. Yes, that's about it. The waveform for, for example. Alright, let's move to the second example. In the second example, we will build a map model. So we use multiple multipliers and a header tree, and we make a test map. So first of all, we just remind you of the DNA observator and the location of McModule in the top-up system.
+
+
+00:21:17
+
+So for DNA observator, we have a processing element array to perform the multiplication and accumulation, actually to perform all the convolution operation. So. This can be considered as a computing unit only when you pop the DNA. And just a brief reminder that MAC is a model that performs many multiplications and accumulations in parallel. So we studied the convolution concept previously. For example, let's say we need to calculate the A. We need to do with the equation of wicker. a e to the power a e to the power 1 plus b e to the power 2. and then plus m by nine and then next we even do the mother you know answer like a prime and then finally you can accumulate the single offices so map you use to perform this you know operation so do the multiplication Alright, so in this tutorial we can give you an example of MacWoodoo that can calculate 16 multiplication and accumulation in every cycle.
+
+
+00:21:53
+
+So the inputs are in the format of the 8-bit to complement the numbers, so we can cover both the signed and unsigned numbers. And the output is 20 numbers. So we expect that after we get here, we get 20. Thank you. Then you can know that the weights should come from the one-times model that we mentioned in the previous lecture. Okay, so let's give some really abstract level of math. So the simple math is used to compute the sum of 16 products. So we have 16 products here, and then we do the, you know, accumulation. So starting with the n multiplier, and it's followed by a dagger. Or sometimes we call it edit tree. Edit tree because every step we reduce, there's a number, you know, I'll reduce by half.
+
+
+00:22:23
+
+So it's like a tree in the structure. Okay, so we're going to do one more. But the first letter 'D' is to check them you know input and output port folder with the modem. And to build the compute and some of the existing products, we define a modem like a Mac here. And the the out of the equals are the cop every single has a global signal. So in here, we have 128-bit input to perform this kind of mapping. So first, 8-bit. First. That's it. This would be one mechanism. Okay, the first it um indicate the you know the first i mean the first and then i need to be from number eight to number 15. And the final way we got the output is all accumulated through research, as you can see down here.
+
+
+00:23:06
+
+Rick. Bye now. So let's start with the multiplication. so we find something here but the key here is to use 16 multipliers running in parallel so we have previously already you know and now we use it to i mean i mean to do the calculation for max so over here we have 16 multipliers and we use a mapping like here so the first multiplier to do the calculation like y zero zero equals to w zero x zero and then we use a mapping like here the first way it would be you know eight lsd bit in the numbers and the second i mean the first input What is this? A beats MSB. It's a very long input vector. And in a similar way, we can define 16 into an output for multipliers.
+
+
+00:23:41
+
+After having the multiplication operation, I mean multiplying. Multiplication research, then we do the accumulation, and in the formula you can see that there's a sum. Then we already completed the product. So now we have something there we call the edit tree here it's a reduction tree or something. So that we can upload the key weight research. After having 60 results, 16 results from the unit. 16 product research. Okay, so what we do is to divide the multiple level. At first, level one here, starting from the 16 multiplication research, we can do the addition, and then we can produce this as an eight. Know eight pieces, so then from eight we move to four in the second level. Two and then go to level three and then four and finally you can get this Y4 as considered as the final accumulated research.
+
+
+00:24:21
+
+Also, we have some delays because we accumulate in the multiple levels. Multiple levels of headers, so we have like in here we have a four-level delays. So this ability is to use for calculating the delays and voicing. So in the edit tree there is some value here indicated by some number as some internal variable to calculate the timing for the output. So you can see that if you have Peace it out. The input value input and this is d1 and d2 (93). Thank you.いっぱい. And others, so when the money's go high, then indicate that the accumulator is a valid calculation resource. Because without having, you know, this delay signal, we cannot know what happens to get the output.
+
+
+00:24:55
+
+So the delay, I mean, the output signal should be generated based on the delay. And when you design your own motors, then you have to check what cycle you produce output and to generate the correct synchronization signal. Okay, so after having this design, then we can do the, we can test the design. So similar to the previous example, we made some test frames like a Mac TV here, and we call the Mac room, now our design is a Mac, and we have to produce an input, like a wallet input. Wait, enter. And we expect to see. the wizard in the app. And then the clock frequency was 100 megahertz. And then it was a classic definition of full clock, the same as the previous example.
+
+
+00:25:26
+
+Right, in the test case, now we can generate the test case in a 16 cycle. And we also have an input with a width of 4 and an input from 0 to 15. But the main difference here is we have a 16 width and 16 input. The same time, so previously, when we pass a single multiplier, we only have one input and one no gate. Now we have 16 bits and 16 inputs. Let's see how the waveform looks like. So this is the waveform that you can generate from the simulation. Dan kita akan menjelaskan bagaimana. On top you can see you can visualize the waveform of the first. Here is the first multiplication, the first multiplying model. And it performs exactly like the first one. So the weight is set to 4 in all 16 cycles.
+
+
+00:25:56
+
+And during 16 cycles, the input is set from 0 to 15. And then that's why you can receive the result. Why? It's from 0, 4, up to 16. So for a given input, there's some 4-cycle delays because of the USB pipeline resistor. So in the lower part, you can visualize the waveform for MacModule. Now you also see the weight, but the you see that\] you have four, four, four here because you have sixteen, seven weeks, and then the value was all that you know with our four, and during the sixteenth cycle, one input is set to zero to fifteen, so the accumulation research. This is what you mentioned research. From here zero, and then you can get the zero output. From the next cycle we have four, the research of the multiplication, and we have 16 output.
+
+
+00:26:30
+
+Then we use 64 while you're here, and similarly eight, then we have like 128. So by doing the solution, then we can play this so that we can use the calculation to perform the multiplication and operation at the cycle level. So every cycle we can generate know the research of 16 multiplication and tradition, because that's very powerful. Because there's one single cycle we can generate the result of very big, i mean a lot of them operation. So in the conventional pictures, we just have one— you know, it's very slow because you have to generate, i mean, calculate. But in this scenario, you can see that they can do it in parallel. It becomes very efficient. And then you can really speed up the application. Thank you. Right the last thing is about the practice.
+
+
+00:27:06
+
+So we use this map to do the convolutional layers. So we use the four methods and we initialize four sets of features. And we read some image from the file. So let's see the step by step. So I provide it to you, the conclusion layer, based on my code, and the parameters for a certain image are defined in this manner. So you have a weight, and you put find here. Then you can define the frame size. So you need to test a very small image, like 128 by 128. So this is a great image. It's not really good, but it's good for practice. So we have a buffer to store an input image. Then this is a buffer image here. And then we have many internal signals, like block, vstacks, and valid include, data in, and for setup feature.
+
+
+00:27:34
+
+There's four setup features. So this one will make it full. And for setup feature, we expect it to produce one output. So we have four output automation resources. And I... in the model you can see and you can visualize that there are four mac instances and numbers one, two, three, and four. So you have four models for each model in this set. You can you know use one setup in commission with no feature, so you can see it. This is the first set of features. And the same. And here. Thank you. Okay. So in the catchment, in the best case, you can see that you can read the input from here. Here to find to the register offer. Then it was already, I mean, we already initialized the full size of the computer.
+
+
+00:28:09
+
+And so we know that those numbers should come from the quantized model. So this connection between the software and hardware. So in the software, when you generate the quantized model or generate the input, you can actually generate some hex file or some parameter. This is the hex file. And there's some parameters like this number, this number, but in the wayside simplify. So the halfwares, we read the file and do the calculation. That's the point. So in this specific example, there are just a full set of weights. And there are all those numbers I provided to you. But for the evaluation, you need to generate the numbers based on the oftentimes model. OK, then you just make the code to generate the default waveform.
+
+
+00:28:39
+
+Because I didn't give any code for the generation, so we can see the volume change in here. And here, we just see. But obviously, you need to define what is a gain at a certain cycle, and then you can test the accumulation results here. So that's the end of the tutorial today. And therefore, in coming lectures, we're going to work with the buffer memory. So we already have a quantized model. And we have a computing unit in the tutorial. Then we need to connect two of them. So we need some kind of memory to store the value of quantized model or the features. And then those can be used. For completing, I mean for doing the conclusion or after operation. That's the end of today's lecture. Do you have any questions?
+
+
+00:29:21
+
+Right, if you don't have any pictures, then let me stop the lecture today and then as usual, the video on YouTube and then you can study myself. You have any pictures and you can post on the Slack. So I'm trying to explain in detail. Okay, thank you very much. Thank you.
+
+

@@ -1,0 +1,285 @@
+00:00:03
+
+So. So let's move to the content of this week. So first of all, let's see the overall system we covered in this competition. So in this competition, we provided you the FPC board, and we asked you to design the system, including the host code. And as you can see here on the FPGA board, you can see that there is the FPGA chip and the DRAM chip. And inside the FPGA, you can see the CPU, UART, and MIG that will be given. And you have to design a general component here. And HOSS and FPGA can be communicated via UART. So we provide you the code reference software. And, like last week, we discussed, there are three key data movement paths, including host and FPGA board communication, from DRAM to the JOLO IP, the JOLO component.
+
+
+00:00:37
+
+And lastly, is about the communication between the buffer and the computing unit, processing elements like this. So that's what you should cover in the design. So this week, I'm going to dive into the top module, the design we have provided to you. So you can check the materials and the source code, the reference source code on the Google Drive. So here, let's see the top module. So we have a JOLO engine IP here, like the previous slide here, and this is the JOLO IP. And it can be integrated into the entire system via the bus. So you have to design this modem. And this modem can be communicated to the micro-place, the CPU, and it also access to the memory interface here.
+
+
+00:01:07
+
+It can connect to the memory interface here and access the DRAM to transfer some data, like the weight or the results of the computation. So to do that, we provided the reference code. So in the reference code engine IP, you can see that the CPU can set a few resistors here, configuration resistors. Like to trigger when to start the IP, and it also provides some address like address for storing the you know the weight or the activation the input or the address to store their final results. Also, in the reference code, you can see the DMA part, the DMA read and write. So basically, you don't have to modify the read and write part here. So you just modify the parameters of the controller.
+
+
+00:01:38
+
+Like in here, it may allow you to read some data from the external memory or write the... So basically, you can assume that the data can be transferred to the internal buffer inside the Joule engine. So that's about the top model. So this is the code structure. So in the source code, you can see that there is a Joule engine. and there's your engine with the XE protocol, and there is XE Yami read and write. And the controller, so basically, you can modify the controller to read and write based on your preference. There is a patch band here that allow you to test entire system. And there are some screen capture results, give you some hint. And actually, in the simulation module, you can see the reference code to the Hexadecimal files.
+
+
+00:02:12
+
+That store the feature pair, the input, and the reference output. And you also see the model parameters in the log parameter folder. And now the results from the hardware can be stored in the browser. simple external memory model based on the SRAM, and then it has like a two-cycle delay or something like that, so you don't have to touch this code. Okay, so this is the top structure for the you know the overall structure for the code, and actually in this source code folder you can see some reference design for Mac for some module for computing unit and others as well. Okay, let's see the design from the top. So assume that you want to trigger the design. So to do that, we can use XE.
+
+
+00:02:41
+
+You can jump to the solo engine, select XE here. And this model needs to add an interface. Communicate with the microplay CPU so, basically, it received configurations from the CPU and returned the status of the engine. So, like in here, they have a read and write, and uh, there are a full control register here. So I'm giving you a right—basically, this kind of interface. So CPU will send the request via the XE interface, and it will output a full resistor, full control resistor here, and the controller engine will take those resistors at the input and operate based on those inputs. So let's see here. So like in here, you can see like this is the interface. Only so there's a four resistor here and then you can see if you can read/ write to the you know to the the zero engines.
+
+
+00:03:15
+
+So like in here, um, so we have a you know, when the CPU the microwave starts and you enable a flag one here and why you know, you keep getting the result in the network. I like that. When you finish the execution of the layers or entire model, you can trigger that flag. And as you can know, that when the engine is finished, and we can read some data from the DRAMs. So let's see the Zulu engine. Now this is the top modem, the top design, it needs to take care. So this is the top design here, the modem engine here. It takes the control signal, like resistors 0, 1, 2, and 3, at the input. Also have an X interface here to accept the external memory, the interconnect to the network, I'm sorry, the MIZ, the memory interface generator, the memory controller.
+
+
+00:03:50
+
+And there are additional signals like a network done or something. Signal here so um you can connect the network or network led to the uh the led so you can trigger when the engine completes the execution. So basically, you can take the input here and even more control based on those inputs. And the network down here can be returned, can send a return signal to the interface here, and even trigger when the entire model, the entire layer is completed. So that's the idea. Okay. So that's about the interface. And in here, I will also provide you some simplified control signals. So we have the application start. Then, if the first speed of the control resistor zero is turned on, it's set to high. High, you can start the engine.
+
+
+00:04:23
+
+So, app start here, you start to 1, like it's this. So, when the bit 0 in the first controlled resistor is set to high, then you start. And when the app's done, the network is completed, then app start will be reset. So that's a very straightforward logic. And the network down here is a trigger when the entire model, the entire network, is fully executed. So we have an application done at that point. So basically, we have a trigger signal to start the engine. And then the engine can return the completed signal, the done signal. And it can notify the CPU that the engine here, the zero engine, completed the work. Okay, so here is another— you know, signals, another— you know, resistor, configuration resistor in the top motor.
+
+
+00:04:56
+
+So in the previous slide, we just explained the start and stop of the down signal. And to control the modem, we also need to provide the address to access the external memory. So here, I'll just give you a few, three addresses here. One, two, and three. So the first address here can be utilized to access... load some data by address, the VM address for read. And here there is a VM address for write. So, if you want to write a result for one layer, the final result for layer 14 and 20, we can specify the address by providing value for resistor number two and even three here. So, we gave you the template here, but for now we just load from one address here and you can use the same logic for the design.
+
+
+00:05:30
+
+So, we have a trigger signal, a start signal, and a done signal. And now we also have a resistor to store the address to accept the external memory. And now let's move to some interface module, some DMA. DMA stands for Direct Memory Access. So for DMA, we want to provide two kinds of access, the read and write. For read, we want to load the data, like an input image. All the modal weights from the DRAM to the chip to the FEC chip to the Zorro engine. So this is the flow for REIT, the gaming REIT. Basically, it received a request signal from the controller. specifies when to start to read, how many transactions, and the location of the memory, the location in the memory that you start to read.
+
+
+00:06:05
+
+So as soon as you want to load maybe 16 transactions, starting... Address maybe a thousand, then the DMA this DMA will start loading when we have a trigger here. And then, if you understand that, you know we process some protocols so you don't have to care about this. So there's a dead channel, related channels, and some user signals. So if you translate request like this, your control start number, connection, and address, and the return data, like the read data and the value signal, are going to be uh— you know, the data going to be uh— you know, return VR. So you have a return data from the external memory. So um, after sending the request and the interface signals, it received the return data via the IC interface.
+
+
+00:06:33
+
+So we can like, we can request the block of 16 by 32 bits here. So it will provide you 64 bytes data from the external memory. So you need to specify the location of the address in the memory you want to load. So um, this is a little bit more details for. The um, you know, the meanings of the signal so you need to provide how many transactions and the start address. And then you can get the data. The return data here, you can recall it to it, so it's fixed, so you don't have to change it. And there is a valid signal to indicate every single data is valid. And there is a down signal because you have a number of transactions here.
+
+
+00:07:01
+
+So the down signal here will be triggered when the last package is transmitted to the isolator. You load a 64 or 16-byte package, 16 data, and when the data number 16 is received, and then at the same time, the done signal is going to be raised too high. So basically, you only need to control these parameters. You need to provide when you can start the read and how many transactions. So basically, you're going to be fixing here. And then we have some read address. You need to provide the address to access or to load the data from the standard memory. Okay, and in reverse order, you need to provide you the code to perform the DMA writing. So, assume that you want to write the result of the conclusion 14 or 20 to the external memory, then you can use this complement.
+
+
+00:07:37
+
+So the flow will... is as the following. So, since you may write the interface, you receive the write request signal from the controller. So, similar to read, the controller should provide the starting, the trigger signal. Write triggers and how many transactions, and what is the address you want to write to the memory. And based on that signal, this interface will send the write request to the external memory via bus interface. So most people don't have to care about this. So we can provide, you know, we see the request here, and even generate the address channel, and the channel, and respond channel as well. So we don't have to touch those things. But as a user, what you need to provide here is to set the proper value, like in here, how many...
+
+
+00:08:09
+
+package you want to write. What is the address you want to write and the data should be provided like this: so, like, you write, then obviously you have to write some data from the buffer, so you have to specify the data for the write. We check the code and follow the pattern. So you can set those parameters. And here are a little bit more details about the signals for YMA write. So we have a functional port, like a start YMA, start YMA write, and how many transactions. So mostly it's going to be fixed, like 16, something like that. You have a memory start address, so you need to provide the address. So, basically, you need to send the proper trigger signals and address so you can load the data as you want and at the same time.
+
+
+00:08:38
+
+Here, when you send the request, those things are like the control signals. So, you will need you also need to prepare the data that you can write to the external memory, because as soon as you want to write the answering results from the layer 14, 8x8x196 or 8x8x200, depending on the routing or something like that, depending on the heading, then you can send the data as well. Okay, and in the memory controller here, this is the module you need to take care of. So you need to define the layer, how many data you want to send, how many packages you want to send. So even though we fixed layer 16 here, but you need to make a proper address, so you can load the data one by one and you can send the correct signal, send the correct trigger signals and control signals to the domain read and write.
+
+
+00:09:10
+
+So you don't have to modify the read and write, the domain read and write, but you need to generate the proper signal. The controller. For the first layer, you need to generate a signal to load the input image from the external memory. You want to load entire lines, or you want to load a few lines, or something like that. So you have to make a design choice for the engine. Right, so in the game controller here, I um I already gave you some examples. Like, here one example is for using like a finite state machine to generate the request. So it's a very straightforward like this. So if we have, and it goes to the DMA, and it keeps you know you know keep kind of requesting the data, like in here you keep waiting until you get the final package, and in here there's a sync.
+
+
+00:09:45
+
+If it's right here, So we assume that we load something and we write it back to the memory in another. So here, even the read here, the controller here, we read that, we load, and then we keep waiting until it can write it back to the memory. So we keep repeating this procedure until we... we load the entire image. So that's the flow. So you can see some code here. It's relatively simple. So we have a DMA, and here you can stand the trigger, and then move to the waiting. And then during this period, you keep waiting until the last package is received, and then it can move to the kind of waiting or synchronization stage, and then here it can repeat until, you know, waiting until, you know, the...
+
+
+00:10:28
+
+I mean, you know, what we can even sync with the other, you know, writing and financing machine. And when it's done here, we go to the, you know, the complete as well. condition here: so if the index of the loading package equals the maximum number of package numbers of block blocks you want to load, then we just move to the end part. So basically, let's say you have a 256x256 image and you want to load line by line, then the number of lines can be 256, then you load 256 lines and then you can stop, you can go to 'done' and then you complete the YAML loading so you can get the entire input image. So, um, here's a little bit more about the wavy Xamarin address for the DMA read controller.
+
+
+00:11:06
+
+So, um, this is the wavy Xamarin address, and um, the read address is determined by the base and offset. So, the base here can generate it from the configuration resistor. I explained in the previous part. Enter the offset here. You can calculate it, you know, for layers. So, for some layer, you want to pre-define that has for certain maybe input or weight, then you can define offset here. And there is some kind of intermediate offset. In this particular case here, this offset is just simply calculated by multiplying the block index and the size of a single block. So, if you just load 64 bytes of data, then you just multiply the block index by 64, and then you can locate to the particular part in the external memory, and you can load the data as well.
+
+
+00:11:38
+
+and uh, very similar. You can have a right so right. You know, you're gonna have a trigger spot here. Keep them waiting and uh, you know, when the stock here is for my controller, enter. Eat them. You know, your stock to give me right here. And uh, and then you know, it keep writing until the last package in the last you know, last data in the package isn't completed and then it can move to it as we expected. So so that we received doing a read, we received one line and now we want to write back to the external memory. It sends a trigger and then it reads and it will keep writing until the last block of the last 32-bit data is written to the external memory.
+
+
+00:12:08
+
+and there is a write-out, and it completes it, goes to stream, and then it waits for another line, and goes back to the other line. So that's the fundamental ideas. Okay, and again, here, very similar to a read-financed state machine, you can update the address. So in here, we just have a base, we have a block offset, and a data offset, or something like that. So we can modify this part. So we can specify the location in the external memory to... Write the result so not the report, so this code is supposed to be modified. Okay, so that's about the read, write, and data transfer. Let's see some example for a test band. So in this test band we have engine here, and we have a memory model, the RAM model, and this model will take the 16-bit hex file I explained last week.
+
+
+00:12:39
+
+Then there is a memory controller, memory interface model here. So you don't have to touch this part. So you just modify the files here. And then here there is a control register, so you can change the value if you want. But here you just set a starting address for read and a starting address for write, so you can move the result to the right, based on this code. And in this example, we have a read, right? We don't have to modify, and then the controller, and then the display. And you can load the data from the hex file, from external memory here, to the DMA read, and store it. To buffer and the data is going to be loaded by you know DMI right and store it back to the RAM model here at another address so we gave you an example of that and actually we can have some visualization
+
+
+00:13:14
+
+for visualization so basically you should use the big level comparisons but in here just want you to visualize some results give you some kind of motivation so you can check it with some big writer the way you can write down the you know the data the kind of binary or hexadecimal data into the image give you something easier to validate the data okay so uh let's see here this is the attachment in here we have a star signal and we again set the value to resistor zero and we also set the value for resistor one and two you're marking the address for read and write gaming and uh actually there's a mode that you
+
+
+00:13:41
+
+can create or something basically you can skip this part so you can test the particular layers if you want and uh this kind of flow here you can wait until the network signal is triggered by the engine so you can complete the let's say one layer or one model you can trigger the signal and the simulation will stop and here's the kind of results. and you can simulate the design. It's a given code, you can get this kind of result, so you can take, for example, a 40-second clip here, and this is the signal, you know, today's type of week, and right here, we just captured the data in the... you know to connect to the RAM and then we will.
+
+
+00:14:03
+
+If we dive into if you zoom in to the waveform, you can see this kind of signal. So we have a start and an address for reach. Right here, the start address for reach is zero. And the right here, we load it here, send it to the buffer, and... Uh, we can read the buffers and send it back to the external memory so we'll give you the right to control it and allow you to transmit the data from the buffer to you know the external memory. So a little bit more design—explanation. Like in here, you load the data. And in the next stage, we can write out some results. But for now, we just forward the, you know, the data from buffer to the external memory.
+
+
+00:14:43
+
+So whatever you read here, you can send it back to the external memory. That's important. So that's about the top one. And if you can visualize, I mean, there's a reference goal, so you can visualize some data. So like in here, you can... visualize what you read. So the data here is what you read. The orange signal is about what you read, and you can save it into the file. So, because you load the input image, then you can have a full kind of image. Channel 0, 1, 2, and 3. Channel 3, because we have a dummy, is just 0. So you know that we only have R, G, and B. So it's red, green, and blue. And the remaining channels are full of 0.
+
+
+00:15:08
+
+And you can also see the data when you write. So we can observe the output. you know you can write out it you know you can translate the uh right right signals into the image but actually you know later you can just come out with this if you already have a you know reference uh hex files so you can use a beat level comparison but in here just give you some example like we can actually visualize the behavior of the uh by actually seeing the um you know the result in the image rather than just a single one Okay, so here you can reproduce the results from the baseline code. And in here, actually, the location here, you can define what is the hardware estimation and the software model.
+
+
+00:15:39
+
+But actually, you can change the directories. Like you have a skeleton code that generates the input or the input in 16-bit or the model parameters. So you can change the directories to simulate the certain layers or the entire model as you want. Right, so that's about the data movement. So now we can assume that we can transfer some data via DMA. So let's take a look at how we can do articulation. So let's review the overall system a little bit. So we have a horse here. We have a PC chip. You don't have to touch the CPU, you have the MITG. The CPU now can trigger the start signal in JOLO. And in here, it can just transmit data from the DRAM to the buffer. It's a buffer here.
+
+
+00:16:10
+
+Now we want to do the calculation. So let's see how... Can make a code for completion, so let's start from the primitives like multipliers. So you can design something like dual multipliers. So in here, we can build a multiplier based on the DSPs from the VBYP generator. So we can call to the IP here, and here, and mostly you can use the default design. If you are confident, you can actually modify the pipelining resistor here so that you can change the design a little bit. But other than that, you just pick the default setting, and you can make the multipliers. And here is an example: you can make a patch band. So let's see the dual multiplier here. So we want to compute weight, w, times x1 and w, times x2.
+
+
+00:16:39
+
+So we can use weight here for two multiplications. So assume that weight and activation are sign numbers, so we can build something like this. In the baseline here, you can just compute it using the DSP. And in the DSP, you know that there are a lot of layers inside the DSP. So you can take the format like A, B, C, like this, A, B, 18-bit, and you just use this. And you can map like this. So we have to, you know, we can generate the A, B, and the result from P, going to be copied to the result, like one. And the result from DSP number two, going to be copied to number two. And you just call the DSP macro, the IP, explained in the previous slide.
+
+
+00:17:05
+
+And in the test band here, we can generate multiple data. We can pick the clock, 100 megahertz, using a period of 10 nanoseconds. And we can generate a multiple W, X1, and X2. And we can monitor the results from Y1 and Y2. So in this particular example here, we just generate 16 sets of data. The weight is 3 fixed to 4. And we have an i and i minus 1 for activation. So it's very simple, as you can see here. But actually, you can change it based on your own. Right, so this is the summation result, and using this multipliers, dual multipliers, you can obtain this kind of result. You have the weight on the top here, the X1 and X2 here, and the expected result. And I'll analyze the result a little bit.
+
+
+00:17:36
+
+Here you can see that you have a full cycle delay. So assume that this is the uh, you know, the moment of the timestamp uh, triggering the input. After full cycle, you can get the results and uh, into the data. I can see, like, in this particular example, we have a weight. You know, this is four and x1 and x2 are zero. So we just get the zero here. When the data x1 and x2 are changed to one and minus one, you can get the corresponding result. You can see the similar patterns in another test. Now let's move the extended design a little bit. So now you only use two DSPs to support the two multiplications. So this is that you want to extend the design.
+
+
+00:18:03
+
+It's just like you want to design, you want to get like 144 multipliers. So you can make it like. a full group of 64 or 36 multipliers and use some added tree to do the you know to accumulate the results so to do so i can give you just some particular example here but eventually you can modify it So let's see the formula here. Assume that you want to compute the DPE, the dot product engine. You want to make a dot product engine that accumulates the results from 36 products here. So you have a WI times XI, WI from 0 to 25. Is your first do all the multipliers in parallel to all 36 multipliers and then you perform them, keeping accumulating results using the edit trees.
+
+
+00:18:32
+
+So, like, from 36, you know you reduce it into a trial. From the trial, you do to four, then four to two, and two to one. It takes a few cycles to grab to generate the final results. Right here, so well you can translate into the code. Now, you want to compute the you know the sum of product or the dot product engine. And you can utilize the dual multipliers presented in the previous example. So, you can divide the input into even and odd. But the key idea here is you want to map the data, the input data, to the... you know 144 multipliers. So, you can have 36 here, you can you know compute 72, 36.
+
+
+00:19:01
+
+2 you know output and you have another group here and you compute another 72 output so you know in total you can compute 144 multiplication in parallel. So you have to map the data as you want. So here, I'll just give you one example. So you can map the signal weight, selling across the four set of input feature maps. But actually, we can map it in . All right, so here is an accumulator. So we just get the results from, let's say, 144 multiplications, or a full set of 36 multiplications. So now we want to accumulate it. We want to do the summation operation here. So actually, it's just an addition. So you just gather and add it together, so you can use some entity, like an entity with a 32 or 36 input, so you can get the 36 results from the multiple layers and then you accumulate to generate single number.
+
+
+00:19:37
+
+So that's the point. So you can make some modulances, so it's quite straightforward. So you take the 36th result from multiplication, and then you can accumulate, like you generate this trial result from first stage, from 36th, generate the trial. And from trial, we generate the four results, which is the ultimate, with a three-input adder. And then you can generate two, and then finally, you obtain the final results, accumulated results. And there's some code, like some reference code here, we define for levels, here, for stage, here. So, state one, you know, we use from 36 to trial, and from trial to four, you know, four to two, and two to one. So that's the idea. And to generate the proper value signals for the output, you can make some delay lines.
+
+
+00:20:09
+
+It's just a secret resistor. So you basically generate just a line here. It just generates an output signal, the output value signals. So it's not really special. Okay, so let's see one example of the attachment. So we want to test the previous component. So we want to test the MaxPack, the multiplier, and the accumulator modem. So we take an input here. We need to provide a weight, an input feature map that can be shared among different weights. And we want to generate four volume accumulators. So in here, it's just one example. So actually, we can change the number, but I'll just give you one example here. So in the test ground here, again, we want to run the design in 100 megahertz clock.
+
+
+00:20:36
+
+And we set the trigger, and we keep counting to trigger the counter to generate the address and generate the test vector. So eventually, we take the data from the buffer, from the memory, like the first part of the features. But in here, we just want to generate some simple data to validate our component. So we have a trigger here, the number one here, we can send trigger. And when the trigger is activated, we can set the counter. If we activate the counter, it will count from 0 to 15, and then it will reset. So it's just a very simple counter. And we use this kind of counter as an index to access some array on the buffer. So here we have a predefined data array.
+
+
+00:21:02
+
+For the given counter index, we can set the value for activation. So it's a very simple example. And here's the simulation result. So in the upper, you can see the clock is set, the value signal, and the data. And the results here, the estimated result can be put. In this figure. So let's do the analysis a little bit. So in the upper part here, you can see that for the weight, we just redefine it to 1. And for the input, we just assign it from 1 to 2, 2 to 8, or something like that. So it's a chain in 1 by 1. So it's very straightforward and very simple. And in terms of latency, in terms of the timing, you can see that we have a trigger here.
+
+
+00:21:27
+
+And as you know, after a full cycle, you can get the result from the multipliers. And then from that, it takes another full cycle for accumulation. takes eight cycles. So, from here, we can get from this trigger. Here you can obtain the result from the accumulation that's just in cycle number eight. Here and, in terms of data, because we have—um— in here, we provide. We define the weight as one, and all the information about one as well. So we can obtain the result of 36 very trivial results. Now, if you move to another, when you have a little two, when you get the— you know, 72— and then I'll come enter that. You can follow for that. Okay. So, as I show you, we can expand from the dual multiplier, the single DSP, or the dual DSP, into the larger design.
+
+
+00:21:59
+
+You can use, like, 144 max in the design. So you can increase the. So now, we can utilize this module to compute the model layers. So you can design some models like this. So like in here, you can provide accumulation length. So like in here, as you know, that we have an input that our hardware only computes 144 multipliers or, like, for a single output, we just compute 36 multiplications at the same time. However, for generating an output, we may need more multiplications. Like, you have a 3 by 3 by, let's say, 16. Then, anymore, compute 36. So it calls you four cycles. We have a like a accumulation length or some some length some to indicate that we may need to compute in multiple cycles. For the first layer, we just need one cycle.
+
+
+00:22:42
+
+But for the second layer, we need four. For the third layer, we need eight, or something like that. So this is a parameter that we can parameterize for design in this manner. builds a model like MCConner and you can send a start, then you have an invalid, and keep you know adding the results to generate a single output. And for that code, you can you know you can assume that this is the wrapper. This is the MCConner, and inside the MCConner, the kernel stack. So the kernel stack here actually allows you to compute the value of a single group. And you can consider it as two nodes, two massive nodes. So the inner block, the MAC stack.
+
+
+00:23:07
+
+Allow you to compute the single value, the single accumulated value here, and then you can keep adding it based on the accumulation length, then you can compute the actual value for an output. So for the first cycle here... you just set the value, the partial sum, the buffering values is equal to the result from the max-stack. And for other cycles, for other cycles here, you can keep adding the results from max-stack to calculate the value from this accumulator. Because at the end of the day, you want to obtain the result from two accumulators. Okay, so let's do a quick summary on the max here. I gave you one simple design. You take the mode, input, and you set the volume here, and you generate the output.
+
+
+00:23:41
+
+And actually, in here, you take the input, like 64 times 8, or 36. So the important note here is you can have a different design choice. So, like in here, with 144, you can design like you want to compute, you know, two by two by one. So we can compute four appropriate cells. Cell here you should have a 36. I'm sorry for the mistake here, and for option B you may have another choice. You may generate, maybe two by two by four, and uh, you can uh, for each of them you can you know, easy line you can compute or nine max in parallel. So you have to make the decision. So we just give you the hint. You know, some example design. Obviously, you can increase the number of maps.
+
+
+00:24:10
+
+So you can start something small like 36, and you keep increasing, like 64 or 144 or 576, to fully utilize 100 resources. So you can improve the throughput. So that's about the Mac design. So now we can diagram. We can know that. If I can chance me the data, I can do compute. In the next part, I'm going to give you a little bit of a tutorial about making an offer. So we consider the web offer. Week so like in here you have a you can have a buffer with a 72-bit at the input. So 72 here is a design based on the structure of block RAM. So for the single block RAM, the maximum bit is going to be 72. So you can store the data.
+
+
+00:24:39
+
+So the features of 3x3 can be stored in a single line. And for publishing 1x1, you can store it in a channel line. So it can be 1x1x8. So you can occupy 64 bits out of 72. So it's just an example. More uh, you know, the larger bandwidth, then it will concatenate uh multiple VRAMs so, like, in here, just give an example. Like we designed one buffer for weight and just store this with the focus, the design, and, like, we explained last week, we can actually store three of the product for three layers. So we have a weight here, like zero, one, and two. Installing a different part of the buffers, so it's like a ROM. So you can do this. So, um, here let's see an example.
+
+
+00:25:11
+
+So how we can translate the concept into the code. So in the code here, actually, you can implement like a global buffer for parameters. So you can store the weights here and you can initialize the layers. We can follow the same manner, sorry, for the virus, and scale, we can follow the same manner. So actually, for the virus, we can use time 16 here, and for the scale, we can use resistor. So I went this way, but in here, actually, we can actually store both the virus and scale together. Okay and uh, here is the way you can do the IP configuration as soon as you have weight. Here you define the file name here and uh, you choose the you know the mode. This is a simple dual port grant.
+
+
+00:25:39
+
+So in a simple dual port grant mode, actually, the port A is a dedicated and port B is dedicated to read. So when you want to write the data to this memory block, you need to send the value via port A, and it can read out the result from port B. And the number of words is going to be 4K, and the single word takes 70 seconds. Bit and you can define as this and now here is the way you can do a calculation for you know for a for a here which is 72 and 4k in the depth of the memory and now you can see all the signal here you can load the library but if you want to improve the throughput a little bit like four times like because you know like a single line to store the you know the feature like three by three by one just nine pixels but when you compute the processing element, you may need maybe 3x3x4.
+
+
+00:26:15
+
+So you can actually config the port B with a larger width, and at the same time the depth can be reduced. Like in here, you can make it four times larger in width, 288 here, and then you can eventually the depth can be reduced by 4. Actually, you can uncheck the primitive output resistor, and you can reduce the number of cycles to get the output. You check it, and it will cause you two cycle delay. If you uncheck it, it will be one. And also, you can load the data. From the you know, the coefficient finds the cov5 and the load unified here. You have to specify the location of the file so you have to generate the cov5 like here.
+
+
+00:26:43
+
+You want to merge the width or three layers— three first layer into the cov5 and then you can preload it. You can load it and then you can you can have a week with the initial data. And here's a summary of the weight block. So it will have 8, you know, VRAM, 36 kilobit VRAM here. And because you uncheck the output resistor, then it takes one second delay. And for the next time. See here for the right port. It has a 72-bit input. Then, in the read port, you can read the four times larger data, and the address is given here. You have to supply maybe 12-bit for address for the right port. Then you can load the data with the 10-bit address. And here is the wrapper.
+
+
+00:27:16
+
+So we can have a global buffer for parameters, and have a weight buffer, and a virus buffer defined in a similar way. In the touch band, actually, you can access the buffer one by one. Again, you can call the Google Buffer parameter here, Google Buffer module here, and you can set the clock resolution, like how you're confident. and again, this is one very simple example. so we want to trigger. you have to send a trigger signal, and from there, you can set some counter and uh, basically, the way culture is increased. so we just operate the counter and uh, here we have an address. so we can set the address for read and write based on the value of counter. so in here, it's just make a very simple example.
+
+
+00:27:45
+
+so you don't have to you can modify it. here you can see this kind of slide. uh, when doing this information. so um, in here actually, you can see that you can you have to send the data for read and write, but in this particular example here, you already initialize the data to the buffer, the wave buffer. so actually, you do not perform any write operation right now. So you just load the data. So, like in here, you set your load data address in the port B, like from zero to 15 here. And you are supposed to get the return data here. From address zero, you get the data here. From address two to one, you get another data. And as you can see, there is one cycle.
+
+
+00:28:15
+
+Actually, you can double check the data for both the weight and the you know bios and skills, like for weight here, you can see that we we have a four lines of data in the peer here, so you can double check it. And for the scale and virus, so we can have a scale here. The first layer is going to be 128, so it's just 80, and you can see the different wires. So you're going to be matching different output channels, so that's about you weight buffers and scale-based buffers. So let's summarize what we covered today. So today I will explain the top-module design and how we can do simulation with external memory. So basically we can use DMA from the top-module to access external memory.
+
+
+00:28:45
+
+Data, like an input image from the memory models to the oscillator. And I will show you how we can design the modifiers and the next bit of ISP from the IP catalog. And you also know how to design... So on top of that, you know how you need to translate the design concept into the code, and you can conduct the functional and timing verification. So until now, you can... we produce a result, and based on it, we can make our own design choice. So it's just for today, but I think there are three lectures. You can see the entire story. So you can work with the reference software. And the next, you'll know how to generate the pass vector. How we can organize data as you want.
+
+
+00:29:17
+
+So we can write the files with the different orders as you want. And now we can read the file and do the simulation. So we can simulate the entire top module and then you can break down the design. You can design the Mac and the buffer as you want. Obviously, you have to conduct a functional and handling verification, and everything is ready for your design. How you can connect from the reference software and the software code and hardware design. So, in the next week, we've been uh so the last part is about the FPZ verification. That's the plan. That's it for today. Thank you for your attention. See you next week. So again, we upload the material on YouTube, and then you can read. And there are some additional materials for some reference code, so you can base on that. Thank you. See you next week.
+
+
