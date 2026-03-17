@@ -4,22 +4,18 @@ module dual_conv_layer(
     input clk,
     input rstn,
 
-    // System Control
     input        start_i,
     output       done_o,
 
-    // Input Feature Map BRAM Interface
     output [14:0] in_ram_addrb,
     input  [63:0] in_ram_dob,
 
-    // Weight ROM Interface (controlled by Layer)
     output [1:0]  current_chn,
     input  [127:0] win_ch0,
     input  [127:0] win_ch1,
     input  [127:0] win_ch2,
     input  [127:0] win_ch3,
 
-    // Output Pixel Interface
     output [31:0] out_pixel0_32b,
     output [31:0] out_pixel1_32b,
     output        out_valid
@@ -32,10 +28,16 @@ module dual_conv_layer(
     reg [1:0] chn;
     reg shift_en;
 
-    // 💡 [핵심 버그 수정] BRAM Latency 1클럭 보정: 항상 다음 주소를 미리 가리켜야 타이밍이 맞습니다!
-    wire [7:0] next_col = (col == 127) ? 8'd0 : col + 1;
-    wire [8:0] next_row = (col == 127) ? row + 1 : row;
-    assign in_ram_addrb = (cnn_state == ST_IDLE) ? 15'd0 : (next_row * 128 + next_col);
+    // 💡 [핵심] BRAM 1클럭 Read Latency 완벽 보정
+    reg [14:0] my_read_addr;
+    assign in_ram_addrb = my_read_addr;
+
+    always @(posedge clk or negedge rstn) begin
+        if (!rstn) my_read_addr <= 0;
+        else if (cnn_state == ST_IDLE) my_read_addr <= 0;
+        else if (cnn_state == ST_FILL) my_read_addr <= my_read_addr + 1;
+        else if (cnn_state == ST_RUN && shift_en && !(col == 127 && row == 255)) my_read_addr <= my_read_addr + 1;
+    end
 
     assign current_chn = chn;
     assign done_o = (cnn_state == ST_DONE);
@@ -65,9 +67,6 @@ module dual_conv_layer(
         end
     end
 
-    // ----------------------------------------------------
-    // 엔지니어님의 32-bit Shift Register & Padding 로직 완벽 이식
-    // ----------------------------------------------------
     reg [31:0] line_buf0_p0 [0:127], line_buf0_p1 [0:127];
     reg [31:0] line_buf1_p0 [0:127], line_buf1_p1 [0:127];
     wire [31:0] in_pixel0 = in_ram_dob[31:0];
@@ -115,9 +114,6 @@ module dual_conv_layer(
     wire [127:0] din0 = {56'd0, w0_22, w0_21, w0_20, w0_12, w0_11, w0_10, w0_02, w0_01, w0_00};
     wire [127:0] din1 = {56'd0, w1_22, w1_21, w1_20, w1_12, w1_11, w1_10, w1_02, w1_01, w1_00};
 
-    // ----------------------------------------------------
-    // 4x MAC 유닛 구동 및 누산 (Accumulation)
-    // ----------------------------------------------------
     reg mac_vld;
     always @(posedge clk) mac_vld <= (cnn_state == ST_RUN);
 
@@ -153,9 +149,6 @@ module dual_conv_layer(
         end  
     end
 
-    // ----------------------------------------------------
-    // 엔지니어님의 스케일링/ReLU 로직 완벽 적용
-    // ----------------------------------------------------
     assign out_valid = (vld_o[0] && out_chn_idx == 2);
 
     wire [31:0] p_act0_0 = (final_psum0[0][31]==1)?0:final_psum0[0]; wire [31:0] p_act1_0 = (final_psum1[0][31]==1)?0:final_psum1[0];
