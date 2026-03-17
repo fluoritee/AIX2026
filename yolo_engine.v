@@ -32,7 +32,7 @@ wire [15:0] num_trans = 16; wire [15:0] max_req_blk_idx = (256*256)/16;
 assign read_data_debug = read_data; assign read_data_vld_debug = read_data_vld;
 
 reg ap_start; reg [31:0] dram_base_addr_rd; reg [31:0] dram_base_addr_wr;
-wire start_pulse = (!ap_start && i_ctrl_reg0[0]); // 💡 [핵심] 100클럭 리셋 방어용 1클럭 펄스
+wire start_pulse = (!ap_start && i_ctrl_reg0[0]); 
 
 always @ (posedge clk or negedge rstn) begin
     if(~rstn) begin 
@@ -70,7 +70,7 @@ always @(posedge clk or negedge rstn) begin
     if (!rstn) begin
         read_data_d <= 0; dia_64 <= 0; write_64_en <= 0; addra_64 <= 0; pack_state <= 0; total_read_cnt <= 0;
     end else begin
-        if (start_pulse) begin // 💡 [핵심] 여기서 1클럭만 리셋하여 카운터 증발 방지
+        if (start_pulse) begin 
             total_read_cnt <= 0; addra_64 <= 0; pack_state <= 0; 
         end else if (read_data_vld) begin
             total_read_cnt <= total_read_cnt + 1;
@@ -92,15 +92,31 @@ dpram_wrapper #(.DEPTH(32768), .AW(15), .DW(64)) u_in_ram (
     .enb(1'b1), .addrb(in_ram_addrb), .dob(in_ram_dob)
 );
 
-// 3. Weight ROM 
+// 3. Weight, Bias, Scale ROM (External Load 구조)
 reg [31:0] filter_rom [0: 27*16 - 1]; 
-integer w_i;
+reg signed [15:0] bias_rom [0:15];
+reg [15:0] scale_rom [0:15];
+
 initial begin
-    for(w_i=0; w_i<27*16; w_i=w_i+1) filter_rom[w_i] = 32'd0;
     $readmemh("C:/yolohw/sim/inout_data_sw/log_param/CONV00_param_weight.hex", filter_rom);
+    $readmemh("C:/yolohw/sim/inout_data_sw/log_param/CONV00_param_biases.hex", bias_rom);
+    $readmemh("C:/yolohw/sim/inout_data_sw/log_param/CONV00_param_scales.hex", scale_rom);
 end
 
-// 4. 연산 엔진
+// Scale -> Shift 변환 하드웨어 디코더
+function [3:0] get_shift;
+    input [15:0] scale;
+    begin
+        case(scale)
+            16'h0001: get_shift = 0; 16'h0002: get_shift = 1; 16'h0004: get_shift = 2;
+            16'h0008: get_shift = 3; 16'h0010: get_shift = 4; 16'h0020: get_shift = 5;
+            16'h0040: get_shift = 6; 16'h0080: get_shift = 7; 16'h0100: get_shift = 8;
+            default:  get_shift = 7;
+        endcase
+    end
+endfunction
+
+// 4. 연산 엔진 연결
 wire layer_start = (total_read_cnt == 65536);
 wire layer_done;
 wire [1:0] current_chn;
@@ -119,10 +135,12 @@ dual_conv_layer u_conv_layer(
     .in_ram_addrb(in_ram_addrb), .in_ram_dob(in_ram_dob),
     .current_chn(current_chn),
     .win_ch0(win_ch0), .win_ch1(win_ch1), .win_ch2(win_ch2), .win_ch3(win_ch3),
+    .bias_ch0(bias_rom[0]), .bias_ch1(bias_rom[1]), .bias_ch2(bias_rom[2]), .bias_ch3(bias_rom[3]),
+    .shift_ch0(get_shift(scale_rom[0])), .shift_ch1(get_shift(scale_rom[1])), .shift_ch2(get_shift(scale_rom[2])), .shift_ch3(get_shift(scale_rom[3])),
     .out_pixel0_32b(out_pixel0), .out_pixel1_32b(out_pixel1), .out_valid(out_valid)
 );
 
-// 5. Output Buffer & DMA Write 직렬화 로직
+// 5. Output Buffer & DMA Write 
 reg write_p1_pending; reg [15:0] out_ram_addra; reg [31:0] out_ram_dia; reg out_ram_wea;
 always @(posedge clk or negedge rstn) begin
     if(!rstn) begin 
@@ -149,13 +167,11 @@ always @(posedge clk or negedge rstn) begin
     end else if (layer_done) begin 
         if (wr_blk_idx < max_req_blk_idx) begin
             if (!dma_writing) begin 
-                wr_start_dma <= 1; // 💡 [핵심] 1클럭 펄스로 무한루프 방지
-                dma_writing <= 1;
+                wr_start_dma <= 1; dma_writing <= 1;
             end else begin
                 wr_start_dma <= 0;
                 if (write_done) begin 
-                    wr_blk_idx <= wr_blk_idx + 1; 
-                    dma_writing <= 0;
+                    wr_blk_idx <= wr_blk_idx + 1; dma_writing <= 0;
                 end
             end
         end else begin
